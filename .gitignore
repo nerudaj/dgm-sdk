@@ -1,0 +1,4 @@
+build/*
+vsbuild/*
+examples/cmake/cpp.cmake
+project-template/cmake/cpp.cmake
