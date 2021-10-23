@@ -13,10 +13,8 @@
 #define NO_NETWORK
 
 #include <DGM/dgm.hpp>
-#include <include/LevelD.hpp>
 #include "Level.hpp"
-
-std::string rootDir = "..";
+#include "../ResourceDir.hpp"
 
 const float SPEED = 64.f;
 
@@ -117,21 +115,21 @@ void exportLevel() {
 	};
 	lvld.mesh.layers.push_back(layer);
 
-	lvld.saveToFile(rootDir + "/level.lvd");
+	lvld.saveToFile("level.lvd");
 }
 
 int main() {
-	//exportLevel(); // NOTE: Uncomment this only if you do changes to this method
+	exportLevel();
 
 	dgm::Window window({1280, 720}, "Example 10", false);
 	dgm::Time time;
 
 	dgm::ResourceManager resmgr;
 	resmgr.setPedantic(false);
-	resmgr.loadResourceDir<sf::Texture>(rootDir);
+	resmgr.loadResourceDir<sf::Texture>(RESOURCE_DIR);
 
 	Level level(resmgr.get<sf::Texture>("tileset.png"));
-	level.loadFromFile(rootDir + "/level.lvd");
+	level.loadFromFile("level.lvd");
 
 	Player player;
 	player.spawn({ 64.f, 64.f });
