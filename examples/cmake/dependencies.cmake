@@ -1,4 +1,4 @@
-set ( DGM_LIB_VERSION "1.0.0" )
+set ( DGM_LIB_VERSION "1.1.0" )
 set ( SFML_VERSION    "2.5.1" )
 
 set ( DGM_LIB_URL "https://github.com/nerudaj/dgm-lib/releases/download/v${DGM_LIB_VERSION}/dgm-lib-${DGM_LIB_VERSION}-windows-vc16-x64.zip" )
