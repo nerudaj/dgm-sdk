@@ -14,8 +14,21 @@ set ( CPACK_PACKAGE_VERSION_MINOR       "${PROJECT_VERSION_MINOR}" )
 set ( CPACK_PACKAGE_VERSION_PATCH       "${PROJECT_VERSION_PATCH}" )
 set ( CPACK_PACKAGE_FILE_NAME           "${PROJECT_NAME}-${PROJECT_VERSION}-windows-vc16-${CMAKE_GENERATOR_PLATFORM}" )
 
-# TODO: package examples
-# TODO: package sdk
-# TODO: level editor
+install (
+	DIRECTORY   "examples"
+	DESTINATION "."
+)
+
+install (
+	DIRECTORY   "project-template"
+	DESTINATION "."
+)
+
+install (
+	DIRECTORY   "tutorials"
+	DESTINATION "."
+)
+
+# TODO: docs and licenses
 
 include ( CPack )
