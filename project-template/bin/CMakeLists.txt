@@ -27,5 +27,15 @@ set_target_properties ( ${PROJECT_NAME} PROPERTIES
 	VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
 )
 
+# Packaging
+install (
+	FILES       "${CMAKE_CURRENT_BINARY_DIR}/Release/${SETTINGS_BINARY_NAME}.exe"
+	DESTINATION "bin"
+)
 
-# TODO: packaging
+file ( GLOB DLLS "${CMAKE_CURRENT_BINARY_DIR}/Release/*.dll" )
+
+install (
+	FILES       ${DLLS}
+	DESTINATION "bin"
+)

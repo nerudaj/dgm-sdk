@@ -1,10 +1,12 @@
-set ( DGM_LIB_VERSION "1.0.0" )
+set ( DGM_LIB_VERSION "1.1.0" )
 set ( SFML_VERSION    "2.5.1" )
 set ( TGUI_VERSION    "0.8.6" )
+set ( CATCH_VERSION   "2.10.2" )
 
 set ( DGM_LIB_URL "https://github.com/nerudaj/dgm-lib/releases/download/v${DGM_LIB_VERSION}/dgm-lib-${DGM_LIB_VERSION}-windows-vc16-x64.zip" )
 set ( SFML_URL    "https://github.com/SFML/SFML/releases/download/${SFML_VERSION}/SFML-${SFML_VERSION}-windows-vc15-64-bit.zip" )
 set ( TGUI_URL    "https://github.com/texus/TGUI/releases/download/v${TGUI_VERSION}/TGUI-${TGUI_VERSION}-vc15-64bit-for-SFML-${SFML_VERSION}.zip" )
+set ( CATCH_URL "https://github.com/catchorg/Catch2/releases/download/v${CATCH_VERSION}/catch.hpp" )
 
 include ( FetchContent )
 
@@ -36,12 +38,14 @@ endfunction ()
 fetch_dependency ( SFML ${SFML_URL}    FALSE )
 fetch_dependency ( DGM  ${DGM_LIB_URL} FALSE )
 fetch_dependency ( TGUI ${TGUI_URL}    FALSE )
+fetch_dependency ( CATCH ${CATCH_URL} TRUE )
 
 # Verify folder paths
 message ( "Dependencies downloaded to: " )
-message ( "  DGM:  ${DGM_FOLDER}" )
-message ( "  SFML: ${SFML_FOLDER}" )
-message ( "  TGUI: ${TGUI_FOLDER}" )
+message ( "  DGM:   ${DGM_FOLDER}" )
+message ( "  SFML:  ${SFML_FOLDER}" )
+message ( "  TGUI:  ${TGUI_FOLDER}" )
+message ( "  CATCH: ${CATCH_FOLDER}" )
 
 # Make libraries visible to cmake linker
 link_directories("${DGM_FOLDER}/lib")

@@ -11,8 +11,13 @@ int main(int argc, char *argv[]) {
 
 	cfg::Ini ini;
 	try {
-		ini.loadFromFile(rootDir + "/app.ini");
-	} catch (...) {}
+		ini.loadFromFile("app.ini");
+	} catch (...) {
+		ini["Window"]["width"] = 1280;
+		ini["Window"]["height"] = 720;
+		ini["Window"]["fullscreen"] = false;
+		ini["Window"]["title"] = "Example";
+	}
 
 	Settings settings;
 	settings.loadFrom(ini);
@@ -26,7 +31,7 @@ int main(int argc, char *argv[]) {
 	window.close(ini);
 	settings.saveTo(ini);
 
-	ini.saveToFile(rootDir + "/app.ini");
+	ini.saveToFile("app.ini");
 
 	return 0;
 }

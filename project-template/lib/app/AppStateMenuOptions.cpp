@@ -60,16 +60,6 @@ void AppStateMenuOptions::input() {
 	}
 }
 
-void AppStateMenuOptions::update() {}
-
-void AppStateMenuOptions::draw() {
-	app.window.beginDraw(sf::Color::White);
-
-	gui.draw();
-
-	app.window.endDraw();
-}
-
 AppStateMenuOptions::AppStateMenuOptions(dgm::App& app, const dgm::ResourceManager& resmgr, AudioPlayer& audioPlayer, Settings& settings) : dgm::AppState(app), GuiState(resmgr, audioPlayer), settings(settings) {
 	gui.setTarget(app.window.getWindowContext());
 	buildLayout();
