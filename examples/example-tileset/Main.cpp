@@ -10,17 +10,16 @@
  *  level for yourself.
  */
 
-#define NO_NETWORK
-
 #include <DGM/dgm.hpp>
 #include "Level.hpp"
 #include "../ResourceDir.hpp"
 
-const float SPEED = 64.f;
-
 class Player {
 private:
-	dgm::Circle body;
+	const float SPEED = 128.f;
+	const float RADIUS = 20.f;
+
+	dgm::Circle body = dgm::Circle(100.f, 100.f, RADIUS);
 	dgm::Controller input;
 
 public:
@@ -35,36 +34,21 @@ public:
 	}
 
 	void update(const dgm::Time &time, const dgm::Mesh &level) {
-		sf::Vector2f forward = { 0.f, 0.f };
+		// Compute forward vector based on use input and multiply it by delta time
+		sf::Vector2f forward = sf::Vector2f(
+			input.keyPressed(Left) ? -SPEED : input.keyPressed(Right) ? SPEED : 0.f,
+			input.keyPressed(Up) ? -SPEED : input.keyPressed(Down) ? SPEED : 0.f
+		) * time.getDeltaTime();
 
-		if (input.keyPressed(Up)) {
-			forward.y = -SPEED;
-		}
-		else if (input.keyPressed(Down)) {
-			forward.y = SPEED;
-		}
-
-		if (input.keyPressed(Left)) {
-			forward.x = -SPEED;
-		}
-		else if (input.keyPressed(Right)) {
-			forward.x = SPEED;
-		}
-
-		forward *= time.getDeltaTime();
-
+		// If moving body forward would result in collision with the world,
+		// forward will be adjusted to avoid collision
 		dgm::Collision::advanced(level, body, forward);
 
+		// So now it is safe to use forward to move
 		body.move(forward);
 	}
 
-	void spawn(const sf::Vector2f &pos) {
-		body.setPosition(pos);
-	}
-
 	Player() {
-		body.setRadius(10.f);
-
 		input.bindKeyboardKey(Up, sf::Keyboard::Up);
 		input.bindKeyboardKey(Left, sf::Keyboard::Left);
 		input.bindKeyboardKey(Right, sf::Keyboard::Right);
@@ -76,14 +60,17 @@ void exportLevel() {
 	LevelD lvld;
 
 	// Once a certain attribute of lvld is initialized, it will become the part of export
+	// You don't pay for modules you don't use
 	lvld.metadata.author = "dgm-examples";
 	lvld.metadata.description = "Basic level for example10";
 	lvld.metadata.timestamp = time(NULL);
 	lvld.metadata.id = "EXAMPLE_10";
 	lvld.metadata.name = "Example Level";
 
-	lvld.mesh.tileWidth = 32;
-	lvld.mesh.tileHeight = 32;
+	// This affects collision/render size of the tiles, disregarding texture resolution
+	lvld.mesh.tileWidth = 64;
+	lvld.mesh.tileHeight = 64;
+
 	lvld.mesh.layerWidth = 10;
 	lvld.mesh.layerHeight = 10;
 	// Indices of tiles in tileset
@@ -132,7 +119,6 @@ int main() {
 	level.loadFromFile("level.lvd");
 
 	Player player;
-	player.spawn({ 64.f, 64.f });
 
 	sf::Event event;
 	while (window.isOpen()) {
@@ -140,6 +126,8 @@ int main() {
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
+
+			// Player input is handled via dgm::Controller
 		}
 		
 		/* LOGIC */

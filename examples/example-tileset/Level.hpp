@@ -2,8 +2,6 @@
 
 #include <DGM/dgm.hpp>
 
-const unsigned TILE_SIZE = 32;
-
 class Level {
 protected:
 	dgm::Mesh mesh;
@@ -32,6 +30,8 @@ public:
 	}
 
 	Level(sf::Texture& texture) {
+		constexpr unsigned TILE_SIZE = 32;
+
 		dgm::Clip clip(
 			{ TILE_SIZE, TILE_SIZE },
 			{ 0, 0, int(texture.getSize().x), int(texture.getSize().y) }

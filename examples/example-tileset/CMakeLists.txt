@@ -3,7 +3,7 @@ cmake_minimum_required ( VERSION 3.19 )
 project ( example-tileset )
 copy_dlls_to_build_folders()
 
-add_executable ( ${PROJECT_NAME}
+add_executable ( ${PROJECT_NAME} WIN32
 	Main.cpp
 )
 
