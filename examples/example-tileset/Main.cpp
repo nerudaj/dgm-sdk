@@ -108,7 +108,7 @@ void exportLevel() {
 int main() {
 	exportLevel();
 
-	dgm::Window window({1280, 720}, "Example 10", false);
+	dgm::Window window({1280, 720}, "Example: Tileset", false);
 	dgm::Time time;
 
 	dgm::ResourceManager resmgr;
