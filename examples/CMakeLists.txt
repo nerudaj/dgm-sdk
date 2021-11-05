@@ -15,4 +15,5 @@ configure_file (
 
 # Subprojects
 add_subdirectory ( "example-app" )
+add_subdirectory ( "example-particle-effects" )
 add_subdirectory ( "example-tileset" )
