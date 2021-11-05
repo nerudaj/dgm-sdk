@@ -71,7 +71,7 @@ public:
 };
 
 int main() {
-	dgm::Window window({1280, 720}, "App example", false);
+	dgm::Window window({1280, 720}, "Example: App", false);
 	dgm::App app(window);
 
 	// Note how you don't have to manually pass 'app' to pushState method.
