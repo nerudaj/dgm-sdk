@@ -1,6 +1,7 @@
 build/*
 vsbuild/*
 vsbuild-release/*
+RELEASE/*
 
 examples/build/*
 examples/vsbuild/*
