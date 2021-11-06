@@ -8,6 +8,7 @@ add_executable ( ${PROJECT_NAME} WIN32
 	ParticleEffectBase.hpp
 	EffectWaterFountain.hpp
 	EffectBloodSpatter.hpp
+	EffectStarfield.hpp
 )
 
 target_link_libraries ( ${PROJECT_NAME}

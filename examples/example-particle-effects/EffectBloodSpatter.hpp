@@ -10,35 +10,19 @@ class EffectBloodSpatter : public ParticleEffectBase {
 protected:
 	// Effect parameters
 	const float EMITTER_RADIUS = 15.f;
-	const float MIN_EMITTER_FORCE = 1.f;
-	const float MAX_EMITTER_FORCE = 75.f;
-	const float MIN_PARTICLE_SIZE = 1.f;
-	const float MAX_PARTICLE_SIZE = 5.f;
-	const sf::Vector2f GRAVITY = { 0.f, 150.f };
-	const sf::Time LIFESPAN = sf::seconds(3.f);
+	const float MIN_EMITTER_FORCE = 10.f;
+	const float MAX_EMITTER_FORCE = 200.f;
+	const float MIN_PARTICLE_SIZE = 5.f;
+	const float MAX_PARTICLE_SIZE = 10.f;
+	const sf::Vector2f GRAVITY = { 0.f, 500.f };
+	const sf::Time LIFESPAN = sf::seconds(2.f);
 
 	// Initialized by ctor
 	const sf::Vector2f emitterPosition;
 	const float floorY;
-	sf::Time lifespan = LIFESPAN;
 
-protected:
-	void reset() {
-		for (auto& p : particles) {
-			const sf::Time lifespan = sf::seconds(10000.f);
-			const float randomSizeFactor = getRandomFloat(MIN_PARTICLE_SIZE, MAX_PARTICLE_SIZE);
-			const float randomForwardFactor = getRandomFloat(MIN_EMITTER_FORCE, MAX_EMITTER_FORCE);
-			const float randomSpawnOffset = getRandomFloat(0.f, EMITTER_RADIUS);
-			const auto randomUnitVector = toUnit(sf::Vector2f(
-				getRandomFloat(-1.f, 1.f), getRandomFloat(-1.f, 1.f)
-			));
-
-			p->setColor(sf::Color::Red);
-			p->setForward(randomUnitVector * randomForwardFactor);
-
-			p->spawn(emitterPosition + randomUnitVector * randomSpawnOffset, sf::Vector2f(1.f, 1.f) * randomSizeFactor, lifespan);
-		}
-	}
+	// Vars
+	sf::Time lifespan;
 
 public:
 	virtual void init(const std::size_t particleCount) override {
@@ -67,10 +51,30 @@ public:
 		// Normally we would like to destroy the effect once finishes
 		// in this example we let it restart and loop forever
 		lifespan -= time.getElapsed();
-		if (lifespan <= sf::Time::Zero) {
-			reset();
-			lifespan = LIFESPAN;
+	}
+
+	void reset() {
+		lifespan = LIFESPAN;
+
+		for (auto& p : particles) {
+			const float randomSizeFactor = getRandomFloat(MIN_PARTICLE_SIZE, MAX_PARTICLE_SIZE);
+			const float randomForwardFactor = getRandomFloat(MIN_EMITTER_FORCE, MAX_EMITTER_FORCE);
+			const float randomSpawnOffset = getRandomFloat(0.f, EMITTER_RADIUS);
+			const auto randomUnitVector = toUnit(sf::Vector2f(
+				getRandomFloat(-1.f, 1.f), getRandomFloat(-1.f, 1.f)
+			));
+
+			p->setColor(sf::Color::Red);
+			p->setForward(randomUnitVector * randomForwardFactor);
+			p->setForward({ p->getForward().x / 1.5f, p->getForward().y });
+
+			// We don't care about lifespan of individual particles in this effect, so it can be zero
+			p->spawn(emitterPosition + randomUnitVector * randomSpawnOffset, sf::Vector2f(1.f, 1.f) * randomSizeFactor, sf::Time::Zero);
 		}
+	}
+
+	[[nodiscard]] bool finished() const noexcept {
+		return lifespan <= sf::Time::Zero;
 	}
 
 	EffectBloodSpatter(const sf::Vector2f &position, const float floorYCoord) : emitterPosition(position), floorY(floorYCoord) {}

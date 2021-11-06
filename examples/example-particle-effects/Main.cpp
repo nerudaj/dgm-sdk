@@ -3,27 +3,91 @@
 #include "ParticleEffectBase.hpp"
 #include "EffectWaterFountain.hpp"
 #include "EffectBloodSpatter.hpp"
+#include "EffectStarfield.hpp"
+
+const sf::Vector2u WINDOW_SIZE_U = { 1600, 900 };
+const sf::Vector2f WINDOW_SIZE_F = sf::Vector2f(WINDOW_SIZE_U);
+const sf::Vector2f BOX_SIZE = { 350.f, 405.f };
+const sf::Vector2f BOX_OFFSET = { (WINDOW_SIZE_F.x - 4.f * BOX_SIZE.x) / 5.f, (WINDOW_SIZE_F.y - 2.f * BOX_SIZE.y) / 3.f };
 
 int main() {
 	srand(time(nullptr));
 
-	dgm::Window window({1600, 900}, "Example: Particle Effects", false);
+	dgm::Window window(WINDOW_SIZE_U, "Example: Particle Effects", false);
 	dgm::Time time;
 
-	const float FIRST_ROW_Y_BOTTOM = 435.f;
-	const float SECOND_ROW_Y_BOTTOM = 870.f;
+	// Images & configs
+	dgm::ResourceManager resmgr;
+	resmgr.setPedantic(false);
+	resmgr.loadResourceDir<sf::Font>(RESOURCE_DIR);
+	resmgr.loadResourceDir<sf::Texture>(RESOURCE_DIR);
+	resmgr.loadResourceDir<std::shared_ptr<dgm::AnimationStates>>(RESOURCE_DIR);
 
-	sf::RectangleShape border;
-	border.setOutlineThickness(3.f);
-	border.setOutlineColor(sf::Color::White);
-	border.setFillColor(sf::Color::Transparent);
-	border.setSize({ 350.f, 405.f });
+	// Spawn 8 "containers" for effects
+	// It could be all written more nicely, but the goal here was to have effect with interfaces
+	// that are compatible with real world project so they can be copy-pasted without many modifications
+	std::vector<sf::RectangleShape> boxes;
+	for (unsigned y = 0; y < 2; y++) {
+		for (unsigned x = 0; x < 4; x++) {
+			boxes.push_back(sf::RectangleShape(BOX_SIZE));
+			boxes.back().setOutlineThickness(3.f);
+			boxes.back().setOutlineColor(sf::Color::White);
+			boxes.back().setFillColor(sf::Color::Transparent);
+			boxes.back().setPosition(
+				BOX_OFFSET.x + x * (BOX_OFFSET.x + BOX_SIZE.x),
+				BOX_OFFSET.y + y * (BOX_OFFSET.y + BOX_SIZE.y)
+			);
+		}
+	}
 
-	EffectWaterFountain effectFountain({ 200.f, FIRST_ROW_Y_BOTTOM });
+	// Create actual effects
+	EffectWaterFountain effectFountain({
+		boxes[0].getGlobalBounds().left + boxes[0].getGlobalBounds().width / 2.f,
+		boxes[0].getGlobalBounds().top + boxes[0].getGlobalBounds().height
+	});
 	effectFountain.init(256);
 
-	EffectBloodSpatter effectBloodSpatter({600.f, 200.f}, FIRST_ROW_Y_BOTTOM );
-	effectBloodSpatter.init(64);
+	const sf::Vector2f BOX1_CENTER = {
+		boxes[1].getGlobalBounds().left + boxes[1].getGlobalBounds().width / 2.f,
+		boxes[1].getGlobalBounds().top + boxes[1].getGlobalBounds().height / 2.f
+	};
+	EffectBloodSpatter effectBloodSpatter(BOX1_CENTER, boxes[1].getGlobalBounds().top + boxes[1].getGlobalBounds().height);
+	effectBloodSpatter.init(128);
+
+	EffectStarfield effectStarfield(boxes[2].getGlobalBounds());
+	effectStarfield.init(256);
+
+	// Create decorations
+	sf::Sprite soldierSprite;
+	soldierSprite.setTexture(resmgr.get<sf::Texture>("soldier.png"));
+	soldierSprite.setOrigin(160.f, 160.f);
+	soldierSprite.setPosition(
+		boxes[1].getGlobalBounds().left + boxes[1].getGlobalBounds().width / 2.f,
+		boxes[1].getGlobalBounds().top + boxes[1].getGlobalBounds().height - 160.f
+	);
+
+	dgm::Animation soldierAnimation(resmgr.get<std::shared_ptr<dgm::AnimationStates>>("soldier_config.json"));
+	soldierAnimation.bindSprite(&soldierSprite);
+	soldierAnimation.setState("idle", true);
+	soldierAnimation.setSpeed(4);
+
+	sf::Sprite starshipSprite;
+	starshipSprite.setTexture(resmgr.get<sf::Texture>("starship.png"));
+	starshipSprite.setOrigin(sf::Vector2f(64.f, 53.f) / 2.f);
+	starshipSprite.setPosition(
+		boxes[2].getGlobalBounds().left + boxes[2].getGlobalBounds().width / 2.f,
+		boxes[2].getGlobalBounds().top + boxes[2].getGlobalBounds().height / 2.f
+	);
+	starshipSprite.setRotation(-45.f);
+
+	// FPS counter
+	const sf::Time FPS_DISPLAY_UPDATE_FREQUENCY = sf::seconds(0.1f);
+	float fpsElapsedSum = 0.f;
+	unsigned fpsCount = 0;
+	sf::Time fpsTimer = sf::Time::Zero;
+	sf::Text fpsOutput;
+	fpsOutput.setFont(resmgr.get<sf::Font>("cruft.ttf"));
+	fpsOutput.setFillColor(sf::Color::Yellow);
 
 	sf::Event event;
 	while (window.isOpen()) {
@@ -36,21 +100,41 @@ int main() {
 		/* LOGIC */
 		time.reset();
 
+		fpsCount++;
+		fpsElapsedSum += time.getDeltaTime();
+		fpsTimer += time.getElapsed();
+		if (fpsTimer >= FPS_DISPLAY_UPDATE_FREQUENCY) {
+			const float averageFps = fpsElapsedSum / fpsCount;
+			fpsOutput.setString(std::to_string(static_cast<unsigned>(1.f / averageFps)));
+			fpsCount = 0;
+			fpsElapsedSum = 0;
+			fpsTimer = sf::Time::Zero;
+		}
+
+		soldierAnimation.update(time);
+
 		effectFountain.update(time);
 		effectBloodSpatter.update(time);
+		if (effectBloodSpatter.finished())
+			effectBloodSpatter.reset();
+
+		effectStarfield.update(time);
 		
 		/* DRAW */
 		window.beginDraw();
 
 		effectFountain.draw(window);
+
+		window.draw(soldierSprite);
 		effectBloodSpatter.draw(window);
 
-		for (unsigned y = 0; y < 2; y++) {
-			for (unsigned x = 0; x < 4; x++) {
-				border.setPosition(40.f + x * (40.f + 350.f), 30.f + y * (30.f + 405.f));
-				window.draw(border);
-			}
-		}
+		window.draw(starshipSprite);
+		effectStarfield.draw(window);
+
+		for (auto&& box : boxes)
+			window.draw(box);
+
+		window.draw(fpsOutput);
 
 		window.endDraw();
 	}
