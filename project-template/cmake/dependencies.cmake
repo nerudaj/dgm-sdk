@@ -1,4 +1,4 @@
-set ( DGM_LIB_VERSION "1.1.0" )
+set ( DGM_LIB_VERSION "1.1.1" )
 set ( SFML_VERSION    "2.5.1" )
 set ( TGUI_VERSION    "0.8.6" )
 set ( CATCH_VERSION   "2.10.2" )

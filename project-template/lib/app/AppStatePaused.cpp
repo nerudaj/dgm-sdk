@@ -15,9 +15,14 @@ void AppStatePaused::buildLayout() {
 	// Add new buttons and actions here
 	typedef std::function<void(void)> CallbackType;
 	typedef std::pair<std::string, CallbackType> PairType;
-	const std::array<PairType, 3> BUTTON_PROPS = {
-		PairType("Resume", [&] { app.popState(); }),
+	const std::array<PairType, 4> BUTTON_PROPS = {
+		PairType("Resume", [&] {
+			app.popState();
+		}),
 		PairType("Options", [&] { app.pushState<AppStateMenuOptions>(resmgr, audioPlayer, settings); }),
+		PairType("Main Menu",[&] {
+			app.popState(2);
+		}),
 		PairType("Exit", [&] { app.exit(); })
 	};
 
