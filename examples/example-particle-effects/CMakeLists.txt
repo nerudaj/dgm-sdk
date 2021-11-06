@@ -5,6 +5,9 @@ copy_dlls_to_build_folders()
 
 add_executable ( ${PROJECT_NAME} WIN32
 	Main.cpp
+	ParticleEffectBase.hpp
+	EffectWaterFountain.hpp
+	EffectBloodSpatter.hpp
 )
 
 target_link_libraries ( ${PROJECT_NAME}

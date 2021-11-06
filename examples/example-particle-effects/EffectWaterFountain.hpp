@@ -49,8 +49,7 @@ public:
 
 			// If lifespan timed out
 			if (not p->isAlive()) {
-				// TODO: replace with p->despawn();
-				p->spawn(emitterPosition, { 0.f, 0.f }, sf::Time::Zero);
+				p->despawn();
 
 				// Removal means swapping with last valid slot so we need to repeat iteration on this index
 				particles.remove(i--);
