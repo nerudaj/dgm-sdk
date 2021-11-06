@@ -8,15 +8,21 @@ void AppStateMainMenu::buildLayout() {
 	title->setTextSize(72);
 	gui.add(title);
 
-	createButton("Play", { "42.5%", "35%" }, { "15%", "5%" }, [this]() {
-		app.pushState<AppStateIngame>(resmgr, settings, audioPlayer);
-	});
-	createButton("Options", { "42.5%", "41%" }, { "15%", "5%" }, [this]() {
-		app.pushState<AppStateMenuOptions>(resmgr, audioPlayer, settings);
-	});
-	createButton("Exit", { "42.5%", "47%" }, { "15%", "5%" }, [this] () {
-		app.exit();
-	});
+	auto layout = tgui::VerticalLayout::create({ "15%", "30%" });
+	layout->setPosition("42.5%", "35%");
+	gui.add(layout);
+
+	createButtonListInLayout(layout, {
+		ButtonProps("Play", [this] () {
+			app.pushState<AppStateIngame>(resmgr, settings, audioPlayer);
+		}),
+		ButtonProps("Options", [this] () {
+			app.pushState<AppStateMenuOptions>(resmgr, audioPlayer, settings);
+		}),
+		ButtonProps("Exit", [this] () {
+			app.exit();
+		})
+	}, 0.05f);
 }
 
 void AppStateMainMenu::input() {
