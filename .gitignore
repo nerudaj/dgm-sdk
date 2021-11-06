@@ -1,5 +1,6 @@
 build/*
 vsbuild/*
+vsbuild-release/*
 
 examples/build/*
 examples/vsbuild/*
@@ -9,5 +10,6 @@ exanokes/ResourceDir.hpp
 
 project-template/build/*
 project-template/vsbuild/*
+project-template/vsbuild-release/*
 project-template/cmake/cpp.cmake
 project-template/cmake/utils.cmake
