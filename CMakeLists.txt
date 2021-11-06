@@ -17,11 +17,13 @@ set ( CPACK_PACKAGE_FILE_NAME           "${PROJECT_NAME}-${PROJECT_VERSION}-wind
 install (
 	DIRECTORY   "examples"
 	DESTINATION "."
+	REGEX "vsbuild" EXCLUDE
 )
 
 install (
 	DIRECTORY   "project-template"
 	DESTINATION "."
+	REGEX "vsbuild" EXCLUDE
 )
 
 install (
