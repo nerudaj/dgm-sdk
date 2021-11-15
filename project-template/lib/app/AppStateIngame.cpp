@@ -36,9 +36,6 @@ void AppStateIngame::input() {
 			else if (event.key.code == sf::Keyboard::S) {
 				camera.shake(sf::seconds(1.f), 20.f);
 			}
-			else if (event.key.code == sf::Keyboard::F2) {
-				//app->pushState(new AppStateShell(resmgr, settings));
-			}
 		}
 	}
 }
@@ -78,8 +75,7 @@ AppStateIngame::AppStateIngame(dgm::App& app, const dgm::ResourceManager& resmgr
 		"Press A to toggle run left animation\n"
 		"Press D to toggle run right animation\n"
 		"Press S to shake camera\n"
-		"Press ESC to return to Main menu\n"
-		"Press F2 to access console");
+		"Press ESC to return to Main menu");
 	text.setFillColor(sf::Color::White);
 
 #ifdef _DEBUG

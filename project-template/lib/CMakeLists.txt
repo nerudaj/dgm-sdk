@@ -8,7 +8,6 @@ set ( APP_HEADERS
 	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateMainMenu.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateMenuOptions.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStatePaused.hpp"
-	#"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateShell.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/app/GuiState.hpp"
 )
 
@@ -18,7 +17,6 @@ set ( APP_SOURCES
 	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateMainMenu.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateMenuOptions.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStatePaused.cpp"
-	#"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateShell.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/app/GuiState.cpp"
 )
 
