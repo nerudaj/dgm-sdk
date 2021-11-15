@@ -76,4 +76,5 @@ target_compile_options ( ${PROJECT_NAME}
 	PRIVATE /MP
 )
 
+add_subdirectory ( benchmarks )
 add_subdirectory ( tests )
