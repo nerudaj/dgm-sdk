@@ -6,10 +6,10 @@ There are also some handy primitives already implemented such as event queue.
 
 The environment also comes with prepared unit testing infrastructure as well as simple benchmarking sandbox.
 
-## Prerequisities
+## Dependencies
 
- * cmake 3.19 - Newer versions have some issues with FetchContent
- * Up to date Visual Studio 2019
+ * cmake 3.19 - Newer versions might have some issues with FetchContent
+ * newest Visual Studio
 
 All required dependencies (dgm-lib, SFML, TGUI, etc) are automatically downloaded and linked via CMake.
 

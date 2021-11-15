@@ -25,8 +25,8 @@ install (
 )
 
 install (
-	FILES       "Readme.md"
-	DESTINATION "."
+	FILES       "Readme-release.md"
+	DESTINATION "Readme.md"
 )
 
 set ( CPACK_GENERATOR "ZIP" )
