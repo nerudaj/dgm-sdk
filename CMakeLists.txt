@@ -31,6 +31,19 @@ install (
 	DESTINATION "."
 )
 
-# TODO: docs and licenses
+install (
+	DIRECTORY   "licenses"
+	DESTINATION "."
+)
+
+install (
+	FILES       "Readme-release.md"
+	DESTINATION "Readme.md"
+)
+
+install (
+	FILES       "changelog.txt"
+	DESTINATION "."
+)
 
 include ( CPack )

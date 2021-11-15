@@ -19,16 +19,6 @@ install (
 	DESTINATION "."
 )
 
-install (
-	DIRECTORY   "licenses"
-	DESTINATION "."
-)
-
-install (
-	FILES       "Readme-release.md"
-	DESTINATION "Readme.md"
-)
-
 set ( CPACK_GENERATOR "ZIP" )
 set ( CPACK_PACKAGE_VERSION_MAJOR       "${PROJECT_VERSION_MAJOR}" )
 set ( CPACK_PACKAGE_VERSION_MINOR       "${PROJECT_VERSION_MINOR}" )
