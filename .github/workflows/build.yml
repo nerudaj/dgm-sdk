@@ -1,0 +1,59 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  EXAMPLES_BUILD_DIR: ${{github.workspace}}/examples/vsbuild
+  TEMPLATE_BUILD_DIR: ${{github.workspace}}/project-template/vsbuild
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup cmake
+      uses: jwlawson/actions-setup-cmake@v1.9
+      with:
+        cmake-version: '3.19.5'
+
+    - name: Use cmake
+      run: cmake --version
+    
+    - name: Bootstrap
+      run: |
+        bootstrap.bat
+      shell: cmd
+
+    - name: Examples - Configure CMake
+      run: |
+        mkdir "${{env.EXAMPLES_BUILD_DIR}}"
+        cd "${{env.EXAMPLES_BUILD_DIR}}"
+        cmake ..
+      shell: cmd
+
+    - name: Examples - Build
+      working-directory: ${{env.EXAMPLES_BUILD_DIR}}
+      run: |
+        cmake --build . --config Debug
+        cmake --build . --config Release
+      shell: cmd
+    
+    - name: Template - Configure CMake
+      run: |
+        mkdir "${{env.TEMPLATE_BUILD_DIR}}"
+        cd "${{env.TEMPLATE_BUILD_DIR}}"
+        cmake ..
+      shell: cmd
+
+    - name: Template - Build
+      working-directory: ${{env.TEMPLATE_BUILD_DIR}}
+      run: |
+        cmake --build . --config Debug
+        cmake --build . --config Release
+      shell: cmd
