@@ -14,11 +14,13 @@ add_subdirectory ( lib )
 add_subdirectory ( bin )
 
 # Packaging
-
-# TODO: package dlls and licenses
-
 install (
 	DIRECTORY   "resources"
+	DESTINATION "."
+)
+
+install (
+	DIRECTORY   "licenses"
 	DESTINATION "."
 )
 
