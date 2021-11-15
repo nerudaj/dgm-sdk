@@ -24,6 +24,11 @@ jobs:
 
     - name: Use cmake
       run: cmake --version
+    
+    - name: Bootstrap
+      run: |
+        bootstrap.bat
+      shell: cmd
 
     - name: Examples - Configure CMake
       run: |
