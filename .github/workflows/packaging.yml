@@ -1,0 +1,48 @@
+name: Packaging
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  BUILD_DIR: ${{github.workspace}}/vsbuild
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup cmake
+      uses: jwlawson/actions-setup-cmake@v1.9
+      with:
+        cmake-version: '3.19.5'
+
+    - name: Use cmake
+      run: cmake --version
+    
+    - name: Bootstrap
+      run: |
+        bootstrap.bat
+      shell: cmd
+
+    - name: Configure CMake
+      run: |
+        mkdir "${{env.BUILD_DIR}}"
+        cd "${{env.BUILD_DIR}}"
+        cmake ..
+      shell: cmd
+      
+    - name: Pack
+      working-directory: ${{env.BUILD_DIR}}
+      run: cpack
+      
+    - name: Store artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: dgm-sdk
+        path: ${{env.BUILD_DIR}}/*.zip
+        retention-days: 5
