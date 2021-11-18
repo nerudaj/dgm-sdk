@@ -11,7 +11,7 @@ The environment also comes with prepared unit testing infrastructure as well as 
  * cmake 3.19 - Newer versions might have some issues with FetchContent
  * newest Visual Studio
 
-All required dependencies (dgm-lib, SFML, TGUI, etc) are automatically downloaded and linked via CMake.
+All required dependencies (dgm-lib, SFML, TGUI, etc) are automatically downloaded and linked via CMake. If you want to bump any of them, update `cmake/dependencies.cmake` file. First couple of lines contains versions of those dependencies. Just bumping the version should be sufficient to update it.
 
 ## How to configure and build
 

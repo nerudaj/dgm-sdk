@@ -29,8 +29,10 @@ cmake ..
 cpack
 ```
 
-# Versioning
+## Versioning
 
-This project tries to use semantic versioning so version is formatted as MAJOR.MINOR.PATCH, where patch increments with each non-breaking change and is reset with each minor/major bump.
+Following logic is employed when versioning:
 
-Minor version changes with potentially API breaking changes and major version changes only for major overhauls of the repository.
+* Change to MAJOR version will only be mandated by a complete overhaul of the library
+* Change to MINOR is issued whenever potentially API breaking changes occur
+* Change to PATCH is basically any change that doesn't affect backwards API compatibility
