@@ -64,12 +64,12 @@ target_include_directories ( ${PROJECT_NAME}
 	PUBLIC "${TGUI_FOLDER}/include"
 )
 
-target_compile_features( ${PROJECT_NAME}
-	INTERFACE ${MY_CXX_COMPILE_FEATURES}
-)
-
 target_link_libraries ( ${PROJECT_NAME}
 	${LIB_DGM} ${LIB_SFML} ${LIB_TGUI}
+)
+
+target_compile_features( ${PROJECT_NAME}
+	INTERFACE ${MY_CXX_COMPILE_FEATURES}
 )
 
 target_compile_options ( ${PROJECT_NAME}
