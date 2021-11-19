@@ -5,9 +5,6 @@
 #include <concepts>
 #include <memory>
 
-template<class T>
-concept IsDerivedFromEventBase = std::derived_from<T, EventBase>;
-
 /**
  *  This is a storage object for object generated each frame
  * 
@@ -21,7 +18,7 @@ concept IsDerivedFromEventBase = std::derived_from<T, EventBase>;
  */
 class EventQueue {
 protected:
-	std::vector<std::unique_ptr<EventBase>> events;
+	std::vector<EventType> events;
 
 	EventQueue() = default;
 	static EventQueue& get() noexcept {
@@ -32,7 +29,7 @@ protected:
 public:
 	static void process(EventProcessor& p) {
 		for (auto&& e : get().events)
-			e->apply(p);
+			std::visit(p, e);
 		get().events.clear();
 	}
 	
@@ -43,9 +40,9 @@ public:
 	 *  Event must derive from EventBase and must be constructible
 	 *  from parameters passed to a function.
 	 */
-	template<IsDerivedFromEventBase T, class ... Args>
+	template<class T, class ... Args>
 	requires std::constructible_from<T, Args...>
 	static void add(Args&& ... args) {
-		get().events.push_back(std::make_unique<T>(args...));
+		get().events.push_back(T(args...));
 	}
 };

@@ -1,5 +1,5 @@
 #include "Events.hpp"
 
-void EventProcessor::process(EventPlaySound& e) {
+void EventProcessor::operator()(const EventPlaySound& e) {
 	entityTable.audioPlayer.playSoundOnChannel(e.name, e.channel, e.force);
 }
