@@ -13,7 +13,7 @@ protected:
 	const float MIN_EMITTER_FORCE = 10.f;
 	const float MAX_EMITTER_FORCE = 200.f;
 	const float MIN_PARTICLE_SIZE = 5.f;
-	const float MAX_PARTICLE_SIZE = 10.f;
+	const float MAX_PARTICLE_SIZE = 15.f;
 	const sf::Vector2f GRAVITY = { 0.f, 500.f };
 	const sf::Time LIFESPAN = sf::seconds(2.f);
 
@@ -44,7 +44,7 @@ public:
 			if (p->getPosition().y < floorY) {
 				const auto DELTA_FORWARD = p->getForward() * time.getDeltaTime();
 				p->moveForwardBy(DELTA_FORWARD);
-				p->setForward(p->getForward() + DELTA_GRAVITY);
+				p->addToForward(DELTA_GRAVITY);
 			}
 		}
 

@@ -7,7 +7,7 @@ examples/build/*
 examples/vsbuild/*
 examples/cmake/cpp.cmake
 examples/cmake/utils.cmake
-exanokes/ResourceDir.hpp
+examples/ResourceDir.hpp
 
 project-template/build/*
 project-template/vsbuild/*

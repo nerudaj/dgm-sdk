@@ -11,6 +11,7 @@ protected:
 	const sf::Time SPAWN_TIMEOUT = sf::seconds(0.01f);
 	const float EMITTER_FORCE = 320.f;
 	const sf::Vector2f GRAVITY_FORCE = sf::Vector2f(0.f, 160.f);
+	const float ROTATION_SPEED = 70.f; // degrees per second
 
 	sf::Vector2f emitterPosition;
 	sf::Time spawnTimer = sf::Time::Zero;
@@ -38,6 +39,7 @@ protected:
 public:
 	virtual void update(const dgm::Time& time) {
 		const auto DELTA_GRAVITY = GRAVITY_FORCE * time.getDeltaTime();
+		const float DELTA_ROTATION_SPEED = ROTATION_SPEED * time.getDeltaTime();
 
 		for (unsigned i = 0; i < particles.size(); i++) {
 			auto& p = particles[i];
@@ -45,6 +47,7 @@ public:
 			const auto fwd = p->getForward() * time.getDeltaTime();
 			p->moveForwardBy(fwd);
 			p->setForward(p->getForward() + DELTA_GRAVITY);
+			p->rotateBy(DELTA_ROTATION_SPEED);
 			p->updateLifespan(time.getElapsed());
 
 			// If lifespan timed out
