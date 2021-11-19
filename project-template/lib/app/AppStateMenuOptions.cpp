@@ -27,6 +27,7 @@ void AppStateMenuOptions::buildLayout() {
 	createSlider("Sound volume", { "30%", "40%" }, rowSize,
 		settings.soundVolume, [this]() {
 			settings.soundVolume = gui.get<tgui::Slider>("SliderSoundVolume")->getValue();
+			audioPlayer.setSoundVolume(settings.soundVolume);
 		}, "SliderSoundVolume"
 	);
 	createSlider("Music volume", { "30%", "45%" }, rowSize,

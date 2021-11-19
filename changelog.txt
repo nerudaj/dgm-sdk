@@ -4,5 +4,7 @@ dgm-sdk v1.x.x changelog:
  * Project Template
  	* Integrated Google Benchmark subproject
 	* Reimplemented Event processing with std::visit
+	* Fixed a bug where audioPlayer volume was not adjusted when changed in Options
+
 dgm-sdk v1.0.0 changelog:
  * Initial version
