@@ -4,6 +4,7 @@
 #include "EffectWaterFountain.hpp"
 #include "EffectBloodSpatter.hpp"
 #include "EffectStarfield.hpp"
+#include "EffectTexturedSmoke.hpp"
 
 const sf::Vector2u WINDOW_SIZE_U = { 1600, 900 };
 const sf::Vector2f WINDOW_SIZE_F = sf::Vector2f(WINDOW_SIZE_U);
@@ -56,6 +57,13 @@ int main() {
 
 	EffectStarfield effectStarfield(boxes[2].getGlobalBounds());
 	effectStarfield.init(256);
+
+	EffectTexturedSmoke effectTexturedSmoke({
+		boxes[3].getGlobalBounds().left + boxes[3].getGlobalBounds().width / 2.f,
+		boxes[3].getGlobalBounds().top + boxes[3].getGlobalBounds().height - 64.f
+		}, dgm::Clip({ 256, 256 }, {0, 0, 1280, 768}));
+	effectTexturedSmoke.setTexture(resmgr.get<sf::Texture>("smoke.png"));
+	effectTexturedSmoke.init(256);
 
 	// Create decorations
 	sf::Sprite soldierSprite;
@@ -119,6 +127,8 @@ int main() {
 			effectBloodSpatter.reset();
 
 		effectStarfield.update(time);
+
+		effectTexturedSmoke.update(time);
 		
 		/* DRAW */
 		window.beginDraw();
@@ -130,6 +140,8 @@ int main() {
 
 		window.draw(starshipSprite);
 		effectStarfield.draw(window);
+
+		effectTexturedSmoke.draw(window);
 
 		for (auto&& box : boxes)
 			window.draw(box);

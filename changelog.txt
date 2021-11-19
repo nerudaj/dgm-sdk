@@ -1,6 +1,8 @@
 dgm-sdk v1.x.x changelog:
  * General:
 	* Bumped dgm-lib to v1.2.7
+ * Examples:
+	* Added example of textured smoke effect
  * Project Template
  	* Integrated Google Benchmark subproject
 	* Reimplemented Event processing with std::visit
