@@ -2,6 +2,7 @@ cmake_minimum_required ( VERSION 3.19 )
 
 # Project setup
 project ( dgm-sdk )
+include ( "${CMAKE_SOURCE_DIR}/cmake/cpp.cmake" )
 include ( "${CMAKE_SOURCE_DIR}/cmake/version.cmake" )
 enable_testing()
 
