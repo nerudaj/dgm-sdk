@@ -56,9 +56,11 @@ jobs:
         uses: actions/download-artifact@v2
 
       - name: Unzip artifact
+        working-directory: ${{github.workspace}}/dgm-sdk
         run: 7z x *.zip
 
       - name: Build template
+        working-directory: ${{github.workspace}}/dgm-sdk
         run: |
           cd dgm-sdk*
           cd project-template
