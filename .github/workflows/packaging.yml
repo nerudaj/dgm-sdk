@@ -46,3 +46,21 @@ jobs:
         name: dgm-sdk
         path: ${{env.BUILD_DIR}}/*.zip
         retention-days: 5
+
+  build_released_template:
+    name: Build released template
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - name: Download release artifact
+        uses: actions/download-artifact@v2
+
+      - name: Unzip artifact
+        run: 7z x *.zip
+
+      - name: Build template
+        run: |
+          cd dgm-sdk*
+          cd project-template
+          MakeRelease.bat
+        shell: cmd
