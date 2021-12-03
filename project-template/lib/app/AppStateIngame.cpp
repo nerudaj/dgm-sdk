@@ -12,6 +12,26 @@ void AppStateIngame::setupViews() {
 	hudView.setCenter(sf::Vector2f(app.window.getSize()) / 2.f);
 }
 
+void AppStateIngame::handleControllerActions() {
+	if (controller.keyPressed(ControllerCode::PlayBounce)) {
+		EventQueue::add<EventPlaySound>("bounce.wav", 0, false);
+		controller.releaseKey(ControllerCode::PlayBounce);
+	}
+	else if (controller.keyPressed(ControllerCode::PlayKick)) {
+		EventQueue::add<EventPlaySound>("kick.wav", 0, false);
+		controller.releaseKey(ControllerCode::PlayKick);
+	}
+	else if (controller.keyPressed(ControllerCode::ShakeCamera)) {
+		camera.shake(sf::seconds(1.f), 20.f);
+	}
+	else if (controller.keyPressed(ControllerCode::RunLeft)) {
+		actor.setAnimationState("run-left");
+	}
+	else if (controller.keyPressed(ControllerCode::RunRight)) {
+		actor.setAnimationState("run-right");
+	}
+}
+
 void AppStateIngame::input() {
 	sf::Event event;
 	while (app.window.pollEvent(event)) {
@@ -21,26 +41,13 @@ void AppStateIngame::input() {
 			if (event.key.code == sf::Keyboard::Escape) {
 				app.pushState<AppStatePaused>(resmgr, audioPlayer, settings);
 			}
-			else if (event.key.code == sf::Keyboard::B) {
-				EventQueue::add<EventPlaySound>("bounce.wav", 0, false);
-			}
-			else if (event.key.code == sf::Keyboard::K) {
-				EventQueue::add<EventPlaySound>("kick.wav", 0, false);
-			}
-			else if (event.key.code == sf::Keyboard::A) {
-				actor.setAnimationState("run-left");
-			}
-			else if (event.key.code == sf::Keyboard::D) {
-				actor.setAnimationState("run-right");
-			}
-			else if (event.key.code == sf::Keyboard::S) {
-				camera.shake(sf::seconds(1.f), 20.f);
-			}
 		}
 	}
 }
 
 void AppStateIngame::update() {
+	handleControllerActions();
+
 	actor.update(app.time);
 
 	camera.setPosition(actor.getPosition());
@@ -88,4 +95,10 @@ AppStateIngame::AppStateIngame(dgm::App& app, const dgm::ResourceManager& resmgr
 
 	actor.setTexture(resmgr.get<sf::Texture>("sample_texture.png"));
 	actor.setAnimationStates(resmgr.get <std::shared_ptr<dgm::AnimationStates>>("sample_config.json"));
+
+	controller.bindKeyboardKey(ControllerCode::PlayBounce, sf::Keyboard::B);
+	controller.bindKeyboardKey(ControllerCode::PlayKick, sf::Keyboard::K);
+	controller.bindKeyboardKey(ControllerCode::ShakeCamera, sf::Keyboard::S);
+	controller.bindKeyboardKey(ControllerCode::RunLeft, sf::Keyboard::A);
+	controller.bindKeyboardKey(ControllerCode::RunRight, sf::Keyboard::D);
 }

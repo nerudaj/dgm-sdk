@@ -54,6 +54,11 @@ private:
 	sf::View worldView, hudView;
 	dgm::Camera camera = dgm::Camera(worldView);
 
+	enum ControllerCode {
+		PlayBounce, PlayKick, ShakeCamera, RunLeft, RunRight
+	};
+	dgm::Controller controller;
+
 #ifdef _DEBUG
 	sf::Text fpsCounterText;
 #endif
@@ -62,6 +67,7 @@ private:
 
 protected:
 	void setupViews();
+	void handleControllerActions();
 
 public:
 	virtual void input() override;
