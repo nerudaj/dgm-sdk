@@ -1,6 +1,11 @@
-dgm-sdk v1.x.x changelog:
+dgm-sdk v1.2.3 changelog:
  * General:
 	* Fixed wrong package name
+	* Bumped dgm-lib to v1.3.4
+ * Examples
+	* Added example-controller to show how to work with dgm::Controller
+ * Project template
+	* Prevented Google Benchmark from being packaged
 
 dgm-sdk v1.1.3 changelog:
  * General:

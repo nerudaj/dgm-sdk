@@ -28,7 +28,7 @@ public:
 
 	void setAnimationStates(std::shared_ptr<dgm::AnimationStates>& states) {
 		animation = dgm::Animation(states, 15);
-		animation.bindSprite(&sprite);
+		animation.bindSprite(sprite);
 		animation.setState("idle-left");
 	}
 

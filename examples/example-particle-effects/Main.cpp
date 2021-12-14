@@ -75,7 +75,7 @@ int main() {
 	);
 
 	dgm::Animation soldierAnimation(resmgr.get<std::shared_ptr<dgm::AnimationStates>>("soldier_config.json"));
-	soldierAnimation.bindSprite(&soldierSprite);
+	soldierAnimation.bindSprite(soldierSprite);
 	soldierAnimation.setState("idle", true);
 	soldierAnimation.setSpeed(4);
 
