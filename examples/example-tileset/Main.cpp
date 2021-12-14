@@ -36,8 +36,8 @@ public:
 	void update(const dgm::Time &time, const dgm::Mesh &level) {
 		// Compute forward vector based on use input and multiply it by delta time
 		sf::Vector2f forward = sf::Vector2f(
-			input.keyPressed(Left) ? -SPEED : input.keyPressed(Right) ? SPEED : 0.f,
-			input.keyPressed(Up) ? -SPEED : input.keyPressed(Down) ? SPEED : 0.f
+			input.isToggled(Left) ? -SPEED : input.isToggled(Right) ? SPEED : 0.f,
+			input.isToggled(Up) ? -SPEED : input.isToggled(Down) ? SPEED : 0.f
 		) * time.getDeltaTime();
 
 		// If moving body forward would result in collision with the world,
@@ -49,10 +49,10 @@ public:
 	}
 
 	Player() {
-		input.bindKeyboardKey(Up, sf::Keyboard::Up);
-		input.bindKeyboardKey(Left, sf::Keyboard::Left);
-		input.bindKeyboardKey(Right, sf::Keyboard::Right);
-		input.bindKeyboardKey(Down, sf::Keyboard::Down);
+		input.bindInput(Up, sf::Keyboard::Up);
+		input.bindInput(Left, sf::Keyboard::Left);
+		input.bindInput(Right, sf::Keyboard::Right);
+		input.bindInput(Down, sf::Keyboard::Down);
 	}
 };
 
