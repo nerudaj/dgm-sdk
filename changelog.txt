@@ -2,6 +2,7 @@ dgm-sdk v1.2.3 changelog:
  * General:
 	* Fixed wrong package name
 	* Bumped dgm-lib to v1.3.4
+	* Fixed bad packaging of top level Readme.md
 	* Enforce latest C++ standard
  * Examples
 	* Added example-controller to show how to work with dgm::Controller

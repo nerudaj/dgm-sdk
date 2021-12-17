@@ -39,7 +39,8 @@ install (
 
 install (
 	FILES       "Readme-release.md"
-	DESTINATION "Readme.md"
+	DESTINATION "."
+	RENAME      "Readme.md"
 )
 
 install (
