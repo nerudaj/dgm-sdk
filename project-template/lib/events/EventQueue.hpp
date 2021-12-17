@@ -43,6 +43,6 @@ public:
 	template<class T, class ... Args>
 	requires std::constructible_from<T, Args...>
 	static void add(Args&& ... args) {
-		get().events.push_back(T(args...));
+		get().events.push_back(T(std::forward<Args>(args)...));
 	}
 };
