@@ -1,4 +1,6 @@
 #include "AppStateMenuOptions.hpp"
+#include "GuiBuilder.hpp"
+#include <ranges>
 
 static const std::vector<std::string> STRING_RESOLUTIONS = {
 	"640x480", "800x600", "1024x768", "1280x720", "1366x768", "1600x900", "1920x1080", "2560x1440", "2736x1824"
@@ -14,31 +16,26 @@ std::string getWindowResolutionAsString(const dgm::Window& window) {
 }
 
 void AppStateMenuOptions::buildLayout() {
-	auto title = createOptionLabel({ "0%", "5%" }, { "100%", "25%" }, "Options");
+	auto title = createWindowTitle({ "0%", "5%" }, { "100%", "25%" }, "Options");
 	title->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
 	title->setTextSize(72);
 	gui.add(title);
 
-	tgui::Layout2d rowSize = { "40%", "5%" };
-
-	createCheckbox("Toggle fullscreen", { "30%", "35%" }, rowSize,
-		app.window.isFullscreen(), [this](bool checked) { app.window.toggleFullscreen(); }, "CheckboxFullscreen"
-	);
-	createSlider("Sound volume", { "30%", "40%" }, rowSize,
-		settings.soundVolume, [this]() {
+	GuiOptionsBuilder builder(gui, { "20%", "35%" }, { "60%", "20%" });
+	builder
+		.addOption("Toggle fullscreen", "CheckboxFullscreen", WidgetCreator::createCheckbox(app.window.isFullscreen(), [this] (bool checked) {
+			app.window.toggleFullscreen();
+		}))
+		.addOption("Sound volume", "SliderSoundVolume", WidgetCreator::createSlider(settings.soundVolume, [this] () {
 			settings.soundVolume = gui.get<tgui::Slider>("SliderSoundVolume")->getValue();
 			audioPlayer.setSoundVolume(settings.soundVolume);
-		}, "SliderSoundVolume"
-	);
-	createSlider("Music volume", { "30%", "45%" }, rowSize,
-		settings.musicVolume, [this]() {
+		}))
+		.addOption("Music volume", "SliderMusicVolume", WidgetCreator::createSlider(settings.musicVolume, [this] () {
 			settings.musicVolume = gui.get<tgui::Slider>("SliderMusicVolume")->getValue();
-		}, "SliderMusicVolume"
-	);
-	createDropdown("Change resolution", { "30%", "50%" }, rowSize,
-		STRING_RESOLUTIONS, getWindowResolutionAsString(app.window),
-		[this]() {
-			auto item = gui.get<tgui::ComboBox>("ComboResolution");
+			audioPlayer.setSoundVolume(settings.musicVolume);
+		}))
+		.addOption("Set resolution", "DropdownResolution", WidgetCreator::createDropdown(STRING_RESOLUTIONS, getWindowResolutionAsString(app.window), [this] () {
+			auto item = gui.get<tgui::ComboBox>("DropdownResolution");
 			auto index = item->getSelectedItemIndex();
 			if (index == -1) return;
 			bool fs = app.window.isFullscreen();
@@ -48,8 +45,8 @@ void AppStateMenuOptions::buildLayout() {
 
 			// Force gui to update viewport and resolution
 			gui.setView(app.window.getWindowContext().getView());
-		}, "ComboResolution"
-	);
+		}));
+	builder.build();
 
 	createButton("Back", { "84%", "94%" }, { "15%", "5%" }, [this]() { app.popState(); });
 }
