@@ -45,6 +45,8 @@ void AppStateMenuOptions::buildLayout() {
 
 			// Force gui to update viewport and resolution
 			gui.setView(app.window.getWindowContext().getView());
+			gui.removeAllWidgets();
+			buildLayout();
 		}));
 	builder.build();
 

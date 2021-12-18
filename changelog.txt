@@ -1,7 +1,7 @@
-dgm-sdk v1.x.x changelog:
+dgm-sdk v1.2.5 changelog:
  * General:
 	* Fixed wrong package name
-	* Bumped dgm-lib to v1.3.4
+	* Bumped dgm-lib to v1.4.4
 	* Fixed bad packaging of top level Readme.md
 	* Enforce latest C++ standard
  * Examples
