@@ -28,4 +28,5 @@ You can launch binaries directly from the Visual Studio.
  * example-app - Shows how to use dgm::App and dgm::AppState and layer the atop of one another
  * example-controller - Shows how to use dgm::Controller and how to bind keyboard, mouse and Xbox controller to it
  * example-particle-effects - Collection of couple particle effects using interfaces defined in dgm::ps namespace
+ * example-pathfind - Shows how to use LevelD tilemap, paths and navmeshes for pathfinding
  * example-tileset - Shows how to create, load and draw a tilemap using a tileset texture and LevelD file format. It also shows how to use dgm::Collision::advanced to do collisions with a tilemap
