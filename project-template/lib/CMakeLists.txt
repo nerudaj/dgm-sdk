@@ -2,59 +2,56 @@ cmake_minimum_required ( VERSION 3.19 )
 
 project ( game-lib )
 
-set ( APP_HEADERS
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateBootstrap.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateIngame.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateMainMenu.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateMenuOptions.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStatePaused.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/GuiBuilder.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/GuiState.hpp"
+file (
+	GLOB APP_HEADERS
+	"${CMAKE_CURRENT_SOURCE_DIR}/app/*.hpp
 )
 
-set ( APP_SOURCES
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateBootstrap.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateIngame.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateMainMenu.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateMenuOptions.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStatePaused.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/GuiBuilder.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/GuiState.cpp"
+file (
+	GLOB APP_SOURCES
+	"${CMAKE_CURRENT_SOURCE_DIR}/app/*.cpp
 )
 
-set ( CORE_HEADERS
-	"${CMAKE_CURRENT_SOURCE_DIR}/core/AudioPlayer.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/core/Settings.hpp"
+file (
+	GLOB CORE_HEADERS
+	"${CMAKE_CURRENT_SOURCE_DIR}/core/*.hpp
 )
 
-set ( CORE_SOURCES
-	"${CMAKE_CURRENT_SOURCE_DIR}/core/AudioPlayer.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/core/Settings.cpp"
+file (
+	GLOB CORE_SOURCES
+	"${CMAKE_CURRENT_SOURCE_DIR}/core/*.cpp
 )
 
-set ( EVENTS_HEADERS
-	"${CMAKE_CURRENT_SOURCE_DIR}/events/Events.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/events/EventQueue.hpp"
+file (
+	GLOB EVENTS_HEADERS
+	"${CMAKE_CURRENT_SOURCE_DIR}/events/*.hpp
 )
 
-set ( EVENTS_SOURCES
-	"${CMAKE_CURRENT_SOURCE_DIR}/events/Events.cpp"
+file (
+	GLOB EVENTS_SOURCES
+	"${CMAKE_CURRENT_SOURCE_DIR}/events/*.cpp
 )
 
-set ( GAME_HEADERS
-	"${CMAKE_CURRENT_SOURCE_DIR}/game/EntityTable.hpp"
+file (
+	GLOB GAME_HEADERS
+	"${CMAKE_CURRENT_SOURCE_DIR}/game/*.hpp
+)
+
+file (
+	GLOB GAME_SOURCES
+	"${CMAKE_CURRENT_SOURCE_DIR}/game/*.cpp
 )
 
 source_group ( "App States" FILES ${APP_HEADERS} ${APP_SOURCES} )
 source_group ( "Core" FILES ${CORE_HEADERS} ${CORE_SOURCES} )
 source_group ( "Events" FILES ${EVENTS_HEADERS} ${EVENTS_SOURCES} )
-source_group ( "Game" FILES ${GAME_HEADERS} )
+source_group ( "Game" FILES ${GAME_HEADERS} ${GAME_SOURCES} )
 
 add_library ( ${PROJECT_NAME} STATIC
 	${APP_HEADERS} ${APP_SOURCES}
 	${CORE_HEADERS} ${CORE_SOURCES}
 	${EVENTS_HEADERS} ${EVENTS_SOURCES}
-	${GAME_HEADERS}
+	${GAME_HEADERS} ${GAME_SOURCES}
 	"${CMAKE_CURRENT_SOURCE_DIR}/.editorconfig"
 )
 
