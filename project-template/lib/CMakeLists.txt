@@ -2,59 +2,74 @@ cmake_minimum_required ( VERSION 3.19 )
 
 project ( game-lib )
 
-set ( APP_HEADERS
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateBootstrap.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateIngame.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateMainMenu.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateMenuOptions.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStatePaused.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/GuiBuilder.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/GuiState.hpp"
-)
-
-set ( APP_SOURCES
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateBootstrap.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateIngame.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateMainMenu.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStateMenuOptions.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/AppStatePaused.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/GuiBuilder.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/app/GuiState.cpp"
-)
-
-set ( CORE_HEADERS
-	"${CMAKE_CURRENT_SOURCE_DIR}/core/AudioPlayer.hpp"
+configure_file (
+	"${CMAKE_CURRENT_SOURCE_DIR}/core/Settings.hpp.in"
 	"${CMAKE_CURRENT_SOURCE_DIR}/core/Settings.hpp"
 )
 
-set ( CORE_SOURCES
-	"${CMAKE_CURRENT_SOURCE_DIR}/core/AudioPlayer.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/core/Settings.cpp"
+file (
+	GLOB APP_HEADERS
+	CONFIGURE_DEPENDS
+	"${CMAKE_CURRENT_SOURCE_DIR}/app/*.hpp"
 )
 
-set ( EVENTS_HEADERS
-	"${CMAKE_CURRENT_SOURCE_DIR}/events/Events.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/events/EventQueue.hpp"
+file (
+	GLOB APP_SOURCES
+	CONFIGURE_DEPENDS
+	"${CMAKE_CURRENT_SOURCE_DIR}/app/*.cpp"
 )
 
-set ( EVENTS_SOURCES
-	"${CMAKE_CURRENT_SOURCE_DIR}/events/Events.cpp"
+file (
+	GLOB CORE_HEADERS
+	CONFIGURE_DEPENDS
+	"${CMAKE_CURRENT_SOURCE_DIR}/core/*.hpp"
 )
 
-set ( GAME_HEADERS
-	"${CMAKE_CURRENT_SOURCE_DIR}/game/EntityTable.hpp"
+file (
+	GLOB CORE_SOURCES
+	CONFIGURE_DEPENDS
+	"${CMAKE_CURRENT_SOURCE_DIR}/core/*.cpp"
 )
 
-source_group ( "App States" FILES ${APP_HEADERS} ${APP_SOURCES} )
-source_group ( "Core" FILES ${CORE_HEADERS} ${CORE_SOURCES} )
-source_group ( "Events" FILES ${EVENTS_HEADERS} ${EVENTS_SOURCES} )
-source_group ( "Game" FILES ${GAME_HEADERS} )
+file (
+	GLOB EVENTS_HEADERS
+	CONFIGURE_DEPENDS
+	"${CMAKE_CURRENT_SOURCE_DIR}/events/*.hpp"
+)
+
+file (
+	GLOB EVENTS_SOURCES
+	CONFIGURE_DEPENDS
+	"${CMAKE_CURRENT_SOURCE_DIR}/events/*.cpp"
+)
+
+file (
+	GLOB GAME_HEADERS
+	CONFIGURE_DEPENDS
+	"${CMAKE_CURRENT_SOURCE_DIR}/game/*.hpp"
+)
+
+file (
+	GLOB GAME_SOURCES
+	CONFIGURE_DEPENDS
+	"${CMAKE_CURRENT_SOURCE_DIR}/game/*.cpp"
+)
+
+source_group (
+	TREE
+	${CMAKE_CURRENT_SOURCE_DIR}
+	FILES
+		${APP_HEADERS} ${APP_SOURCES}
+		${CORE_HEADERS} ${CORE_SOURCES}
+		${EVENTS_HEADERS} ${EVENTS_SOURCES}
+		${GAME_HEADERS} ${GAME_SOURCES}
+)
 
 add_library ( ${PROJECT_NAME} STATIC
 	${APP_HEADERS} ${APP_SOURCES}
 	${CORE_HEADERS} ${CORE_SOURCES}
 	${EVENTS_HEADERS} ${EVENTS_SOURCES}
-	${GAME_HEADERS}
+	${GAME_HEADERS} ${GAME_SOURCES}
 	"${CMAKE_CURRENT_SOURCE_DIR}/.editorconfig"
 )
 
@@ -78,5 +93,10 @@ target_compile_options ( ${PROJECT_NAME}
 	PRIVATE /MP
 )
 
-add_subdirectory ( benchmarks )
-add_subdirectory ( tests )
+if ( NOT ${DISABLE_BENCHMARKS} )
+	add_subdirectory ( benchmarks )
+endif()
+
+if ( NOT ${DISABLE_TESTING} )
+	add_subdirectory ( tests )
+endif()

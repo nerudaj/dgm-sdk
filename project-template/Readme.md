@@ -25,6 +25,12 @@ cmake ..
 
 Following commands will produce a `vsbuild` folder with `Example.sln` which you can open in Visual Studio and start developing. There is also a handy script `MakeRelease.bat` which performs full cleanup, configuration and build in release mode and prepares ready to ship zipfile with your game in `RELEASE` folder.
 
+You can customize your configuration by adding following flags:
+
+ * `-DCACHE_THIRD_PARTY=ON`: This will download dependencies to the root folder under `deps` instead of your build folder. This is useful if you often reconfigure without access to the internet.
+ * `-DDISABLE_TESTING=ON`: If you don't want to have unit testing projects, use this option to disable their configuration. `ctest` command will also be disabled.
+ * `-DDISABLE_BENCHMARKS=ON`: Use this so Google Benchmark is not integrated with your project. This actually speeds up build times and removes about three projects from the solution.
+
 ## How to customize
 
 Open file `cmake/settings.cmake` where you find bunch of variables that you can customize and will affect name of the output binary, of the solution file and release package name.
