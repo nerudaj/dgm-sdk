@@ -1,6 +1,7 @@
 dgm-sdk v1.x.x changelog:
  * Project template
 	* Source files are now added via GLOB command, so no longer they have to be manually added to cmake
+	* Main menu title text is configured from Cmake variable in settings.cmake
 
 dgm-sdk v1.2.5 changelog:
  * General:

@@ -3,7 +3,7 @@
 #include "app/AppStateIngame.hpp"
 
 void AppStateMainMenu::buildLayout() {
-	auto title = createWindowTitle({ "0%", "5%" }, { "100%", "25%" }, "Project Title");
+	auto title = createWindowTitle({ "0%", "5%" }, { "100%", "25%" }, GAME_TITLE);
 	title->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
 	title->setTextSize(72);
 	gui.add(title);
