@@ -8,8 +8,19 @@ include ( "${CMAKE_SOURCE_DIR}/cmake/utils.cmake" )
 
 project ( "${SETTINGS_PROJECT_NAME}" )
 
+option ( DISABLE_TESTING    "Disable unit test projects" OFF )
+option ( DISABLE_BENCHMARKS "Disable benchmarking projects" OFF )
+option ( CACHE_THIRD_PARTY  "Downloaded dependencies will be stored outside of build dir" OFF )
+
+if ( ${CACHE_THIRD_PARTY} )
+	set ( FETCHCONTENT_BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/deps" )
+endif()
+
 include ( "${CMAKE_SOURCE_DIR}/cmake/dependencies.cmake" )
-enable_testing()
+
+if ( NOT ${DISABLE_TESTING})
+	enable_testing()
+endif()
 
 add_subdirectory ( lib )
 add_subdirectory ( bin )

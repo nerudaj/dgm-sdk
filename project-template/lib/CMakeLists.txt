@@ -93,5 +93,10 @@ target_compile_options ( ${PROJECT_NAME}
 	PRIVATE /MP
 )
 
-add_subdirectory ( benchmarks )
-add_subdirectory ( tests )
+if ( NOT ${DISABLE_BENCHMARKS} )
+	add_subdirectory ( benchmarks )
+endif()
+
+if ( NOT ${DISABLE_TESTING} )
+	add_subdirectory ( tests )
+endif()
