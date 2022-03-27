@@ -1,4 +1,8 @@
 dgm-sdk v1.x.x changelog:
+ * General
+	* Bumped dgm-lib to v1.5.2
+ * Examples
+	* Added example-pathfinding
  * Project template
 	* Source files are now added via GLOB command, so no longer they have to be manually added to cmake
 	* Main menu title text is configured from Cmake variable in settings.cmake
