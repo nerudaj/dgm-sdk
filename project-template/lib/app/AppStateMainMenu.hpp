@@ -6,6 +6,7 @@
 class AppStateMainMenu : public dgm::AppState, public GuiState {
 private:
 	Settings &settings;
+	bool skipToGame = false;
 
 	void buildLayout();
 
@@ -24,5 +25,5 @@ public:
 		gui.setView(app.window.getWindowContext().getView());
 	}
 
-	AppStateMainMenu(dgm::App &app, const dgm::ResourceManager& resmgr, AudioPlayer& audioPlayer, Settings& settings);
+	AppStateMainMenu(dgm::App &app, const dgm::ResourceManager& resmgr, AudioPlayer& audioPlayer, Settings& settings, bool skipToGame);
 };

@@ -1,3 +1,7 @@
+dgm-sdk v1.X.X changelog:
+ * Project template
+	* Added parameter for skipping the main menu when launching the app
+
 dgm-sdk v1.3.0 changelog:
  * General
 	* Bumped dgm-lib to v1.5.2

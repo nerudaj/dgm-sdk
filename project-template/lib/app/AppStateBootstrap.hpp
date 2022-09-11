@@ -10,6 +10,7 @@ private:
 	Settings& settings;
 	dgm::ResourceManager resmgr;
 	AudioPlayer audioPlayer = AudioPlayer(CHANNEL_COUNT, resmgr);
+	bool skipToGame;
 
 public:
 	virtual void input() override;
@@ -19,5 +20,5 @@ public:
 		return false;
 	}
 
-	AppStateBootstrap(dgm::App& app, const std::string root, Settings& settings);
+	AppStateBootstrap(dgm::App& app, const std::string root, Settings& settings, bool skipToGame);
 };

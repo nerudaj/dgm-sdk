@@ -42,3 +42,7 @@ Open file `cmake/dependencies.cmake` and simply change the version numbers at th
 ## How to change version numbers
 
 Edit file `cmake/version.cmake`
+
+## Skipping main menu
+
+If you run the binary with parameter `-s`, it will skip the main menu and jump right into the game. If you exit the game, you'll be returned into main menu.

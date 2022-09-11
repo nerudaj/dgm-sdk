@@ -26,13 +26,18 @@ void AppStateMainMenu::buildLayout() {
 }
 
 void AppStateMainMenu::input() {
+	if (skipToGame) {
+		app.pushState<AppStateIngame>(resmgr, settings, audioPlayer);
+		skipToGame = false;
+	}
+
 	sf::Event event;
 	while (app.window.pollEvent(event)) {
 		gui.handleEvent(event);
 	}
 }
 
-AppStateMainMenu::AppStateMainMenu(dgm::App& app, const dgm::ResourceManager& resmgr, AudioPlayer& audioPlayer, Settings& settings) : dgm::AppState(app), GuiState(resmgr, audioPlayer), settings(settings) {
+AppStateMainMenu::AppStateMainMenu(dgm::App& app, const dgm::ResourceManager& resmgr, AudioPlayer& audioPlayer, Settings& settings, bool skipToGame) : dgm::AppState(app), GuiState(resmgr, audioPlayer), settings(settings), skipToGame(skipToGame) {
 	gui.setTarget(app.window.getWindowContext());
 	buildLayout();
 }

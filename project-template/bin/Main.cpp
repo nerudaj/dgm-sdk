@@ -1,13 +1,14 @@
 #include <DGM/dgm.hpp>
 
 #include <app/AppStateBootstrap.hpp>
-//#include "Globals.hpp"
 
 int main(int argc, char *argv[]) {
-	std::string rootDir = "../resources";
-	if (argc == 2) {
-		rootDir = argv[1];
-	}
+	cfg::Args args("sr:");
+	args.parse(argc, argv);
+	bool skipToGame = args.isSet('s');
+	std::string rootDir = args.isSet('r')
+		? args.getArgumentValue('r').asString()
+		: "../resources";
 
 	cfg::Ini ini;
 	try {
@@ -25,7 +26,7 @@ int main(int argc, char *argv[]) {
 	dgm::Window window(ini);
 	dgm::App app(window);
 	
-	app.pushState<AppStateBootstrap>(rootDir, settings);
+	app.pushState<AppStateBootstrap>(rootDir, settings, skipToGame);
 	app.run();
 
 	window.close(ini);
