@@ -11,25 +11,28 @@ const sf::Vector2f WINDOW_SIZE_F = sf::Vector2f(WINDOW_SIZE_U);
 const sf::Vector2f BOX_SIZE = { 350.f, 405.f };
 const sf::Vector2f BOX_OFFSET = { (WINDOW_SIZE_F.x - 4.f * BOX_SIZE.x) / 5.f, (WINDOW_SIZE_F.y - 2.f * BOX_SIZE.y) / 3.f };
 
-int main() {
+int main()
+{
 	srand(time(nullptr));
 
 	dgm::Window window(WINDOW_SIZE_U, "Example: Particle Effects", false);
 	dgm::Time time;
 
 	// Images & configs
-	dgm::ResourceManager resmgr;
-	resmgr.setPedantic(false);
-	resmgr.loadResourceDir<sf::Font>(RESOURCE_DIR);
-	resmgr.loadResourceDir<sf::Texture>(RESOURCE_DIR);
-	resmgr.loadResourceDir<std::shared_ptr<dgm::AnimationStates>>(RESOURCE_DIR);
+	dgm::JsonLoader loader;
+	dgm::ResourceManager resmgr(loader);
+	resmgr.loadResourceDir<sf::Font>(RESOURCE_DIR, { ".ttf" });
+	resmgr.loadResourceDir<sf::Texture>(RESOURCE_DIR, { ".png" });
+	resmgr.loadResourceDir<dgm::AnimationStates>(RESOURCE_DIR, { ".json" });
 
 	// Spawn 8 "containers" for effects
 	// It could be all written more nicely, but the goal here was to have effect with interfaces
 	// that are compatible with real world project so they can be copy-pasted without many modifications
 	std::vector<sf::RectangleShape> boxes;
-	for (unsigned y = 0; y < 2; y++) {
-		for (unsigned x = 0; x < 4; x++) {
+	for (unsigned y = 0; y < 2; y++)
+	{
+		for (unsigned x = 0; x < 4; x++)
+		{
 			boxes.push_back(sf::RectangleShape(BOX_SIZE));
 			boxes.back().setOutlineThickness(3.f);
 			boxes.back().setOutlineColor(sf::Color::White);
@@ -45,7 +48,7 @@ int main() {
 	EffectWaterFountain effectFountain({
 		boxes[0].getGlobalBounds().left + boxes[0].getGlobalBounds().width / 2.f,
 		boxes[0].getGlobalBounds().top + boxes[0].getGlobalBounds().height
-	});
+		});
 	effectFountain.init(256);
 
 	const sf::Vector2f BOX1_CENTER = {
@@ -61,7 +64,7 @@ int main() {
 	EffectTexturedSmoke effectTexturedSmoke({
 		boxes[3].getGlobalBounds().left + boxes[3].getGlobalBounds().width / 2.f,
 		boxes[3].getGlobalBounds().top + boxes[3].getGlobalBounds().height - 64.f
-		}, dgm::Clip({ 256, 256 }, {0, 0, 1280, 768}));
+		}, dgm::Clip({ 256, 256 }, { 0, 0, 1280, 768 }));
 	effectTexturedSmoke.setTexture(resmgr.get<sf::Texture>("smoke.png"));
 	effectTexturedSmoke.init(256);
 
@@ -74,7 +77,7 @@ int main() {
 		boxes[1].getGlobalBounds().top + boxes[1].getGlobalBounds().height - 160.f
 	);
 
-	dgm::Animation soldierAnimation(resmgr.get<std::shared_ptr<dgm::AnimationStates>>("soldier_config.json"));
+	dgm::Animation soldierAnimation(resmgr.get<dgm::AnimationStates>("soldier_config.json"));
 	soldierAnimation.bindSprite(soldierSprite);
 	soldierAnimation.setState("idle", true);
 	soldierAnimation.setSpeed(4);
@@ -98,20 +101,24 @@ int main() {
 	fpsOutput.setFillColor(sf::Color::Yellow);
 
 	sf::Event event;
-	while (window.isOpen()) {
-		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed) {
+	while (window.isOpen())
+	{
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
 				window.close();
 			}
 		}
-		
+
 		/* LOGIC */
 		time.reset();
 
 		fpsCount++;
 		fpsElapsedSum += time.getDeltaTime();
 		fpsTimer += time.getElapsed();
-		if (fpsTimer >= FPS_DISPLAY_UPDATE_FREQUENCY) {
+		if (fpsTimer >= FPS_DISPLAY_UPDATE_FREQUENCY)
+		{
 			const float averageFps = fpsElapsedSum / fpsCount;
 			fpsOutput.setString(std::to_string(static_cast<unsigned>(1.f / averageFps)));
 			fpsCount = 0;
@@ -129,7 +136,7 @@ int main() {
 		effectStarfield.update(time);
 
 		effectTexturedSmoke.update(time);
-		
+
 		/* DRAW */
 		window.beginDraw();
 

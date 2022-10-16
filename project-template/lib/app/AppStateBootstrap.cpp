@@ -1,19 +1,30 @@
 #include "AppStateBootstrap.hpp"
 #include "AppStateMainMenu.hpp"
+#include <format>
+#include <algorithm>
 
-void AppStateBootstrap::input() {
-	app.pushState<AppStateMainMenu>(resmgr, audioPlayer, settings, skipToGame);
+void AppStateBootstrap::input()
+{
+	app.pushState<AppStateMainMenu>(resmgr, audioPlayer, settings);
 }
 
-AppStateBootstrap::AppStateBootstrap(dgm::App& app, const std::string root, Settings& settings, bool skipToGame) : dgm::AppState(app), rootDir(root), settings(settings), skipToGame(skipToGame) {
-	try {
-		resmgr.loadResourceDir<sf::Texture>(rootDir + "/graphics/textures");
-		resmgr.loadResourceDir<sf::Font>(rootDir + "/graphics/fonts");
-		resmgr.loadResourceDir<std::shared_ptr<dgm::AnimationStates>>(rootDir + "/graphics/configs");
-		resmgr.loadResourceDir<sf::SoundBuffer>(rootDir + "/audio/sounds");
+AppStateBootstrap::AppStateBootstrap(
+	dgm::App& app,
+	Settings& settings)
+	:
+	dgm::AppState(app),
+	settings(settings)
+{
+	try
+	{
+		resmgr.loadResourceDir<sf::Texture>(settings.resourcesDir + "/graphics/textures", { ".png" });
+		resmgr.loadResourceDir<sf::Font>(settings.resourcesDir + "/graphics/fonts", { ".ttf" });
+		resmgr.loadResourceDir<dgm::AnimationStates>(settings.resourcesDir + "/graphics/configs", { ".json" });
+		resmgr.loadResourceDir<sf::SoundBuffer>(settings.resourcesDir + "/audio/sounds", { ".wav" });
 	}
-	catch (std::exception& e) {
-		std::cerr << "error:AppStateMainMenu: " << e.what() << std::endl;
+	catch (std::exception& e)
+	{
+		std::cerr << std::format("error:AppStateBootstrap: {}\n", e.what());
 		throw;
 	}
 

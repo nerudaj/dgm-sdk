@@ -2,11 +2,13 @@
 
 #include "ParticleEffectBase.hpp"
 
-auto toUnit(const sf::Vector2f& vec) noexcept {
+auto toUnit(const sf::Vector2f& vec) noexcept
+{
 	return vec == sf::Vector2f(0.f, 0.f) ? vec : vec / dgm::Math::vectorSize(vec);
 }
 
-class EffectBloodSpatter : public ParticleEffectBase {
+class EffectBloodSpatter : public ParticleEffectBase
+{
 protected:
 	// Effect parameters
 	const float EMITTER_RADIUS = 15.f;
@@ -25,23 +27,28 @@ protected:
 	sf::Time lifespan;
 
 public:
-	virtual void init(const std::size_t particleCount) override {
+	virtual void init(const std::size_t particleCount) override
+	{
 		ParticleEffectBase::init(particleCount);
 
 		// This effect initializes all particles at once
 		// We need to loop over all allocated slots and "add" them to visible part of the buffer
-		for (unsigned i = 0; i < particles.capacity(); i++) {
+		for (unsigned i = 0; i < particles.capacity(); i++)
+		{
 			particles.expand();
 		}
 
 		reset();
 	}
 
-	virtual void update(const dgm::Time& time) override {
+	virtual void update(const dgm::Time& time) override
+	{
 		const auto DELTA_GRAVITY = GRAVITY * time.getDeltaTime();
 
-		for (auto& p : particles) {
-			if (p->getPosition().y < floorY) {
+		for (auto& p : particles)
+		{
+			if (p->getPosition().y < floorY)
+			{
 				const auto DELTA_FORWARD = p->getForward() * time.getDeltaTime();
 				p->moveForwardBy(DELTA_FORWARD);
 				p->addToForward(DELTA_GRAVITY);
@@ -53,10 +60,12 @@ public:
 		lifespan -= time.getElapsed();
 	}
 
-	void reset() {
+	void reset()
+	{
 		lifespan = LIFESPAN;
 
-		for (auto& p : particles) {
+		for (auto& p : particles)
+		{
 			const float randomSizeFactor = getRandomFloat(MIN_PARTICLE_SIZE, MAX_PARTICLE_SIZE);
 			const float randomForwardFactor = getRandomFloat(MIN_EMITTER_FORCE, MAX_EMITTER_FORCE);
 			const float randomSpawnOffset = getRandomFloat(0.f, EMITTER_RADIUS);
@@ -66,16 +75,17 @@ public:
 
 			p->setColor(sf::Color::Red);
 			p->setForward(randomUnitVector * randomForwardFactor);
-			p->setForward({ p->getForward().x / 1.5f, p->getForward().y });
+			p->setForward({ p->getForward().x / 1.5f, p->getForward().y * 2.f });
 
 			// We don't care about lifespan of individual particles in this effect, so it can be zero
 			p->spawn(emitterPosition + randomUnitVector * randomSpawnOffset, sf::Vector2f(1.f, 1.f) * randomSizeFactor, sf::Time::Zero);
 		}
 	}
 
-	[[nodiscard]] bool finished() const noexcept {
+	[[nodiscard]] bool finished() const noexcept
+	{
 		return lifespan <= sf::Time::Zero;
 	}
 
-	EffectBloodSpatter(const sf::Vector2f &position, const float floorYCoord) : emitterPosition(position), floorY(floorYCoord) {}
+	EffectBloodSpatter(const sf::Vector2f& position, const float floorYCoord) : emitterPosition(position), floorY(floorYCoord) {}
 };

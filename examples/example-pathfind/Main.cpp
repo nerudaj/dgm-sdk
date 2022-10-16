@@ -8,7 +8,8 @@
 #include "Level.hpp"
 #include "../ResourceDir.hpp"
 
-class Actor {
+class Actor
+{
 private:
 	const float SPEED = 256.f;
 	const float RADIUS = 16.f;
@@ -22,52 +23,62 @@ private:
 	float transitionTimer = 0.f;
 	float transitionDuration = 0.f;
 
-	void beginTransitionToNextPoint() {
+	void beginTransitionToNextPoint()
+	{
 		if (path.isTraversed()) return;
 
 		oldPosition = body.getPosition();
 		forward = path.getCurrentPoint().coord - body.getPosition();
 		transitionTimer = 0.f;
-		transitionDuration =  dgm::Math::vectorSize(forward) / SPEED;
+		transitionDuration = dgm::Math::vectorSize(forward) / SPEED;
 	}
 
 public:
-	enum {
+	enum
+	{
 		Up, Left, Right, Down
 	};
 
-	void draw(dgm::Window &window) {
+	void draw(dgm::Window& window)
+	{
 		body.debugRender(window);
 	}
 
-	void update(const dgm::Time &time, const dgm::Mesh &level) {
+	void update(const dgm::Time& time)
+	{
 		if (path.isTraversed()) return;
 
 		transitionTimer += time.getDeltaTime();
 		const auto transition = std::clamp(transitionTimer / transitionDuration, 0.f, 1.f);
 		body.setPosition(oldPosition + forward * transition);
 
-		if (transition >= 1.f) {
+		if (transition >= 1.f)
+		{
 			path.advance();
 			beginTransitionToNextPoint();
 		}
 	}
 
-	void setWaypoint(const sf::Vector2f& point) {
-		try {
+	void setWaypoint(const sf::Vector2f& point)
+	{
+		try
+		{
+			std::cout << dgm::Utility::to_string(body.getPosition()) << " -> " << dgm::Utility::to_string(point) << std::endl;
 			path = std::move(navMesh.getPath(body.getPosition(), point));
 		}
-		catch (...) {
+		catch (...)
+		{
 			path = dgm::Path<dgm::WorldNavpoint>();
 		}
 
 		beginTransitionToNextPoint();
 	}
 
-	Actor(const dgm::Mesh &mesh) : navMesh(mesh) {}
+	Actor(const dgm::Mesh& mesh) : navMesh(mesh) {}
 };
 
-void exportLevel(const std::string &filename) {
+void exportLevel(const std::string& filename)
+{
 	LevelD lvld;
 
 	// Once a certain attribute of lvld is initialized, it will become the part of export
@@ -121,16 +132,17 @@ void exportLevel(const std::string &filename) {
 	lvld.saveToFile(filename);
 }
 
-int main() {
+int main()
+{
 	const std::string LEVELD_FILENAME = "level.lvd";
 	exportLevel(LEVELD_FILENAME);
 
-	dgm::Window window({1280, 980}, "Example: Tileset", false);
+	dgm::Window window({ 1280, 980 }, "Example: Tileset", false);
 	dgm::Time time;
 
-	dgm::ResourceManager resmgr;
-	resmgr.setPedantic(false);
-	resmgr.loadResourceDir<sf::Texture>(RESOURCE_DIR);
+	dgm::JsonLoader loader;
+	dgm::ResourceManager resmgr(loader);
+	resmgr.loadResourceDir<sf::Texture>(RESOURCE_DIR, { ".png" });
 
 	Level level(resmgr.get<sf::Texture>("tileset.png"));
 	level.loadFromFile(LEVELD_FILENAME);
@@ -138,26 +150,30 @@ int main() {
 	Actor actor(level.getMesh());
 
 	sf::Event event;
-	while (window.isOpen()) {
-		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed) {
+	while (window.isOpen())
+	{
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
 				window.close();
 			}
 
-			if (event.type == sf::Event::MouseButtonPressed) {
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
 				auto mousePos = sf::Mouse::getPosition(window.getWindowContext());
 				actor.setWaypoint(sf::Vector2f(mousePos));
 			}
 		}
-		
+
 		/* LOGIC */
 		time.reset();
 
-		actor.update(time, level.getMesh());
-		
+		actor.update(time);
+
 		/* DRAW */
 		window.beginDraw();
-		
+
 		level.draw(window);
 		actor.draw(window);
 

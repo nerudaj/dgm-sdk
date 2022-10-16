@@ -3,8 +3,8 @@ cmake_minimum_required ( VERSION 3.19 )
 project ( game-lib )
 
 configure_file (
-	"${CMAKE_CURRENT_SOURCE_DIR}/core/Settings.hpp.in"
-	"${CMAKE_CURRENT_SOURCE_DIR}/core/Settings.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/core/GameTitle.hpp.in"
+	"${CMAKE_CURRENT_SOURCE_DIR}/core/GameTitle.hpp"
 )
 
 file (

@@ -2,7 +2,8 @@
 #include "app/AppStatePaused.hpp"
 #include "events/EventQueue.hpp"
 
-void AppStateIngame::setupViews() {
+void AppStateIngame::setupViews()
+{
 	const sf::FloatRect FULL_SCREEN = { 0.f, 0.f, 1.f, 1.f };
 	worldView.setViewport(FULL_SCREEN);
 	worldView.setSize(sf::Vector2f(app.window.getSize()));
@@ -12,35 +13,47 @@ void AppStateIngame::setupViews() {
 	hudView.setCenter(sf::Vector2f(app.window.getSize()) / 2.f);
 }
 
-void AppStateIngame::input() {
+void AppStateIngame::input()
+{
 	sf::Event event;
-	while (app.window.pollEvent(event)) {
-		if (event.type == sf::Event::Closed) {
+	while (app.window.pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed)
+		{
 			app.exit();
-		} else if (event.type == sf::Event::KeyPressed) {
-			if (event.key.code == sf::Keyboard::Escape) {
+		}
+		else if (event.type == sf::Event::KeyPressed)
+		{
+			if (event.key.code == sf::Keyboard::Escape)
+			{
 				app.pushState<AppStatePaused>(resmgr, audioPlayer, settings);
 			}
-			else if (event.key.code == sf::Keyboard::B) {
+			else if (event.key.code == sf::Keyboard::B)
+			{
 				EventQueue::add<EventPlaySound>("bounce.wav", 0, false);
 			}
-			else if (event.key.code == sf::Keyboard::K) {
+			else if (event.key.code == sf::Keyboard::K)
+			{
 				EventQueue::add<EventPlaySound>("kick.wav", 0, false);
 			}
-			else if (event.key.code == sf::Keyboard::A) {
+			else if (event.key.code == sf::Keyboard::A)
+			{
 				actor.setAnimationState("run-left");
 			}
-			else if (event.key.code == sf::Keyboard::D) {
+			else if (event.key.code == sf::Keyboard::D)
+			{
 				actor.setAnimationState("run-right");
 			}
-			else if (event.key.code == sf::Keyboard::S) {
+			else if (event.key.code == sf::Keyboard::S)
+			{
 				camera.shake(sf::seconds(1.f), 20.f);
 			}
 		}
 	}
 }
 
-void AppStateIngame::update() {
+void AppStateIngame::update()
+{
 	actor.update(app.time);
 
 	camera.setPosition(actor.getPosition());
@@ -50,7 +63,8 @@ void AppStateIngame::update() {
 	EventQueue::process(eventProcessor);
 }
 
-void AppStateIngame::draw() {
+void AppStateIngame::draw()
+{
 	// Rendering everything that is subject to world coordinate system
 	app.window.getWindowContext().setView(worldView);
 	actor.draw(app.window);
@@ -67,7 +81,8 @@ void AppStateIngame::draw() {
 #endif // _DEBUG
 }
 
-AppStateIngame::AppStateIngame(dgm::App& app, const dgm::ResourceManager& resmgr, Settings& settings, AudioPlayer& audioPlayer) : dgm::AppState(app), resmgr(resmgr), settings(settings), audioPlayer(audioPlayer) {
+AppStateIngame::AppStateIngame(dgm::App& app, const dgm::ResourceManager& resmgr, Settings& settings, AudioPlayer& audioPlayer) : dgm::AppState(app), resmgr(resmgr), settings(settings), audioPlayer(audioPlayer)
+{
 	setupViews();
 
 	text.setFont(resmgr.get<sf::Font>("cruft.ttf"));
@@ -87,5 +102,5 @@ AppStateIngame::AppStateIngame(dgm::App& app, const dgm::ResourceManager& resmgr
 #endif
 
 	actor.setTexture(resmgr.get<sf::Texture>("sample_texture.png"));
-	actor.setAnimationStates(resmgr.get <std::shared_ptr<dgm::AnimationStates>>("sample_config.json"));
+	actor.setAnimationStates(resmgr.get<dgm::AnimationStates>("sample_config.json"));
 }

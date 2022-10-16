@@ -1,36 +1,46 @@
 #include <DGM/dgm.hpp>
+#include <core/GameTitle.hpp>
 
 #include <app/AppStateBootstrap.hpp>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[])
+{
 	cfg::Args args("sr:");
 	args.parse(argc, argv);
-	bool skipToGame = args.isSet('s');
-	std::string rootDir = args.isSet('r')
-		? args.getArgumentValue('r').asString()
-		: "../resources";
+
+	Settings settings;
+	if (args.isSet('r'))
+		settings.resourcesDir = args.getArgumentValue('r').asString();
+	settings.skipMainMenu = args.isSet('s');
 
 	cfg::Ini ini;
-	try {
+	try
+	{
 		ini.loadFromFile("app.ini");
-	} catch (...) {
+	}
+	catch (...)
+	{
 		ini["Window"]["width"] = 1280;
 		ini["Window"]["height"] = 720;
 		ini["Window"]["fullscreen"] = false;
-		ini["Window"]["title"] = "Example";
+		ini["Window"]["title"] = GAME_TITLE;
 	}
 
-	Settings settings;
-	settings.loadFrom(ini);
+	if (ini.hasSection("Audio") && ini["Audio"].hasKey("soundVolume"))
+		settings.soundVolume = ini["Audio"].at("soundVolume").asFloat();
+	if (ini.hasSection("Audio") && ini["Audio"].hasKey("musicVolume"))
+		settings.musicVolume = ini["Audio"].at("musicVolume").asFloat();
 
 	dgm::Window window(ini);
 	dgm::App app(window);
-	
-	app.pushState<AppStateBootstrap>(rootDir, settings, skipToGame);
+
+	app.pushState<AppStateBootstrap>(settings);
 	app.run();
 
 	window.close(ini);
-	settings.saveTo(ini);
+
+	ini["Audio"]["soundVolume"] = settings.soundVolume;
+	ini["Audio"]["musicVolume"] = settings.musicVolume;
 
 	ini.saveToFile("app.ini");
 

@@ -1,7 +1,8 @@
 #include <DGM/dgm.hpp>
 #include "../ResourceDir.hpp"
 
-enum Action {
+enum Action
+{
 	L_Up, L_Left, L_Down, L_Right,
 	R_Up, R_Left, R_Down, R_Right,
 	A, B, X, Y,
@@ -11,13 +12,14 @@ enum Action {
 	LStick, RStick
 };
 
-int main() {
-	dgm::Window window({1280, 720}, "Example: Controller", false);
+int main()
+{
+	dgm::Window window({ 1280, 720 }, "Example: Controller", false);
 	dgm::Time time;
 
-	dgm::ResourceManager resmgr;
-	resmgr.setPedantic(false);
-	resmgr.loadResourceDir<sf::Font>(RESOURCE_DIR);
+	dgm::JsonLoader loader;
+	dgm::ResourceManager resmgr(loader);
+	resmgr.loadResourceDir<sf::Font>(RESOURCE_DIR, { ".ttf" });
 
 	dgm::Controller input;
 
@@ -94,7 +96,7 @@ int main() {
 	lbumper.setOrigin({ 30.f, 15.f });
 	rbumper = lbumper;
 
-	lbumper.setPosition({213.f, 240.f });
+	lbumper.setPosition({ 213.f, 240.f });
 	rbumper.setPosition({ 1066.f, 240.f });
 
 	sf::CircleShape a, b, x, y;
@@ -104,7 +106,7 @@ int main() {
 	x = a;
 	y = a;
 
-	a.setPosition({1066.f, 390.f});
+	a.setPosition({ 1066.f, 390.f });
 	b.setPosition({ 1096.f, 360.f });
 	x.setPosition({ 1036.f, 360.f });
 	y.setPosition({ 1066.f, 330.f });
@@ -131,11 +133,13 @@ int main() {
 	lStickHat.setOrigin({ 2.5f, 2.5f });
 	rStickHat = lStickHat;
 
-	auto setFillColor = [&input] (sf::Shape& shape, Action action) {
+	auto setFillColor = [&input](sf::Shape& shape, Action action)
+	{
 		shape.setFillColor(input.isToggled(action) ? sf::Color::Green : sf::Color::Red);
 	};
 
-	auto getDirection = [&input] (Action up, Action down, Action left, Action right) -> sf::Vector2f {
+	auto getDirection = [&input](Action up, Action down, Action left, Action right) -> sf::Vector2f
+	{
 		return sf::Vector2f(
 			input.getValue(left) + input.getValue(right),
 			input.getValue(up) + input.getValue(down)
@@ -143,18 +147,21 @@ int main() {
 	};
 
 	sf::Event event;
-	while (window.isOpen()) {
-		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed) {
+	while (window.isOpen())
+	{
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
 				window.close();
 			}
 		}
-		
+
 		/* LOGIC */
 		time.reset();
 
 		input.update(time);
-		
+
 		setFillColor(dpadUp, Action::L_Up);
 		setFillColor(dpadLeft, Action::L_Left);
 		setFillColor(dpadDown, Action::L_Down);

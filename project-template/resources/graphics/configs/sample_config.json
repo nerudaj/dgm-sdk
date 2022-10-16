@@ -1,27 +1,51 @@
 {
 	"defaults": {
 		"frame": {
-			"size": [80, 64],
-			"offset": [0, 8]
+			"width": 80,
+			"height": 64
+		},
+		"spacing": {
+			"horizontal": 0,
+			"vertical": 8
 		}
 	},
-	"states": {
-		"idle-right": {
-			"frame": {
-				"size": [80, 64],
-				"offset": [0, 8],
-				"count": 1
+	"states": [
+		{
+			"name": "idle-right",
+			"bounds": {
+				"left": 0,
+				"top": 0,
+				"width": 80,
+				"height": 64
 			},
-			"bounds": [0, 0, 80, 64]
+			"nframes": 1
 		},
-		"idle-left": {
-			"bounds": [0, 72, 80, 64]
+		{
+			"name": "idle-left",
+			"bounds": {
+				"left": 0,
+				"top": 72,
+				"width": 80,
+				"height": 64
+			}
 		},
-		"run-right": {
-			"bounds": [0, 0, 320, 64]
+		{
+			"name": "run-right",
+			"bounds": {
+				"left": 0,
+				"top": 0,
+				"width": 320,
+				"height": 64
+			}
 		},
-		"run-left": {
-			"bounds": [0, 72, 320, 64]
+		{
+			"name": "run-left",
+			"bounds": {
+				"left": 0,
+				"top": 72,
+				"width": 320,
+				"height": 64
+			}
 		}
-	}
+	]
 }

@@ -1,11 +1,17 @@
 {
-	"states": {
-		"idle": {
+	"states": [
+		{
+			"name": "idle",
 			"frame": {
-				"size": [320, 320],
-				"offset": [0, 0]
+				"width": 320,
+				"height": 320
 			},
-			"bounds": [0, 0, 1280, 320]
+			"bounds": {
+				"left": 0,
+				"top": 0,
+				"width": 1280,
+				"height": 320
+			}
 		}
-	}
+	]
 }

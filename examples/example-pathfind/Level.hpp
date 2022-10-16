@@ -2,26 +2,31 @@
 
 #include <DGM/dgm.hpp>
 
-class Level {
+class Level
+{
 protected:
 	dgm::Mesh mesh;
 	dgm::TileMap tilemap;
 
 public:
-	void draw(dgm::Window &window) {
+	void draw(dgm::Window& window)
+	{
 		window.draw(tilemap);
 	}
 
-	const dgm::Mesh &getMesh() const {
+	const dgm::Mesh& getMesh() const
+	{
 		return mesh;
 	}
 
-	void changeTileToVoid(unsigned x, unsigned y) {
+	void changeTileToVoid(unsigned x, unsigned y)
+	{
 		tilemap.changeTile(x, y, 0);
 		mesh[y * mesh.getDataSize().x + x] = 0;
 	}
 
-	void loadFromFile(const std::string &filename) {
+	void loadFromFile(const std::string& filename)
+	{
 		LevelD lvld;
 		lvld.loadFromFile(filename);
 
@@ -29,14 +34,12 @@ public:
 		tilemap.build(lvld.mesh);
 	}
 
-	Level(sf::Texture& texture) {
+	Level(sf::Texture& texture)
+	{
 		constexpr unsigned TILE_SIZE = 32;
+		auto clip = dgm::Clip({ TILE_SIZE, TILE_SIZE },
+			{ 0, 0, int(texture.getSize().x), int(texture.getSize().y) });
 
-		dgm::Clip clip(
-			{ TILE_SIZE, TILE_SIZE },
-			{ 0, 0, int(texture.getSize().x), int(texture.getSize().y) }
-		);
-
-		tilemap.init(texture, clip);
+		tilemap = dgm::TileMap(texture, std::move(clip));
 	}
 };
