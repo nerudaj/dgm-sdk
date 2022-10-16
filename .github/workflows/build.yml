@@ -12,13 +12,13 @@ env:
 
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: windows-2022
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Setup cmake
-      uses: jwlawson/actions-setup-cmake@v1.9
+      uses: jwlawson/actions-setup-cmake@v1.13
       with:
         cmake-version: '3.19.5'
 
