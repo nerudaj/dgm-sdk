@@ -41,7 +41,7 @@ jobs:
       run: cpack
       
     - name: Store artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: dgm-sdk
         path: ${{env.BUILD_DIR}}/*.zip
@@ -53,7 +53,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Download release artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Unzip artifact
         working-directory: ${{github.workspace}}/dgm-sdk
