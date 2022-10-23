@@ -11,7 +11,7 @@
  */
 
 #include <DGM/dgm.hpp>
-#include "Level.hpp"
+#include "../shared/Level.hpp"
 #include "../ResourceDir.hpp"
 
 class Player

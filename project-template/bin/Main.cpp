@@ -13,36 +13,54 @@ int main(int argc, char* argv[])
 		settings.resourcesDir = args.getArgumentValue('r').asString();
 	settings.skipMainMenu = args.isSet('s');
 
+	dgm::WindowSettings windowSettings = {
+		.resolution = sf::Vector2u(1280, 720),
+		.title = GAME_TITLE,
+		.useFullscreen = false
+	};
+
+	const std::string CFG_FILE_PATH = "app.ini";
+
+	// Load and process ini file
 	cfg::Ini ini;
 	try
 	{
-		ini.loadFromFile("app.ini");
-	}
-	catch (...)
-	{
-		ini["Window"]["width"] = 1280;
-		ini["Window"]["height"] = 720;
-		ini["Window"]["fullscreen"] = false;
-		ini["Window"]["title"] = GAME_TITLE;
-	}
+		ini.loadFromFile(CFG_FILE_PATH);
 
-	if (ini.hasSection("Audio") && ini["Audio"].hasKey("soundVolume"))
+		windowSettings.resolution = sf::Vector2u(
+			unsigned(ini["Window"].at("width").asInt()),
+			unsigned(ini["Window"].at("height").asInt()));
+		windowSettings.title = ini["Window"].at("title").asString();
+		windowSettings.useFullscreen = ini["Window"].at("fullscreen").asBool();
+
 		settings.soundVolume = ini["Audio"].at("soundVolume").asFloat();
-	if (ini.hasSection("Audio") && ini["Audio"].hasKey("musicVolume"))
 		settings.musicVolume = ini["Audio"].at("musicVolume").asFloat();
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 
-	dgm::Window window(ini);
+	// Launch application
+	dgm::Window window(windowSettings);
 	dgm::App app(window);
 
 	app.pushState<AppStateBootstrap>(settings);
 	app.run();
 
-	window.close(ini);
+	auto outWindowSettings = window.close();
 
-	ini["Audio"]["soundVolume"] = settings.soundVolume;
-	ini["Audio"]["musicVolume"] = settings.musicVolume;
+	// Update configuration file
+	cfg::Ini outCfg;
+	outCfg["Window"]["width"] = int(outWindowSettings.resolution.x);
+	outCfg["Window"]["height"] = int(outWindowSettings.resolution.y);
+	outCfg["Window"]["fullscreen"] = outWindowSettings.useFullscreen;
+	outCfg["Window"]["title"] = outWindowSettings.title;
 
-	ini.saveToFile("app.ini");
+	outCfg["Audio"]["soundVolume"] = settings.soundVolume;
+	outCfg["Audio"]["musicVolume"] = settings.musicVolume;
+
+	outCfg.saveToFile(CFG_FILE_PATH);
 
 	return 0;
 }

@@ -1,7 +1,9 @@
-set ( DGM_LIB_VERSION "1.7.0" )
+set ( DGM_LIB_VERSION "1.8.0" )
+set ( DSH_VERSION     "1.7.0" )
 set ( SFML_VERSION    "2.5.1" )
 
 set ( DGM_LIB_URL "https://github.com/nerudaj/dgm-lib/releases/download/v${DGM_LIB_VERSION}/dgm-lib-${DGM_LIB_VERSION}-windows-vc17-x64.zip" )
+set ( DSH_URL   "https://github.com/nerudaj/dsh/releases/download/v${DSH_VERSION}/dsh-${DSH_VERSION}-vc16-64-bit.zip" )
 set ( SFML_URL    "https://github.com/SFML/SFML/releases/download/${SFML_VERSION}/SFML-${SFML_VERSION}-windows-vc15-64-bit.zip" )
 
 include ( FetchContent )
@@ -33,18 +35,34 @@ endfunction ()
 
 # Download dependencies
 fetch_dependency ( SFML ${SFML_URL}    FALSE )
+fetch_dependency ( DSH  ${DSH_URL}     FALSE )
 fetch_dependency ( DGM  ${DGM_LIB_URL} FALSE )
 
 # Verify folder paths
 message ( "Dependencies downloaded to: " )
 message ( "  DGM:  ${DGM_FOLDER}" )
+message ( "  DSH:   ${DSH_FOLDER}" )
 message ( "  SFML: ${SFML_FOLDER}" )
 
 # Make libraries visible to cmake linker
+link_directories("${DSH_FOLDER}/lib")
 link_directories("${DGM_FOLDER}/lib")
 link_directories("${SFML_FOLDER}/lib")
 
 # Create symbols for linking libcfg, libstrings, libleveld and SFML
+message ( "Looking for dsh libs" )
+find_library(LIB_CFG_D config-d  NAMES config-d.lib  HINTS "${DSH_FOLDER}/lib")
+find_library(LIB_STR_D strings-d NAMES strings-d.lib HINTS "${DSH_FOLDER}/lib")
+find_library(LIB_LVLD_D leveld-d NAMES leveld-d.lib HINTS "${DSH_FOLDER}/lib")
+
+find_library(LIB_CFG_R config  NAMES config.lib  HINTS "${DSH_FOLDER}/lib")
+find_library(LIB_STR_R strings NAMES strings.lib HINTS "${DSH_FOLDER}/lib")
+find_library(LIB_LVLD_R leveld NAMES leveld.lib HINTS "${DSH_FOLDER}/lib")
+
+set(LIB_CFG optimized ${LIB_CFG_R} debug ${LIB_CFG_D})
+set(LIB_STR optimized ${LIB_STR_R} debug ${LIB_STR_D})
+set(LIB_LVLD optimized ${LIB_LVLD_R} debug ${LIB_LVLD_D})
+message ( "OK" )
 
 message ( "Looking for libdgm" )
 find_library(LIB_DGM_D libdgm-d  NAMES libdgm-d.lib  HINTS "${DGM_FOLDER}/lib")

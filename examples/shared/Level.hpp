@@ -1,6 +1,7 @@
 #pragma once
 
 #include <DGM/dgm.hpp>
+#include <LevelD.hpp>
 
 class Level
 {
@@ -30,8 +31,15 @@ public:
 		LevelD lvld;
 		lvld.loadFromFile(filename);
 
-		mesh = dgm::Mesh(lvld.mesh);
-		tilemap.build(lvld.mesh);
+		mesh = dgm::Mesh(
+			lvld.mesh.layers[0].blocks,
+			sf::Vector2u(lvld.mesh.layerWidth, lvld.mesh.layerHeight),
+			sf::Vector2u(lvld.mesh.tileWidth, lvld.mesh.tileHeight));
+
+		tilemap.build(
+			sf::Vector2u(lvld.mesh.tileWidth, lvld.mesh.tileHeight),
+			std::vector<int>(lvld.mesh.layers[0].tiles.begin(), lvld.mesh.layers[0].tiles.end()),
+			sf::Vector2u(lvld.mesh.layerWidth, lvld.mesh.layerHeight));
 	}
 
 	Level(sf::Texture& texture)
