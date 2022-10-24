@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Config.hpp>
-
 struct Settings
 {
 	float soundVolume = 50.f;

@@ -79,6 +79,7 @@ target_include_directories ( ${PROJECT_NAME}
 	PUBLIC "${DGM_FOLDER}/include"
 	PUBLIC "${SFML_FOLDER}/include"
 	PUBLIC "${TGUI_FOLDER}/include"
+	PUBLIC "${DSH_FOLDER}/include"
 )
 
 target_link_libraries ( ${PROJECT_NAME}

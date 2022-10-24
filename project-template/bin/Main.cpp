@@ -1,5 +1,6 @@
 #include <DGM/dgm.hpp>
 #include <core/GameTitle.hpp>
+#include <Config.hpp>
 
 #include <app/AppStateBootstrap.hpp>
 

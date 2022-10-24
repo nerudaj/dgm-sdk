@@ -15,6 +15,7 @@ target_include_directories ( ${PROJECT_NAME}
 	PRIVATE  "${SFML_FOLDER}/include"
 	PRIVATE  "${DGM_FOLDER}/include"
 	PRIVATE  "${DGM_FOLDER}/include/include"
+	PRIVATE  "${DSH_FOLDER}"
 )
 
 target_compile_features ( ${PROJECT_NAME}
