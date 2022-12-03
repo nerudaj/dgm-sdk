@@ -94,9 +94,8 @@ if ( "${LIB_DGM_FSM_R}" EQUAL "LIB_DGM_FSM_R-NOTFOUND" )
 	message ( FATAL_ERROR "Cannot find libfsm.lib" )
 endif()
 
-set(LIB_DGM optimized ${LIB_DGM_R} debug ${LIB_DGM_D})
+set(LIB_DGM_FSM optimized ${LIB_DGM_FSM_R} debug ${LIB_DGM_FSM_D})
 message ( "OK" )
-
 
 message ( "Looking for SFML" )
 find_library ( LIB_SFML_MAIN_D "sfml-main-d" NAMES "sfml-main-d.lib" HINTS "${SFML_FOLDER}/lib" )

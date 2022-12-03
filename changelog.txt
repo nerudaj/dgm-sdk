@@ -1,6 +1,10 @@
 dgm-sdk v1.4.x changelog:
  * Examples
 	* Added example-simple-ai showcasing how to use dgm-fsm-lib
+ * Project template
+	* Integrated dgm-fsm-lib for construcing AI targeted final state machines
+		* NOTE: Include <DGM/fsm.hpp> when you want to use it
+
 dgm-sdk v1.4.0 changelog:
  * General
 	* Bumped dgm-lib to v1.8.1

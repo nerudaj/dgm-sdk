@@ -83,7 +83,7 @@ target_include_directories ( ${PROJECT_NAME}
 )
 
 target_link_libraries ( ${PROJECT_NAME}
-	${LIB_DGM} ${LIB_SFML} ${LIB_TGUI}
+	${LIB_DGM} ${LIB_SFML} ${LIB_TGUI} ${LIB_DGM_FSM}
 )
 
 target_compile_features( ${PROJECT_NAME}
