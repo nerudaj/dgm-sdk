@@ -1,8 +1,10 @@
 set ( DGM_LIB_VERSION "1.8.1" )
+set ( DGM_FSM_LIB_VERSION "1.0.0" )
 set ( DSH_VERSION     "1.7.0" )
 set ( SFML_VERSION    "2.5.1" )
 
 set ( DGM_LIB_URL "https://github.com/nerudaj/dgm-lib/releases/download/v${DGM_LIB_VERSION}/dgm-lib-${DGM_LIB_VERSION}-windows-vc17-x64.zip" )
+set ( DGM_FSM_LIB_URL "https://github.com/nerudaj/dgm-fsm-lib/releases/download/v1.0.0/dgm-fsm-lib-${DGM_FSM_LIB_VERSION}-windows-vc17-x64.zip" )
 set ( DSH_URL   "https://github.com/nerudaj/dsh/releases/download/v${DSH_VERSION}/dsh-${DSH_VERSION}-vc16-64-bit.zip" )
 set ( SFML_URL    "https://github.com/SFML/SFML/releases/download/${SFML_VERSION}/SFML-${SFML_VERSION}-windows-vc15-64-bit.zip" )
 
@@ -37,16 +39,19 @@ endfunction ()
 fetch_dependency ( SFML ${SFML_URL}    FALSE )
 fetch_dependency ( DSH  ${DSH_URL}     FALSE )
 fetch_dependency ( DGM  ${DGM_LIB_URL} FALSE )
+fetch_dependency ( DGM_FSM  ${DGM_FSM_LIB_URL} FALSE )
 
 # Verify folder paths
 message ( "Dependencies downloaded to: " )
 message ( "  DGM:  ${DGM_FOLDER}" )
 message ( "  DSH:   ${DSH_FOLDER}" )
 message ( "  SFML: ${SFML_FOLDER}" )
+message ( "  FSM:  ${DGM_FSM_LIB_VERSION}" )
 
 # Make libraries visible to cmake linker
 link_directories("${DSH_FOLDER}/lib")
 link_directories("${DGM_FOLDER}/lib")
+link_directories("${DGM_FSM_FOLDER}/lib")
 link_directories("${SFML_FOLDER}/lib")
 
 # Create symbols for linking libcfg, libstrings, libleveld and SFML
@@ -77,6 +82,21 @@ endif()
 
 set(LIB_DGM optimized ${LIB_DGM_R} debug ${LIB_DGM_D})
 message ( "OK" )
+
+message ( "Looking for libfsm" )
+find_library(LIB_DGM_FSM_D libfsm-d  NAMES libfsm-d.lib  HINTS "${DGM_FSM_FOLDER}/lib")
+if ( "${LIB_DGM_FSM_D}" EQUAL "LIB_DGM_FSM_D-NOTFOUND" )
+	message ( FATAL_ERROR "Cannot find libfsm-d.lib" )
+endif()
+
+find_library(LIB_DGM_FSM_R libfsm  NAMES libfsm.lib  HINTS "${DGM_FSM_FOLDER}/lib")
+if ( "${LIB_DGM_FSM_R}" EQUAL "LIB_DGM_FSM_R-NOTFOUND" )
+	message ( FATAL_ERROR "Cannot find libfsm.lib" )
+endif()
+
+set(LIB_DGM optimized ${LIB_DGM_R} debug ${LIB_DGM_D})
+message ( "OK" )
+
 
 message ( "Looking for SFML" )
 find_library ( LIB_SFML_MAIN_D "sfml-main-d" NAMES "sfml-main-d.lib" HINTS "${SFML_FOLDER}/lib" )

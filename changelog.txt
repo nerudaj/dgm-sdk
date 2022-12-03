@@ -1,3 +1,6 @@
+dgm-sdk v1.4.x changelog:
+ * Examples
+	* Added example-simple-ai showcasing how to use dgm-fsm-lib
 dgm-sdk v1.4.0 changelog:
  * General
 	* Bumped dgm-lib to v1.8.1

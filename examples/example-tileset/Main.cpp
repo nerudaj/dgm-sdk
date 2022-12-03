@@ -1,7 +1,5 @@
 /**
- *  \file 10_tileset.cpp
- *
- *  \details This example showcases dgm::Tileset as a way of drawing tileset based levels.
+ *  This example showcases dgm::Tileset as a way of drawing tileset based levels.
  *  Since dshlibs are included into DGM installation, it also showcases how to use LevelD
  *  class (and file format) to export and import levels. LevelD can do much more in terms
  *  of levels, it can store player, item and NPC informations, feel free to explore the
@@ -12,6 +10,7 @@
 
 #include <DGM/dgm.hpp>
 #include "../shared/Level.hpp"
+#include "../shared/DemoData.hpp"
 #include "../ResourceDir.hpp"
 
 class Player
@@ -61,60 +60,8 @@ public:
 	}
 };
 
-void exportLevel()
-{
-	LevelD lvld;
-
-	// Once a certain attribute of lvld is initialized, it will become the part of export
-	// You don't pay for modules you don't use
-	lvld.metadata.author = "dgm-examples";
-	lvld.metadata.description = "Basic level for example10";
-	lvld.metadata.timestamp = time(NULL);
-	lvld.metadata.id = "EXAMPLE_10";
-	lvld.metadata.name = "Example Level";
-
-	// This affects collision/render size of the tiles, disregarding texture resolution
-	lvld.mesh.tileWidth = 64;
-	lvld.mesh.tileHeight = 64;
-
-	lvld.mesh.layerWidth = 10;
-	lvld.mesh.layerHeight = 10;
-	// Indices of tiles in tileset
-	LevelD::TileLayer layer;
-	layer.tiles = {
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 2, 2, 0, 0, 0, 0, 1,
-		1, 0, 2, 3, 3, 2, 0, 0, 0, 1,
-		1, 0, 0, 2, 2, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 2, 1,
-		1, 0, 0, 0, 0, 0, 0, 2, 2, 1,
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	};
-	// Collision information
-	layer.blocks = {
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 1, 1, 0, 0, 0, 0, 1,
-		1, 0, 1, 1, 1, 1, 0, 0, 0, 1,
-		1, 0, 0, 1, 1, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-		1, 0, 0, 0, 0, 0, 0, 1, 1, 1,
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	};
-	lvld.mesh.layers.push_back(layer);
-
-	lvld.saveToFile("level.lvd");
-}
-
 int main()
 {
-	exportLevel();
-
 	dgm::Window window({ 1280, 720 }, "Example: Tileset", false);
 	dgm::Time time;
 
@@ -123,7 +70,7 @@ int main()
 	resmgr.loadResourceDir<sf::Texture>(RESOURCE_DIR, { ".png" });
 
 	Level level(resmgr.get<sf::Texture>("tileset.png"));
-	level.loadFromFile("level.lvd");
+	level.loadFromLvd(DemoData::createDemoLevel());
 
 	Player player;
 
