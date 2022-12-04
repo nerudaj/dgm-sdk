@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
         time.reset();
 
         player.update(time, scene);
-        npcBrain.update(time, scene);
+        npcBrain.update(scene);
         npc.update(time, scene);
 
         /* DRAW */
