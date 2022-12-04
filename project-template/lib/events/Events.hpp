@@ -5,7 +5,8 @@
 #include "game/EntityTable.hpp"
 
 // Add dedicated structure for each event
-struct EventPlaySound {
+struct EventPlaySound
+{
 	std::string name = "";
 	unsigned channel = 0;
 	bool force = false;
@@ -17,7 +18,8 @@ typedef std::variant<
 	//, EventSomething...
 > EventType;
 
-class EventProcessor {
+class EventProcessor
+{
 protected:
 	EntityTable& entityTable;
 

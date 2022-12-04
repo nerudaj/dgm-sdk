@@ -6,6 +6,7 @@
 
 #include <DGM/dgm.hpp>
 #include "../shared/Level.hpp"
+#include "../shared/DemoData.hpp"
 #include "../ResourceDir.hpp"
 
 class Actor
@@ -77,67 +78,9 @@ public:
 	Actor(const dgm::Mesh& mesh) : navMesh(mesh) {}
 };
 
-void exportLevel(const std::string& filename)
-{
-	LevelD lvld;
-
-	// Once a certain attribute of lvld is initialized, it will become the part of export
-	// You don't pay for modules you don't use
-
-	// This affects collision/render size of the tiles, disregarding texture resolution
-	lvld.mesh.tileWidth = 64;
-	lvld.mesh.tileHeight = 64;
-
-	lvld.mesh.layerWidth = 15;
-	lvld.mesh.layerHeight = 15;
-	// Indices of tiles in tileset
-	LevelD::TileLayer layer;
-	layer.tiles = {
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
-		1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1,
-		1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1,
-		1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	};
-	// Collision information
-	layer.blocks = {
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
-		1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1,
-		1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1,
-		1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	};
-	lvld.mesh.layers.push_back(layer);
-
-	lvld.saveToFile(filename);
-}
-
 int main()
 {
-	const std::string LEVELD_FILENAME = "level.lvd";
-	exportLevel(LEVELD_FILENAME);
-
-	dgm::Window window({ 1280, 980 }, "Example: Tileset", false);
+	dgm::Window window({ 1280, 980 }, "Example: Pathfind", false);
 	dgm::Time time;
 
 	dgm::JsonLoader loader;
@@ -145,7 +88,7 @@ int main()
 	resmgr.loadResourceDir<sf::Texture>(RESOURCE_DIR, { ".png" });
 
 	Level level(resmgr.get<sf::Texture>("tileset.png"));
-	level.loadFromFile(LEVELD_FILENAME);
+	level.loadFromLvd(DemoData::createDemoLevel());
 
 	Actor actor(level.getMesh());
 
