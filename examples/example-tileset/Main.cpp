@@ -70,7 +70,7 @@ int main()
 	resmgr.loadResourceDir<sf::Texture>(RESOURCE_DIR, { ".png" });
 
 	Level level(resmgr.get<sf::Texture>("tileset.png"));
-	level.loadFromLvd(DemoData::createDemoLevel());
+	level.loadFromLvd(DemoData::createDemoLevel2());
 
 	Player player;
 

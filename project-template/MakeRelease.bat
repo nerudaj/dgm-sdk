@@ -8,7 +8,7 @@ rd /s /q %BUILDDIR%
 echo Configuring
 mkdir %BUILDDIR%
 cd %BUILDDIR%
-cmake ..
+cmake .. -DDISABLE_BENCHMARKS=ON
 rem When executed from script, first call to cmake tends to fail, rerun will properly configure the project 
 cmake ..
 

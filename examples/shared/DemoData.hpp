@@ -2,7 +2,10 @@
 
 #include "include/LevelD.hpp"
 
-class DemoData {
+class DemoData
+{
 public:
 	static LevelD createDemoLevel();
+
+	static LevelD createDemoLevel2();
 };
