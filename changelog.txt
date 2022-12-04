@@ -1,4 +1,4 @@
-dgm-sdk v1.4.x changelog:
+dgm-sdk v1.4.1 changelog:
  * General
 	* Bumped dgm-lib to v1.8.2
  * Examples
