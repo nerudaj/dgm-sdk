@@ -1,3 +1,7 @@
+dgm-sdk v1.x.x changelog:
+ * General
+	* DGM Level Editor is now bundled with SDK (v2.0.1)
+
 dgm-sdk v1.4.1 changelog:
  * General
 	* Bumped dgm-lib to v1.8.2
