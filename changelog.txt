@@ -1,6 +1,8 @@
 dgm-sdk v1.x.x changelog:
  * General
 	* DGM Level Editor is now bundled with SDK (v2.0.2)
+ * Project template
+	* Bumped TGUI to 0.8.9
 
 dgm-sdk v1.4.1 changelog:
  * General

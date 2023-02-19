@@ -2,7 +2,7 @@ set ( DGM_LIB_VERSION     "1.8.2" )
 set ( DGM_FSM_LIB_VERSION "1.1.0" )
 set ( DSH_VERSION         "1.7.0" )
 set ( SFML_VERSION        "2.5.1" )
-set ( TGUI_VERSION        "0.8.6" )
+set ( TGUI_VERSION        "0.8.9" )
 set ( CATCH_VERSION       "2.10.2" )
 
 set ( DGM_LIB_URL "https://github.com/nerudaj/dgm-lib/releases/download/v${DGM_LIB_VERSION}/dgm-lib-${DGM_LIB_VERSION}-windows-vc17-x64.zip" )
