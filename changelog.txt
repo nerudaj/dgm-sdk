@@ -3,6 +3,7 @@ dgm-sdk v1.x.x changelog:
 	* DGM Level Editor is now bundled with SDK (v2.0.2)
  * Project template
 	* Bumped TGUI to 0.8.9
+	* Google Benchmark is no longer included by default (use -DENABLE_BENCHMARKS=ON to include it)
 
 dgm-sdk v1.4.1 changelog:
  * General

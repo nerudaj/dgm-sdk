@@ -9,7 +9,7 @@ include ( "${CMAKE_SOURCE_DIR}/cmake/utils.cmake" )
 project ( "${SETTINGS_PROJECT_NAME}" )
 
 option ( DISABLE_TESTING    "Disable unit test projects" OFF )
-option ( DISABLE_BENCHMARKS "Disable benchmarking projects" OFF )
+option ( ENABLE_BENCHMARKS "Disable benchmarking projects" OFF )
 option ( CACHE_THIRD_PARTY  "Downloaded dependencies will be stored outside of build dir" OFF )
 
 if ( ${CACHE_THIRD_PARTY} )

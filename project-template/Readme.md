@@ -29,7 +29,7 @@ You can customize your configuration by adding following flags:
 
  * `-DCACHE_THIRD_PARTY=ON`: This will download dependencies to the root folder under `deps` instead of your build folder. This is useful if you often reconfigure without access to the internet.
  * `-DDISABLE_TESTING=ON`: If you don't want to have unit testing projects, use this option to disable their configuration. `ctest` command will also be disabled.
- * `-DDISABLE_BENCHMARKS=ON`: Use this so Google Benchmark is not integrated with your project. This actually speeds up build times and removes about three projects from the solution.
+ * `-DENABLE_BENCHMARKS=OFF`: Use this to automatically include Google Benchmark into your project
 
 ## How to customize
 
