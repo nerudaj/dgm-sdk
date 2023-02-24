@@ -1,9 +1,10 @@
 #pragma once
 
-#include "events/Events.hpp"
 #include <vector>
 #include <concepts>
 #include <memory>
+
+#include <events/EventProcessor.hpp>
 
 /**
  *  This is a storage object for object generated each frame
@@ -16,7 +17,7 @@
  *  some EventProcessor. Once the whole queue is processed, all
  *  events are deleted.
  */
-class EventQueue
+class EventQueue final
 {
 protected:
 	std::vector<EventType> events;

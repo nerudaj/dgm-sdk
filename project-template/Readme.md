@@ -46,3 +46,15 @@ Edit file `cmake/version.cmake`
 ## Skipping main menu
 
 If you run the binary with parameter `-s`, it will skip the main menu and jump right into the game. If you exit the game, you'll be returned into main menu.
+
+## Starting development
+
+Your entry point for development is the class `AppStateIngame` and its two attributes `game` and `renderer`. The `Game` class is supposed to do all the logic during each frame - update player position, process event queue, update camera. The `Renderer` is supposed to do everything related to rendering - draw the game world and HUD (these are separated to two functions. The difference is that HUD method uses screen space coordinates while the world method renders everything in relation to world coordinates and it scrolled by changing the camera position.
+
+When you're adding any new entity, it is recommended to add reference to it to the `EntityTable` struct which acts as a scene container. Communication between components (like firing a projectile or playing a sound) is handled via events. When adding new event, add a structure with required data to the `Events.hpp` header and then add a processing method to `EventProcessor` class. Events use a double displatch mechanism for processing.
+
+When you want to create an event, call `EventQueue::add` to do so (it is a static method, can be called from anywhere).
+
+## Resource files
+
+Place your assets under the `resources` folder. It contains several subfolders for various kinds of assets. The `AppStateResourceLoader` class auto loads certain kinds of assets from these folder into `dgm::ResourceManager` that is passed down into the `AppStateIngame`.

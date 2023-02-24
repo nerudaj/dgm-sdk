@@ -2,7 +2,7 @@
 #include <core/GameTitle.hpp>
 #include <Config.hpp>
 
-#include <app/AppStateBootstrap.hpp>
+#include <app/AppStateResourceLoader.hpp>
 
 int main(int argc, char* argv[])
 {
@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
 	dgm::Window window(windowSettings);
 	dgm::App app(window);
 
-	app.pushState<AppStateBootstrap>(settings);
+	app.pushState<AppStateResourceLoader>(settings);
 	app.run();
 
 	auto outWindowSettings = window.close();

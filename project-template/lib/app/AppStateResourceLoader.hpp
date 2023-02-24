@@ -4,7 +4,7 @@
 #include "core/Settings.hpp"
 #include "core/AudioPlayer.hpp"
 
-class AppStateBootstrap : public dgm::AppState
+class AppStateResourceLoader : public dgm::AppState
 {
 private:
 	Settings& settings;
@@ -21,5 +21,5 @@ public:
 		return false;
 	}
 
-	AppStateBootstrap(dgm::App& app, Settings& settings);
+	AppStateResourceLoader(dgm::App& app, Settings& settings);
 };

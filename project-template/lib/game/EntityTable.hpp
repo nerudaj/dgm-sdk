@@ -2,7 +2,10 @@
 
 #include "core/AudioPlayer.hpp"
 
-struct EntityTable {
-	AudioPlayer &audioPlayer;
-	// add references to other entities here
+struct EntityTable
+{
+	// add references to other entities like:
+	// player
+	// npcs
+	// level
 };
