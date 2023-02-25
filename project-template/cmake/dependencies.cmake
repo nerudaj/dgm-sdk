@@ -1,6 +1,6 @@
 set ( DGM_LIB_VERSION     "1.8.2" )
 set ( DGM_FSM_LIB_VERSION "1.1.0" )
-set ( DSH_VERSION         "1.7.0" )
+set ( DSH_VERSION         "1.7.2" )
 set ( SFML_VERSION        "2.5.1" )
 set ( TGUI_VERSION        "0.8.9" )
 set ( CATCH_VERSION       "2.10.2" )

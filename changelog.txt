@@ -6,6 +6,7 @@ dgm-sdk v1.x.x changelog:
 	* Broken down AppStateIngame into Game and Renderer classes with their own responsibilities
 	* Removed demo entities
 	* Turned on precompiled headers for faster build times
+	* Updated dshlibs to v1.7.2
 
 dgm-sdk v1.4.2 changelog:
  * General
