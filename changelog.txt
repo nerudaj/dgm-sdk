@@ -1,9 +1,11 @@
 dgm-sdk v1.x.x changelog:
+ * General
+	* Bumped DGM Level Editor to v2.1.0 and moved it's install location under `project-template`
  * Project template
 	* Updated readme
-	* Renamed AppStateBootstrap to AppStateResourceLoader
+	* Renamed `AppStateBootstrap` to AppStateResourceLoader`
 	* Changed resources folder structure
-	* Broken down AppStateIngame into Game and Renderer classes with their own responsibilities
+	* Broken down `AppStateIngame` into `Game` and `Renderer` classes with their own responsibilities
 	* Removed demo entities
 	* Turned on precompiled headers for faster build times
 	* Updated dshlibs to v1.7.2
