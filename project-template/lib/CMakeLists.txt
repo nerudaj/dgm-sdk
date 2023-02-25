@@ -94,6 +94,27 @@ target_compile_options ( ${PROJECT_NAME}
 	PRIVATE /MP
 )
 
+target_precompile_headers ( ${PROJECT_NAME}
+	PRIVATE
+		<vector>
+		<format>
+		<map>
+		<unordered_map>
+		<array>
+		<optional>
+		<expected>
+		<fstream>
+		<filesystem>
+		<functional>
+		<concepts>
+		<memory>
+		<string>
+		<cstdint>
+		<variant>
+		<DGM/dgm.hpp>
+		<TGUI/tgui.hpp>
+)
+
 if ( ${ENABLE_BENCHMARKS} )
 	add_subdirectory ( benchmarks )
 endif()

@@ -5,6 +5,7 @@ dgm-sdk v1.x.x changelog:
 	* Changed resources folder structure
 	* Broken down AppStateIngame into Game and Renderer classes with their own responsibilities
 	* Removed demo entities
+	* Turned on precompiled headers for faster build times
 
 dgm-sdk v1.4.2 changelog:
  * General
