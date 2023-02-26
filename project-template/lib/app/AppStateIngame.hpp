@@ -2,7 +2,8 @@
 
 #include <DGM\dgm.hpp>
 #include "core/Settings.hpp"
-#include "events/Events.hpp"
+#include "core/AudioPlayer.hpp"
+#include "events/EventProcessor.hpp"
 #include "game/Game.hpp"
 #include "game/Renderer.hpp"
 
@@ -42,9 +43,13 @@ protected:
 	dgm::Camera camera = dgm::Camera(worldView);
 
 	Game game = Game(
-		camera,
-		audioPlayer);
+		camera);
 	Renderer renderer = Renderer(
 		resmgr,
 		game);
+	EventProcessor eventProcessor = EventProcessor(
+		audioPlayer,
+		game,
+		renderer,
+		app);
 };

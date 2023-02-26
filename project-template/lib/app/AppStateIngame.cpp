@@ -35,6 +35,9 @@ void AppStateIngame::input()
 void AppStateIngame::update()
 {
 	game.update(app.time);
+
+	// At the end of each update, process the event queue
+	EventQueue::process(eventProcessor);
 }
 
 void AppStateIngame::draw()

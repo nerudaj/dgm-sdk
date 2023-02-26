@@ -4,15 +4,12 @@
 
 #include <game/EntityTable.hpp>
 #include <game/FpsCounter.hpp>
-#include <core/AudioPlayer.hpp>
-#include <events/EventProcessor.hpp>
 
 class Game
 {
 public:
 	Game(
-		dgm::Camera& camera,
-		AudioPlayer& audioPlayer);
+		dgm::Camera& camera);
 
 public:
 	void update(const dgm::Time& time);
@@ -24,15 +21,17 @@ public:
 		return fpsCounter;
 	}
 
+	[[nodiscard]]
+	EntityTable& getEntities() noexcept
+	{
+		return entityTable;
+	}
+
 protected:
 	// Dependencies
 	dgm::Camera& camera;
-	AudioPlayer& audioPlayer;
 
 	// Attributes
 	FpsCounter fpsCounter;
 	EntityTable entityTable = {};
-	EventProcessor eventProcessor = EventProcessor(
-		audioPlayer,
-		entityTable);
 };
