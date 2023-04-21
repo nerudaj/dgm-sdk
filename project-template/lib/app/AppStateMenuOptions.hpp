@@ -3,23 +3,36 @@
 #include "GuiState.hpp"
 #include "core/Settings.hpp"
 
-class AppStateMenuOptions : public dgm::AppState, public GuiState {
+class AppStateMenuOptions : public dgm::AppState, public GuiState
+{
 protected:
-	Settings &settings;
+    Settings& settings;
 
-	void buildLayout();
+    void buildLayout();
 
 public:
-	virtual void input() override;
-	virtual void update() override {}
-	virtual void draw() override { gui.draw(); }
-	virtual [[nodiscard]] bool isTransparent() const noexcept override {
-		return false;
-	}
+    virtual void input() override;
 
-	virtual [[nodiscard]] sf::Color getClearColor() const override {
-		return sf::Color::White;
-	}
+    virtual void update() override {}
 
-	AppStateMenuOptions(dgm::App& app, const dgm::ResourceManager& resmgr, AudioPlayer& audioPlayer, Settings& settings);
+    virtual void draw() override
+    {
+        gui.draw();
+    }
+
+    virtual [[nodiscard]] bool isTransparent() const noexcept override
+    {
+        return false;
+    }
+
+    virtual [[nodiscard]] sf::Color getClearColor() const override
+    {
+        return sf::Color::White;
+    }
+
+    AppStateMenuOptions(
+        dgm::App& app,
+        const dgm::ResourceManager& resmgr,
+        AudioPlayer& audioPlayer,
+        Settings& settings);
 };

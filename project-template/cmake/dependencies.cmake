@@ -26,6 +26,7 @@ function ( fetch_dependency name url headeronly )
 	else ()
 		FetchContent_Declare ( ${name}
 			URL ${url}
+			DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 		)
 	endif ()
 	

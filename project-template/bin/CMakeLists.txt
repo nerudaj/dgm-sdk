@@ -1,5 +1,10 @@
 cmake_minimum_required ( VERSION 3.19 )
 
+file (
+	COPY "${CMAKE_BINARY_DIR}/.clang-format"
+	DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}"
+)
+
 project ( "${SETTINGS_BINARY_NAME}" )
 copy_dlls_to_build_folders()
 
@@ -17,6 +22,7 @@ configure_file (
 # Create final executable
 add_executable ( ${PROJECT_NAME} WIN32
 	Main.cpp
+	"${CMAKE_CURRENT_SOURCE_DIR}/.clang-format"
 )
 
 target_link_libraries ( ${PROJECT_NAME}

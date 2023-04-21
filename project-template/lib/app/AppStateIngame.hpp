@@ -1,55 +1,49 @@
 #pragma once
 
-#include <DGM\dgm.hpp>
-#include "core/Settings.hpp"
 #include "core/AudioPlayer.hpp"
+#include "core/Settings.hpp"
 #include "events/EventProcessor.hpp"
 #include "game/Game.hpp"
 #include "game/Renderer.hpp"
+#include <DGM\dgm.hpp>
 
 class AppStateIngame final : public dgm::AppState
 {
 public:
-	AppStateIngame(
-		dgm::App& app,
-		const dgm::ResourceManager& resmgr,
-		Settings& settings,
-		AudioPlayer& audioPlayer);
+    AppStateIngame(
+        dgm::App& app,
+        const dgm::ResourceManager& resmgr,
+        Settings& settings,
+        AudioPlayer& audioPlayer);
 
 public:
-	virtual void input() override;
-	virtual void update() override;
-	virtual void draw() override;
-	virtual [[nodiscard]] bool isTransparent() const noexcept override
-	{
-		return false;
-	}
+    virtual void input() override;
+    virtual void update() override;
+    virtual void draw() override;
 
-	virtual void restoreFocus() override
-	{
-		setupViews();
-	}
+    virtual [[nodiscard]] bool isTransparent() const noexcept override
+    {
+        return false;
+    }
 
-
-protected:
-	void setupViews();
+    virtual void restoreFocus() override
+    {
+        setupViews();
+    }
 
 protected:
-	const dgm::ResourceManager& resmgr;
-	Settings& settings;
-	AudioPlayer& audioPlayer;
+    void setupViews();
 
-	sf::View worldView, hudView;
-	dgm::Camera camera = dgm::Camera(worldView);
+protected:
+    const dgm::ResourceManager& resmgr;
+    Settings& settings;
+    AudioPlayer& audioPlayer;
 
-	Game game = Game(
-		camera);
-	Renderer renderer = Renderer(
-		resmgr,
-		game);
-	EventProcessor eventProcessor = EventProcessor(
-		audioPlayer,
-		game,
-		renderer,
-		app);
+    sf::View worldView, hudView;
+    dgm::Camera camera = dgm::Camera(worldView);
+
+    Game game = Game(camera);
+    Renderer renderer = Renderer(resmgr, game);
+    EventProcessor eventProcessor =
+        EventProcessor(audioPlayer, game, renderer, app);
 };

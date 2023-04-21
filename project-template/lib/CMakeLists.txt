@@ -1,5 +1,10 @@
 cmake_minimum_required ( VERSION 3.19 )
 
+file (
+	COPY "${CMAKE_BINARY_DIR}/.clang-format"
+	DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}"
+)
+
 project ( game-lib )
 
 configure_file (
@@ -70,7 +75,7 @@ add_library ( ${PROJECT_NAME} STATIC
 	${CORE_HEADERS} ${CORE_SOURCES}
 	${EVENTS_HEADERS} ${EVENTS_SOURCES}
 	${GAME_HEADERS} ${GAME_SOURCES}
-	"${CMAKE_CURRENT_SOURCE_DIR}/.editorconfig"
+	"${CMAKE_CURRENT_SOURCE_DIR}/.clang-format"
 )
 
 target_include_directories ( ${PROJECT_NAME}
