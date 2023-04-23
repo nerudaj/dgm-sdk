@@ -78,7 +78,6 @@ int main()
 	);
 
 	dgm::Animation soldierAnimation(resmgr.get<dgm::AnimationStates>("soldier_config.json"));
-	soldierAnimation.bindSprite(soldierSprite);
 	soldierAnimation.setState("idle", true);
 	soldierAnimation.setSpeed(4);
 
@@ -142,6 +141,7 @@ int main()
 
 		effectFountain.draw(window);
 
+		soldierSprite.setTextureRect(soldierAnimation.getCurrentFrame());
 		window.draw(soldierSprite);
 		effectBloodSpatter.draw(window);
 
