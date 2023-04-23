@@ -1,4 +1,4 @@
-set ( DGM_LIB_VERSION "1.8.2" )
+set ( DGM_LIB_VERSION "1.9.0" )
 set ( DGM_FSM_LIB_VERSION "1.1.0" )
 set ( DSH_VERSION     "1.7.0" )
 set ( SFML_VERSION    "2.5.1" )
@@ -22,6 +22,7 @@ function ( fetch_dependency name url headeronly )
 	else ()
 		FetchContent_Declare ( ${name}
 			URL ${url}
+			DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 		)
 	endif ()
 	
@@ -46,7 +47,7 @@ message ( "Dependencies downloaded to: " )
 message ( "  DGM:  ${DGM_FOLDER}" )
 message ( "  DSH:   ${DSH_FOLDER}" )
 message ( "  SFML: ${SFML_FOLDER}" )
-message ( "  FSM:  ${DGM_FSM_LIB_VERSION}" )
+message ( "  FSM:  ${DGM_FSM_FOLDER}" )
 
 # Make libraries visible to cmake linker
 link_directories("${DSH_FOLDER}/lib")
