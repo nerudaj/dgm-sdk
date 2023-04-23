@@ -2,7 +2,7 @@ cmake_minimum_required ( VERSION 3.22 )
 
 project ( level-editor )
 
-set ( DGM_LVEDIT_VERSION "2.1.0" )
+set ( DGM_LVEDIT_VERSION "2.1.1" )
 set ( DGM_LVEDIT_FILENAME "dgm-level-editor-project-${DGM_LVEDIT_VERSION}-windows-x64.zip" )
 set ( DGM_LVEDIT_URL "https://github.com/nerudaj/DGM-Level-Editor/releases/download/v${DGM_LVEDIT_VERSION}/${DGM_LVEDIT_FILENAME}" )
 

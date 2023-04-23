@@ -1,3 +1,9 @@
+dgm-sdk v1.x.x changelog:
+ * General
+	* Bumped DGM Level Editor to v2.1.1
+ * Project template
+	* Reworked dependencies of EventProcessor class
+
 dgm-sdk v1.5.0 changelog:
  * General
 	* Bumped DGM Level Editor to v2.1.0 and moved it's install location under `project-template`
