@@ -6,8 +6,8 @@ SDK for making games build on SFML, TGUI and dgm-lib. It builds directly atop of
 
 # Dependencies
 
- * cmake 3.19 - Newer versions might have some issues with FetchContent
- * newest Visual Studio
+ * cmake 3.26 - Newer versions might have some issues with FetchContent
+ * Up-to-date Visual Studio (C++23 support required)
  
 All required dependencies (dgm-lib, SFML, TGUI, etc) are automatically downloaded and linked via CMake.
 

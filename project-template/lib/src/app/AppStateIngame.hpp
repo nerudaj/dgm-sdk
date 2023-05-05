@@ -5,12 +5,12 @@
 #include "events/EventProcessor.hpp"
 #include "game/Game.hpp"
 #include "game/Renderer.hpp"
-#include <DGM\dgm.hpp>
+#include <DGM/dgm.hpp>
 
 class AppStateIngame final : public dgm::AppState
 {
 public:
-    AppStateIngame(
+    [[nodiscard]] AppStateIngame(
         dgm::App& app,
         const dgm::ResourceManager& resmgr,
         Settings& settings,
@@ -26,23 +26,19 @@ public:
         return false;
     }
 
-    virtual void restoreFocus() override
-    {
-        setupViews();
-    }
-
-protected:
-    void setupViews();
+    virtual void restoreFocus() override {}
 
 protected:
     const dgm::ResourceManager& resmgr;
     Settings& settings;
     AudioPlayer& audioPlayer;
 
-    sf::View worldView, hudView;
-    dgm::Camera camera = dgm::Camera(worldView);
+    const sf::FloatRect FULLSCREEN_VIEWPORT = { 0.f, 0.f, 1.f, 1.f };
+    const sf::Vector2f GAME_RESOLUTION;
+    dgm::Camera worldCamera;
+    dgm::Camera hudCamera;
 
-    Game game = Game(camera);
+    Game game = Game(worldCamera);
     Renderer renderer = Renderer(resmgr, game);
     EventProcessor eventProcessor =
         EventProcessor(audioPlayer, game, renderer, app);

@@ -3,12 +3,14 @@ vsbuild/*
 vsbuild-release/*
 RELEASE/*
 
+examples/_build/*
 examples/build/*
 examples/vsbuild/*
 examples/cmake/cpp.cmake
 examples/cmake/utils.cmake
 examples/ResourceDir.hpp
 
+project-template/_build/*
 project-template/build/*
 project-template/vsbuild/*
 project-template/vsbuild-release/*

@@ -2,17 +2,6 @@
 #include "app/AppStatePaused.hpp"
 #include "events/EventQueue.hpp"
 
-void AppStateIngame::setupViews()
-{
-    const sf::FloatRect FULL_SCREEN = { 0.f, 0.f, 1.f, 1.f };
-    worldView.setViewport(FULL_SCREEN);
-    worldView.setSize(sf::Vector2f(app.window.getSize()));
-
-    hudView.setViewport(FULL_SCREEN);
-    hudView.setSize(sf::Vector2f(app.window.getSize()));
-    hudView.setCenter(sf::Vector2f(app.window.getSize()) / 2.f);
-}
-
 void AppStateIngame::input()
 {
     sf::Event event;
@@ -43,11 +32,11 @@ void AppStateIngame::update()
 void AppStateIngame::draw()
 {
     // Rendering everything that is subject to world coordinate system
-    app.window.getWindowContext().setView(worldView);
+    app.window.getWindowContext().setView(worldCamera.getCurrentView());
     renderer.renderWorldTo(app.window);
 
     // Rendering stuff that uses screen coordinates
-    app.window.getWindowContext().setView(hudView);
+    app.window.getWindowContext().setView(hudCamera.getCurrentView());
     renderer.renderHudTo(app.window);
 }
 
@@ -56,10 +45,14 @@ AppStateIngame::AppStateIngame(
     const dgm::ResourceManager& resmgr,
     Settings& settings,
     AudioPlayer& audioPlayer)
-    : dgm::AppState(app),
-      resmgr(resmgr),
-      settings(settings),
-      audioPlayer(audioPlayer)
+    : dgm::AppState(app)
+    , resmgr(resmgr)
+    , settings(settings)
+    , audioPlayer(audioPlayer)
+    , GAME_RESOLUTION(sf::Vector2f(app.window.getSize()))
+    , worldCamera(FULLSCREEN_VIEWPORT, GAME_RESOLUTION)
+    , hudCamera(FULLSCREEN_VIEWPORT, GAME_RESOLUTION)
 {
-    setupViews();
+    worldCamera.setPosition(GAME_RESOLUTION / 2.f);
+    hudCamera.setPosition(GAME_RESOLUTION / 2.f);
 }

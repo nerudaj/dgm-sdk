@@ -1,6 +1,10 @@
 dgm-sdk v1.x.x changelog:
  * General
 	* Bumped DGM Level Editor to v2.1.2
+	* Bumped dgm-lib to v1.10.0
+ * Project template
+	* Simplified globbing code
+
 dgm-sdk v1.6.0 changelog:
  * General
 	* Bumped DGM Level Editor to v2.1.1
