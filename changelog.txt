@@ -1,3 +1,6 @@
+dgm-sdk v1.x.x changelog:
+ * General
+	* Bumped DGM Level Editor to v2.1.2
 dgm-sdk v1.6.0 changelog:
  * General
 	* Bumped DGM Level Editor to v2.1.1
