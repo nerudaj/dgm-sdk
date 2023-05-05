@@ -1,6 +1,6 @@
 #pragma once
 
-struct Scene
+struct EntityTable
 {
     // add references to other entities like:
     // player
