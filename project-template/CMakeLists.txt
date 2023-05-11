@@ -29,6 +29,7 @@ if ( NOT ${DISABLE_TESTING})
 	enable_testing()
 endif()
 
+add_subdirectory ( lib-events )
 add_subdirectory ( lib )
 add_subdirectory ( bin )
 
