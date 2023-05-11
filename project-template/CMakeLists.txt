@@ -30,6 +30,7 @@ if ( NOT ${DISABLE_TESTING})
 endif()
 
 add_subdirectory ( lib-events )
+add_subdirectory ( lib-gamerules-engine )
 add_subdirectory ( lib )
 add_subdirectory ( bin )
 

@@ -5,7 +5,7 @@ get_latest_clang_format()
 project ( lib-events )
 
 file ( GLOB_RECURSE HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include**/*.hpp" )
-source_group ( TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${HEADERS})
+source_group ( TREE "${CMAKE_CURRENT_SOURCE_DIR}/include" FILES ${HEADERS})
 
 add_library (
 	${PROJECT_NAME} INTERFACE
