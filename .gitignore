@@ -18,3 +18,10 @@ project-template/cmake/cpp.cmake
 project-template/cmake/utils.cmake
 project-template/lib/benchmarks/googlebench/*
 project-template/deps/*
+project-template/src/bin/.clang-format
+project-template/src/lib-engines/.clang-format
+project-template/src/lib-events/.clang-format
+project-template/src/lib-game/.clang-format
+project-template/src/lib-app/.clang-format
+project-template/src/lib-settings/.clang-format
+project-template/src/tests/.clang-format

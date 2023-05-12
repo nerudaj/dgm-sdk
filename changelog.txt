@@ -1,3 +1,9 @@
+dgm-sdk v2.0.0 changelog:
+ * Project template
+	* CMake 3.26 or newer is now required
+	* Project structure had been reworked, many subfolders moved to their own projects
+		* Game structure is now broken into visitor-based Engines with their own responsibilities
+
 dgm-sdk v1.7.0 changelog:
  * General
 	* Bumped DGM Level Editor to v2.1.2

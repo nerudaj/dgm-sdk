@@ -4,6 +4,8 @@ set ( DSH_VERSION         "1.7.2" )
 set ( SFML_VERSION        "2.5.1" )
 set ( TGUI_VERSION        "0.8.9" )
 set ( CATCH_VERSION       "2.10.2" )
+set ( JSON_VERSION        "3.11.2" )
+set ( CXXOPTS_VERSION     "3.1.1" )
 
 set ( DGM_LIB_URL "https://github.com/nerudaj/dgm-lib/releases/download/v${DGM_LIB_VERSION}/dgm-lib-${DGM_LIB_VERSION}-windows-vc17-x64.zip" )
 set ( DGM_FSM_LIB_URL "https://github.com/nerudaj/dgm-fsm-lib/releases/download/v${DGM_FSM_LIB_VERSION}/dgm-fsm-lib-${DGM_FSM_LIB_VERSION}-windows-vc17-x64.zip" )
@@ -11,6 +13,8 @@ set ( DSH_URL   "https://github.com/nerudaj/dsh/releases/download/v${DSH_VERSION
 set ( SFML_URL    "https://github.com/SFML/SFML/releases/download/${SFML_VERSION}/SFML-${SFML_VERSION}-windows-vc15-64-bit.zip" )
 set ( TGUI_URL    "https://github.com/texus/TGUI/releases/download/v${TGUI_VERSION}/TGUI-${TGUI_VERSION}-vc15-64bit-for-SFML-${SFML_VERSION}.zip" )
 set ( CATCH_URL "https://github.com/catchorg/Catch2/releases/download/v${CATCH_VERSION}/catch.hpp" )
+set ( JSON_URL  "https://github.com/nlohmann/json/releases/download/v${JSON_VERSION}/include.zip" )
+set ( CXXOPTS_URL "https://github.com/jarro2783/cxxopts/archive/refs/tags/v${CXXOPTS_VERSION}.zip" )
 
 include ( FetchContent )
 
@@ -46,15 +50,19 @@ fetch_dependency ( DGM  ${DGM_LIB_URL} FALSE )
 fetch_dependency ( DGM_FSM  ${DGM_FSM_LIB_URL} FALSE )
 fetch_dependency ( TGUI ${TGUI_URL}    FALSE )
 fetch_dependency ( CATCH ${CATCH_URL} TRUE )
+fetch_dependency ( JSON  ${JSON_URL}  FALSE )
+fetch_dependency ( CXXOPTS ${CXXOPTS_URL} FALSE )
 
 # Verify folder paths
 message ( "Dependencies downloaded to: " )
 message ( "  DGM:   ${DGM_FOLDER}" )
-message ( "  FSM:  ${DGM_FSM_FOLDER}" )
+message ( "  FSM:   ${DGM_FSM_FOLDER}" )
 message ( "  DSH:   ${DSH_FOLDER}" )
 message ( "  SFML:  ${SFML_FOLDER}" )
 message ( "  TGUI:  ${TGUI_FOLDER}" )
 message ( "  CATCH: ${CATCH_FOLDER}" )
+message ( "  JSON:  ${JSON_FOLDER}" )
+message ( "  JSON:  ${CXXOPTS_FOLDER}" )
 
 # Make libraries visible to cmake linker
 link_directories("${DSH_FOLDER}/lib")
