@@ -1,7 +1,6 @@
 #include "app/AppStateIngame.hpp"
+#include "EventQueue.hpp"
 #include "app/AppStatePaused.hpp"
-
-// #include "events/EventQueue.hpp"
 
 void AppStateIngame::input()
 {
@@ -24,21 +23,36 @@ void AppStateIngame::input()
 
 void AppStateIngame::update()
 {
-    // game.update(app.time);
+    audioEngine.update(app.time);
+    physicsEngine.update(app.time);
+    gameRulesEngine.update(app.time);
+    renderingEngine.update(app.time);
 
     // At the end of each update, process the event queue
-    // EventQueue::process(eventProcessor);
+    EventQueue::processEvents<AudioEvent>(audioEngine);
+    EventQueue::processEvents<PhysicsEvent>(physicsEngine);
+    EventQueue::processEvents<GameEvent>(gameRulesEngine);
+    EventQueue::processEvents<RenderingEvent>(renderingEngine);
 }
 
 void AppStateIngame::draw()
 {
     // Rendering everything that is subject to world coordinate system
-    app.window.getWindowContext().setView(worldCamera.getCurrentView());
-    // renderer.renderWorldTo(app.window);
+    app.window.getWindowContext().setView(scene.worldCamera.getCurrentView());
+    renderingEngine.renderWorldTo(app.window);
 
     // Rendering stuff that uses screen coordinates
-    app.window.getWindowContext().setView(hudCamera.getCurrentView());
-    // renderer.renderHudTo(app.window);
+    app.window.getWindowContext().setView(scene.hudCamera.getCurrentView());
+    renderingEngine.renderHudTo(app.window);
+}
+
+Scene AppStateIngame::constructScene(
+    const dgm::ResourceManager& resmgr, const sf::Vector2f& baseResolution)
+{
+    return Scene { .worldCamera =
+                       dgm::Camera(FULLSCREEN_VIEWPORT, baseResolution),
+                   .hudCamera =
+                       dgm::Camera(FULLSCREEN_VIEWPORT, baseResolution) };
 }
 
 AppStateIngame::AppStateIngame(
@@ -51,9 +65,12 @@ AppStateIngame::AppStateIngame(
     , settings(settings)
     , audioPlayer(audioPlayer)
     , GAME_RESOLUTION(sf::Vector2f(app.window.getSize()))
-    , worldCamera(FULLSCREEN_VIEWPORT, GAME_RESOLUTION)
-    , hudCamera(FULLSCREEN_VIEWPORT, GAME_RESOLUTION)
+    , scene(constructScene(resmgr, GAME_RESOLUTION))
+    , audioEngine(resmgr, audioPlayer)
+    , gameRulesEngine(scene)
+    , physicsEngine(scene)
+    , renderingEngine(resmgr, scene)
 {
-    worldCamera.setPosition(GAME_RESOLUTION / 2.f);
-    hudCamera.setPosition(GAME_RESOLUTION / 2.f);
+    scene.worldCamera.setPosition(GAME_RESOLUTION / 2.f);
+    scene.hudCamera.setPosition(GAME_RESOLUTION / 2.f);
 }

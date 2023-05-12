@@ -42,7 +42,7 @@ AppSettings loadAppSettings(const std::filesystem::path& path)
 
 int main(int argc, char* argv[])
 {
-    const auto CONFIG_FILE_PATH = "app.ini";
+    const auto CONFIG_FILE_PATH = "app.json";
 
     auto&& settings = Settings {};
     settings.cmdSettings = processCmdParameters(argc, argv);

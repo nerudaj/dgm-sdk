@@ -12,6 +12,12 @@ add_library ( ${PROJECT_NAME} STATIC
 
 target_include_directories ( ${PROJECT_NAME}
 	PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include"
+	PUBLIC "${DGM_FOLDER}/include"
+	PUBLIC "${SFML_FOLDER}/include"
+)
+
+target_link_libraries ( ${PROJECT_NAME}
+	${DGM_LIB} ${SFML_LIB}
 )
 
 autoset_target_compile_options ( ${PROJECT_NAME} FALSE )

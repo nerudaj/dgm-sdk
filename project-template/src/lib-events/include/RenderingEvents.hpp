@@ -2,7 +2,8 @@
 
 #include <variant>
 
-struct DummyRenderingEvent
-{};
+struct EventToggleFpsRequested
+{
+};
 
-using RenderingEvent = std::variant<DummyRenderingEvent>;
+using RenderingEvent = std::variant<EventToggleFpsRequested>;

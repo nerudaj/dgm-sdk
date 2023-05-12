@@ -2,6 +2,10 @@
 
 #include "Settings.hpp"
 #include "audio/AudioPlayer.hpp"
+#include "engine/AudioEngine.hpp"
+#include "engine/GameRulesEngine.hpp"
+#include "engine/PhysicsEngine.hpp"
+#include "engine/RenderingEngine.hpp"
 #include <DGM/dgm.hpp>
 
 class AppStateIngame final : public dgm::AppState
@@ -26,17 +30,22 @@ public:
     virtual void restoreFocus() override {}
 
 protected:
+    [[nodiscard]] static Scene constructScene(
+        const dgm::ResourceManager& resmgr, const sf::Vector2f& baseResolution);
+
+protected:
     const dgm::ResourceManager& resmgr;
     Settings& settings;
     AudioPlayer& audioPlayer;
 
-    const sf::FloatRect FULLSCREEN_VIEWPORT = { 0.f, 0.f, 1.f, 1.f };
+    static inline const sf::FloatRect FULLSCREEN_VIEWPORT = {
+        0.f, 0.f, 1.f, 1.f
+    };
     const sf::Vector2f GAME_RESOLUTION;
-    dgm::Camera worldCamera;
-    dgm::Camera hudCamera;
 
-    /*Game game = Game(worldCamera);
-    Renderer renderer = Renderer(resmgr, game);
-    EventProcessor eventProcessor =
-        EventProcessor(audioPlayer, game, renderer, app);*/
+    Scene scene;
+    AudioEngine audioEngine;
+    GameRulesEngine gameRulesEngine;
+    PhysicsEngine physicsEngine;
+    RenderingEngine renderingEngine;
 };

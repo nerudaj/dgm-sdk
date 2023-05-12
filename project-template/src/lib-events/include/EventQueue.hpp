@@ -17,7 +17,7 @@ public:
     /// <typeparam name="...Args">Arguments for the construction of
     /// event</typeparam> <param name="...args"></param>
     template<class T, class... Args>
-    constexpr void add(Args&&... args)
+    constexpr inline static void add(Args&&... args)
     {
         if constexpr (isTypeInVariant<T>(audioEvents))
         {
@@ -38,39 +38,44 @@ public:
     }
 
     template<class EventType, class Visitor>
-    constexpr void processEvents(Visitor& visitor)
+    constexpr inline static void processEvents(Visitor& visitor)
     {
         if constexpr (std::is_same_v<EventType, AudioEvent>)
         {
-            std::visit(visitor, audioEvents);
-            audioEvents.clear();
+            visit(visitor, audioEvents);
         }
         else if constexpr (std::is_same_v<EventType, GameEvent>)
         {
-            std::visit(visitor, gameEvents);
-            gameEvents.clear();
+            visit(visitor, gameEvents);
         }
         else if constexpr (std::is_same_v<EventType, PhysicsEvent>)
         {
-            std::visit(visitor, physicsEvents);
-            physicsEvents.clear();
+            visit(visitor, physicsEvents);
         }
         else if constexpr (std::is_same_v<EventType, RenderingEvent>)
         {
-            std::visit(visitor, renderingEvents);
-            renderingEvents.clear();
+            visit(visitor, renderingEvents);
         }
     }
 
 private:
     template<class T, class... Ts>
-    consteval bool isTypeInVariant(const std::variant<Ts...>& v)
+    [[nodiscard]] consteval bool
+    isTypeInVariant(const std::variant<Ts...>& v) noexcept
     {
         return std::disjunction_v<std::is_same<T, Ts>...>;
     }
 
-    std::vector<AudioEvent> audioEvents;
-    std::vector<GameEvent> gameEvents;
-    std::vector<PhysicsEvent> physicsEvents;
-    std::vector<RenderingEvent> renderingEvents;
+    constexpr inline static void visit(auto&& visitor, auto& events)
+    {
+        for (auto&& event : events)
+            std::visit(visitor, event);
+        events.clear();
+    }
+
+public:
+    static inline std::vector<AudioEvent> audioEvents;
+    static inline std::vector<GameEvent> gameEvents;
+    static inline std::vector<PhysicsEvent> physicsEvents;
+    static inline std::vector<RenderingEvent> renderingEvents;
 };
