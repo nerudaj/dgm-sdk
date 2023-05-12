@@ -3,6 +3,7 @@ dgm-sdk v2.0.0 changelog:
 	* CMake 3.26 or newer is now required
 	* Project structure had been reworked, many subfolders moved to their own projects
 		* Game structure is now broken into visitor-based Engines with their own responsibilities
+	* Replaced dshlibs with `nlohmann::json` and `cxxopts` for configuration file and command-line options
 
 dgm-sdk v1.7.0 changelog:
  * General

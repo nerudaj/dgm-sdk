@@ -38,23 +38,25 @@ void AppStateMenuOptions::buildLayout()
             "Sound volume",
             "SliderSoundVolume",
             WidgetCreator::createSlider(
-                settings.soundVolume,
+                settings.appSettings.soundVolume,
                 [this]()
                 {
-                    settings.soundVolume =
+                    settings.appSettings.soundVolume =
                         gui.get<tgui::Slider>("SliderSoundVolume")->getValue();
-                    audioPlayer.setSoundVolume(settings.soundVolume);
+                    audioPlayer.setSoundVolume(
+                        settings.appSettings.soundVolume);
                 }))
         .addOption(
             "Music volume",
             "SliderMusicVolume",
             WidgetCreator::createSlider(
-                settings.musicVolume,
+                settings.appSettings.musicVolume,
                 [this]()
                 {
-                    settings.musicVolume =
+                    settings.appSettings.musicVolume =
                         gui.get<tgui::Slider>("SliderMusicVolume")->getValue();
-                    audioPlayer.setSoundVolume(settings.musicVolume);
+                    audioPlayer.setSoundVolume(
+                        settings.appSettings.musicVolume);
                 }))
         .addOption(
             "Set resolution",
