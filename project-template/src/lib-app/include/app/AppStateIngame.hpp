@@ -1,7 +1,7 @@
 #pragma once
 
-#include "core/AudioPlayer.hpp"
-#include "core/Settings.hpp"
+#include "Settings.hpp"
+#include "audio/AudioPlayer.hpp"
 #include <DGM/dgm.hpp>
 
 class AppStateIngame final : public dgm::AppState

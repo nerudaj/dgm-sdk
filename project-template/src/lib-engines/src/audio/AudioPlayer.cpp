@@ -1,4 +1,4 @@
-#include "core/AudioPlayer.hpp"
+#include "audio/AudioPlayer.hpp"
 
 void AudioPlayer::playSoundOnChannel(
     const std::string& soundName, const unsigned channel, const bool force)

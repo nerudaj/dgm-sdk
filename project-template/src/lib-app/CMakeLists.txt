@@ -4,7 +4,7 @@ project ( lib-app )
 
 configure_file (
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/settings/GameTitle.hpp.in"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/GameTitle.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/settings/GameTitle.hpp"
 )
 
 get_latest_clang_format()

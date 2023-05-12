@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/AudioPlayer.hpp"
+#include "audio/AudioPlayer.hpp"
 #include <DGM/dgm.hpp>
 #include <TGUI/TGUI.hpp>
 

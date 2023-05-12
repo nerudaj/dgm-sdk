@@ -1,4 +1,4 @@
-#include "game/FpsCounter.hpp"
+#include "render/FpsCounter.hpp"
 
 void FpsCounter::update(const float dt)
 {

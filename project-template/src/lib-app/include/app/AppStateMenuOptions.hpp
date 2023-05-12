@@ -1,9 +1,11 @@
 #pragma once
 
 #include "GuiState.hpp"
-#include "core/Settings.hpp"
+#include "Settings.hpp"
 
-class AppStateMenuOptions : public dgm::AppState, public GuiState
+class AppStateMenuOptions
+    : public dgm::AppState
+    , public GuiState
 {
 protected:
     Settings& settings;
