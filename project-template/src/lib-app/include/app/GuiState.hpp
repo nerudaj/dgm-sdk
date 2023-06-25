@@ -2,20 +2,25 @@
 
 #include "audio/AudioPlayer.hpp"
 #include <DGM/dgm.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
+#include <app/GuiWrapper.hpp>
 
 class GuiState
 {
 protected:
-    tgui::Gui gui;
-    const dgm::ResourceManager& resmgr;
-    AudioPlayer& audioPlayer;
-
     struct ButtonProps
     {
         std::string label;
         std::function<void(void)> callback;
     };
+
+protected:
+    [[nodiscard]] GuiState(
+        std::shared_ptr<GuiWrapper> gui, AudioPlayer& audioPlayer) noexcept
+        : gui(gui), audioPlayer(audioPlayer)
+    {
+    }
 
 protected:
     tgui::Label::Ptr createWindowTitle(
@@ -47,5 +52,21 @@ protected:
         const bool textAutoSize = true,
         const unsigned textSize = 0);
 
-    GuiState(const dgm::ResourceManager& resmgr, AudioPlayer& audioPlayer);
+    virtual void buildLayoutImpl() = 0;
+
+    void buildLayout()
+    {
+        gui->get().removeAllWidgets();
+        buildLayoutImpl();
+    }
+
+    void restoreFocus(sf::RenderWindow& window)
+    {
+        gui->get().setWindow(window);
+        buildLayout();
+    }
+
+protected:
+    std::shared_ptr<GuiWrapper> gui;
+    AudioPlayer& audioPlayer;
 };

@@ -3,14 +3,12 @@
 #include "GuiState.hpp"
 #include "Settings.hpp"
 
-class AppStateMainMenu
+class AppStateMainMenu final
     : public dgm::AppState
     , public GuiState
 {
 private:
-    Settings& settings;
-
-    void buildLayout();
+    void buildLayoutImpl() override;
 
 public:
     virtual void input() override;
@@ -19,7 +17,7 @@ public:
 
     virtual void draw() override
     {
-        gui.draw();
+        gui->get().draw();
     }
 
     virtual [[nodiscard]] bool isTransparent() const noexcept override
@@ -34,13 +32,24 @@ public:
 
     virtual void restoreFocus() override
     {
-        // View has to be update
-        gui.setView(app.window.getWindowContext().getView());
+        GuiState::restoreFocus(app.window.getWindowContext());
     }
 
-    AppStateMainMenu(
+    [[nodiscard]] AppStateMainMenu(
         dgm::App& app,
         const dgm::ResourceManager& resmgr,
+        std::shared_ptr<GuiWrapper> gui,
         AudioPlayer& audioPlayer,
-        Settings& settings);
+        Settings& settings)
+        : dgm::AppState(app)
+        , GuiState(gui, audioPlayer)
+        , settings(settings)
+        , resmgr(resmgr)
+    {
+        buildLayout();
+    }
+
+private:
+    Settings& settings;
+    const dgm::ResourceManager& resmgr;
 };

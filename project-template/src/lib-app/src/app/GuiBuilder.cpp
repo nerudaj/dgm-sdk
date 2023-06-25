@@ -16,7 +16,7 @@ WidgetCreator::createCheckbox(bool checked, std::function<void(bool)> onChange)
 {
     auto checkbox = tgui::CheckBox::create();
     checkbox->setChecked(checked);
-    checkbox->connect("Changed", onChange);
+    checkbox->onChange(onChange);
     return checkbox;
 }
 
@@ -31,7 +31,7 @@ tgui::Slider::Ptr WidgetCreator::createSlider(
 
     slider->setStep(step);
     slider->setValue(value);
-    slider->connect("ValueChanged", onChange);
+    slider->onValueChange(onChange);
 
     return slider;
 }
@@ -47,7 +47,7 @@ tgui::ComboBox::Ptr WidgetCreator::createDropdown(
         dropdown->addItem(item, item);
     }
     dropdown->setSelectedItem(selected);
-    dropdown->connect("ItemSelected", onSelect);
+    dropdown->onItemSelect(onSelect);
 
     return dropdown;
 }

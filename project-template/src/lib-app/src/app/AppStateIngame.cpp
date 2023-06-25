@@ -15,7 +15,7 @@ void AppStateIngame::input()
         {
             if (event.key.code == sf::Keyboard::Escape)
             {
-                app.pushState<AppStatePaused>(resmgr, audioPlayer, settings);
+                app.pushState<AppStatePaused>(gui, audioPlayer, settings);
             }
         }
     }
@@ -58,10 +58,12 @@ Scene AppStateIngame::constructScene(
 AppStateIngame::AppStateIngame(
     dgm::App& app,
     const dgm::ResourceManager& resmgr,
+    std::shared_ptr<GuiWrapper> gui,
     Settings& settings,
     AudioPlayer& audioPlayer)
     : dgm::AppState(app)
     , resmgr(resmgr)
+    , gui(gui)
     , settings(settings)
     , audioPlayer(audioPlayer)
     , GAME_RESOLUTION(sf::Vector2f(app.window.getSize()))

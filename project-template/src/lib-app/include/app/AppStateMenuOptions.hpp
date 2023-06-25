@@ -3,14 +3,14 @@
 #include "GuiState.hpp"
 #include "Settings.hpp"
 
-class AppStateMenuOptions
+class AppStateMenuOptions final
     : public dgm::AppState
     , public GuiState
 {
 protected:
     Settings& settings;
 
-    void buildLayout();
+    void buildLayoutImpl() override;
 
 public:
     virtual void input() override;
@@ -19,7 +19,7 @@ public:
 
     virtual void draw() override
     {
-        gui.draw();
+        gui->get().draw();
     }
 
     virtual [[nodiscard]] bool isTransparent() const noexcept override
@@ -32,9 +32,18 @@ public:
         return sf::Color::White;
     }
 
-    AppStateMenuOptions(
+    virtual void restoreFocus() override
+    {
+        GuiState::restoreFocus(app.window.getWindowContext());
+    }
+
+    [[nodiscard]] AppStateMenuOptions(
         dgm::App& app,
-        const dgm::ResourceManager& resmgr,
+        std::shared_ptr<GuiWrapper> gui,
         AudioPlayer& audioPlayer,
-        Settings& settings);
+        Settings& settings)
+        : dgm::AppState(app), GuiState(gui, audioPlayer), settings(settings)
+    {
+        buildLayout();
+    }
 };

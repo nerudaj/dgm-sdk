@@ -1,5 +1,6 @@
 #pragma once
 
+#include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
 
 class WidgetCreator

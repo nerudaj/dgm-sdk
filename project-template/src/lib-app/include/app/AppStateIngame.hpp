@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Settings.hpp"
+#include "app/GuiWrapper.hpp"
 #include "audio/AudioPlayer.hpp"
 #include "engine/AudioEngine.hpp"
 #include "engine/GameRulesEngine.hpp"
@@ -14,6 +15,7 @@ public:
     [[nodiscard]] AppStateIngame(
         dgm::App& app,
         const dgm::ResourceManager& resmgr,
+        std::shared_ptr<GuiWrapper> gui,
         Settings& settings,
         AudioPlayer& audioPlayer);
 
@@ -35,6 +37,7 @@ protected:
 
 protected:
     const dgm::ResourceManager& resmgr;
+    std::shared_ptr<GuiWrapper> gui;
     Settings& settings;
     AudioPlayer& audioPlayer;
 

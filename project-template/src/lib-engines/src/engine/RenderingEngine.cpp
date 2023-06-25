@@ -4,7 +4,7 @@ RenderingEngine::RenderingEngine(
     const dgm::ResourceManager& resmgr, Scene& scene)
     : resmgr(resmgr), scene(scene)
 {
-    context.text.setFont(resmgr.get<sf::Font>("cruft.ttf"));
+    context.text.setFont(resmgr.get<sf::Font>("cruft.ttf").value());
     context.text.setFillColor(sf::Color::White);
     context.text.setCharacterSize(32);
 }

@@ -1,12 +1,12 @@
 #include "app/AppStatePaused.hpp"
 #include "app/AppStateMenuOptions.hpp"
 
-void AppStatePaused::buildLayout()
+void AppStatePaused::buildLayoutImpl()
 {
     auto panel = tgui::Panel::create({ "20%", "50%" });
     panel->getRenderer()->setBackgroundColor(sf::Color(192, 192, 192));
     panel->setPosition({ "40%", "25%" });
-    gui.add(panel);
+    gui->get().add(panel);
 
     auto layout = tgui::VerticalLayout::create({ "90%", "90%" });
     layout->setPosition("5%", "5%");
@@ -19,7 +19,7 @@ void AppStatePaused::buildLayout()
               "Options",
               [&] {
                   app.pushState<AppStateMenuOptions>(
-                      resmgr, audioPlayer, settings);
+                      gui, audioPlayer, settings);
               }),
           ButtonProps("Main Menu", [&] { app.popState(2); }),
           ButtonProps("Exit", [&] { app.exit(); }) },
@@ -43,17 +43,6 @@ void AppStatePaused::input()
             }
         }
 
-        gui.handleEvent(event);
+        gui->get().handleEvent(event);
     }
-}
-
-AppStatePaused::AppStatePaused(
-    dgm::App& app,
-    const dgm::ResourceManager& resmgr,
-    AudioPlayer& audioPlayer,
-    Settings& settings)
-    : dgm::AppState(app), GuiState(resmgr, audioPlayer), settings(settings)
-{
-    gui.setTarget(app.window.getWindowContext());
-    buildLayout();
 }

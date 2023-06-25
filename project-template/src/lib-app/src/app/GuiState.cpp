@@ -22,14 +22,13 @@ void GuiState::createButton(
     tgui::Button::Ptr button = tgui::Button::create(label);
     button->setSize(size);
     button->setPosition(position);
-    button->connect(
-        "pressed",
+    button->onClick(
         [this, onClick]()
         {
             audioPlayer.playSoundOnChannel("click.wav", 0);
             onClick();
         });
-    gui.add(button, "Button" + label);
+    gui->get().add(button, "Button" + label);
 }
 
 void GuiState::createButtonListInLayout(
@@ -48,8 +47,7 @@ void GuiState::createButtonListInLayout(
     for (auto& prop : properties)
     {
         auto btn = tgui::Button::create(prop.label);
-        btn->connect(
-            "pressed",
+        btn->onClick(
             [this, prop]()
             {
                 audioPlayer.playSoundOnChannel("click.wav", 0);
@@ -83,23 +81,17 @@ void GuiState::createButtonListInLayout(
         // (already sanitized to correct value) Find the smallest value
         for (auto&& prop : properties)
         {
-            auto btn =
-                gui.get<tgui::Button>("Button" + removeSpaces(prop.label));
+            auto btn = gui->get().get<tgui::Button>(
+                "Button" + removeSpaces(prop.label));
             minTextSize = std::min(btn->getTextSize(), minTextSize);
         }
 
         // Set the smallest value to all buttons
         for (auto&& prop : properties)
         {
-            auto btn =
-                gui.get<tgui::Button>("Button" + removeSpaces(prop.label));
+            auto btn = gui->get().get<tgui::Button>(
+                "Button" + removeSpaces(prop.label));
             btn->setTextSize(minTextSize);
         }
     }
-}
-
-GuiState::GuiState(const dgm::ResourceManager& resmgr, AudioPlayer& audioPlayer)
-    : resmgr(resmgr), audioPlayer(audioPlayer)
-{
-    gui.setFont(resmgr.get<sf::Font>("cruft.ttf"));
 }

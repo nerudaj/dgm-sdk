@@ -2,9 +2,14 @@
 #include <DGM/dgm.hpp>
 #include <Settings.hpp>
 #include <app/AppStateMainMenu.hpp>
+#include <app/GuiWrapper.hpp>
 #include <audio/AudioPlayer.hpp>
 #include <cxxopts.hpp>
 #include <settings/GameTitle.hpp>
+
+// Takes std::expected and throws exception if it contains error
+#define THROW_ON_ERROR(expr)                                                   \
+    if (auto&& result = expr; !result) throw std::runtime_error(result.error());
 
 CmdSettings processCmdParameters(int argc, char* argv[])
 {
@@ -40,6 +45,59 @@ AppSettings loadAppSettings(const std::filesystem::path& path)
     return AppSettings {};
 }
 
+void loadResources(
+    dgm::ResourceManager& resmgr, const std::filesystem::path& rootDir)
+{
+    dgm::JsonLoader jsonLoader;
+
+    try
+    {
+        THROW_ON_ERROR(resmgr.loadResourcesFromDirectory<sf::Texture>(
+            rootDir / "graphics",
+            [](const std::filesystem::path& path, sf::Texture& texture)
+            { texture.loadFromFile(path.string()); },
+            { ".png" }));
+
+        THROW_ON_ERROR(resmgr.loadResourcesFromDirectory<sf::Font>(
+            rootDir / "fonts",
+            [](const std::filesystem::path& path, sf::Font& font)
+            { font.loadFromFile(path.string()); },
+            { ".ttf" }));
+
+        THROW_ON_ERROR(resmgr.loadResourcesFromDirectory<tgui::Font>(
+            rootDir / "fonts",
+            [](const std::filesystem::path& path, tgui::Font& font)
+            { font = tgui::Font(path.string()); },
+            { ".ttf" }));
+
+        THROW_ON_ERROR(resmgr.loadResourcesFromDirectory<dgm::AnimationStates>(
+            rootDir / "graphics",
+            [&jsonLoader](
+                const std::filesystem::path& path,
+                dgm::AnimationStates& animStates)
+            { animStates = jsonLoader.loadAnimationsFromFile(path); },
+            { ".anim" }));
+
+        THROW_ON_ERROR(resmgr.loadResourcesFromDirectory<dgm::Clip>(
+            rootDir / "graphics",
+            [&jsonLoader](const std::filesystem::path& path, dgm::Clip& clip)
+            { clip = jsonLoader.loadClipFromFile(path); },
+            { ".clip" }));
+
+        THROW_ON_ERROR(resmgr.loadResourcesFromDirectory<sf::SoundBuffer>(
+            rootDir / "sounds",
+            [&jsonLoader](
+                const std::filesystem::path& path, sf::SoundBuffer& buffer)
+            { buffer.loadFromFile(path.string()); },
+            { ".wav" }));
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << std::format("error:Loading resources: {}\n", e.what());
+        throw;
+    }
+}
+
 int main(int argc, char* argv[])
 {
     const auto CONFIG_FILE_PATH = "app.json";
@@ -56,37 +114,16 @@ int main(int argc, char* argv[])
         .useFullscreen = settings.appSettings.fullscreen
     };
 
-    // Load resources
-    dgm::JsonLoader jsonLoader;
-    dgm::ResourceManager resmgr(jsonLoader);
-
-    try
-    {
-        auto&& root = settings.cmdSettings.resourcesDir;
-
-        resmgr.loadResourceDir<sf::Texture>(
-            (root / "graphics").string(), { ".png" });
-        resmgr.loadResourceDir<sf::Font>((root / "fonts").string(), { ".ttf" });
-        resmgr.loadResourceDir<dgm::AnimationStates>(
-            (root / "graphics").string(), { ".anim" });
-        resmgr.loadResourceDir<dgm::Clip>(
-            (root / "graphics").string(), { ".clip" });
-        resmgr.loadResourceDir<sf::SoundBuffer>(
-            (root / "sounds").string(), { ".wav" });
-    }
-    catch (std::exception& e)
-    {
-        std::cerr << std::format("error:Loading resources: {}\n", e.what());
-        throw;
-    }
-
-    auto&& audioPlayer = AudioPlayer(CHANNEL_COUNT, resmgr);
-
-    // Launch application
     dgm::Window window(windowSettings);
     dgm::App app(window);
+    auto&& gui = std::make_shared<GuiWrapper>(window.getWindowContext());
+    dgm::ResourceManager resmgr;
+    auto&& audioPlayer = AudioPlayer(CHANNEL_COUNT, resmgr);
 
-    app.pushState<AppStateMainMenu>(resmgr, audioPlayer, settings);
+    loadResources(resmgr, settings.cmdSettings.resourcesDir);
+    gui->get().setFont(resmgr.get<tgui::Font>("cruft.ttf").value());
+
+    app.pushState<AppStateMainMenu>(resmgr, gui, audioPlayer, settings);
     app.run();
 
     auto outWindowSettings = window.close();
