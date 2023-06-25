@@ -6,6 +6,7 @@ set ( TGUI_VERSION        "1.x" )
 set ( CATCH_VERSION       "2.10.2" )
 set ( JSON_VERSION        "3.11.2" )
 set ( CXXOPTS_VERSION     "3.1.1" )
+set ( ENTT_VERSION        "3.12.2" )
 
 set ( DGM_LIB_URL "https://github.com/nerudaj/dgm-lib/releases/download/v${DGM_LIB_VERSION}/dgm-lib-${DGM_LIB_VERSION}-winx64-vc17-x64-for-SFML-${SFML_VERSION}.zip" )
 set ( DGM_FSM_LIB_URL "https://github.com/nerudaj/dgm-fsm-lib/releases/download/v${DGM_FSM_LIB_VERSION}/dgm-fsm-lib-${DGM_FSM_LIB_VERSION}-windows-vc17-x64.zip" )
@@ -15,6 +16,7 @@ set ( TGUI_URL    "https://github.com/texus/TGUI/releases/download/nightly_build
 set ( CATCH_URL "https://github.com/catchorg/Catch2/releases/download/v${CATCH_VERSION}/catch.hpp" )
 set ( JSON_URL  "https://github.com/nlohmann/json/releases/download/v${JSON_VERSION}/include.zip" )
 set ( CXXOPTS_URL "https://github.com/jarro2783/cxxopts/archive/refs/tags/v${CXXOPTS_VERSION}.zip" )
+set ( ENTT_URL "https://github.com/skypjack/entt/archive/refs/tags/v${ENTT_VERSION}.zip" )
 
 include ( FetchContent )
 
@@ -52,6 +54,7 @@ fetch_dependency ( TGUI ${TGUI_URL}    FALSE )
 fetch_dependency ( CATCH ${CATCH_URL} TRUE )
 fetch_dependency ( JSON  ${JSON_URL}  FALSE )
 fetch_dependency ( CXXOPTS ${CXXOPTS_URL} FALSE )
+fetch_dependency ( ENTT ${ENTT_URL} FALSE )
 
 # Verify folder paths
 message ( "Dependencies downloaded to: " )
@@ -63,6 +66,7 @@ message ( "  TGUI:  ${TGUI_FOLDER}" )
 message ( "  CATCH: ${CATCH_FOLDER}" )
 message ( "  JSON:  ${JSON_FOLDER}" )
 message ( "  OPTS:  ${CXXOPTS_FOLDER}" )
+message ( "  ENTT:  ${ENTT_FOLDER}" )
 
 # Make libraries visible to cmake linker
 link_directories("${DSH_FOLDER}/lib")

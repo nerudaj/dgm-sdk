@@ -1,6 +1,7 @@
 #pragma once
 
 #include <DGM/dgm.hpp>
+#include <entt/entt.hpp>
 
 struct Scene
 {
