@@ -9,6 +9,8 @@ dgm-sdk v2.0.0 changelog:
 	* Project structure had been reworked, many subfolders moved to their own projects
 		* Game structure is now broken into visitor-based Engines with their own responsibilities
 	* Replaced dshlibs with `nlohmann::json` and `cxxopts` for configuration file and command-line options
+	* Added non-nullable smart pointers in a C++20 module
+		* Most dependencies are now passed as `mem::Rc`, which stands for Reference counted (non-nullable equivalent of `std::shared_ptr`)
 
 dgm-sdk v1.7.0 changelog:
  * General

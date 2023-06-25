@@ -9,15 +9,17 @@
 #include "engine/RenderingEngine.hpp"
 #include <DGM/dgm.hpp>
 
+import Memory;
+
 class AppStateIngame final : public dgm::AppState
 {
 public:
     [[nodiscard]] AppStateIngame(
         dgm::App& app,
-        const dgm::ResourceManager& resmgr,
-        std::shared_ptr<GuiWrapper> gui,
-        Settings& settings,
-        AudioPlayer& audioPlayer);
+        mem::Rc<const dgm::ResourceManager> resmgr,
+        mem::Rc<GuiWrapper> gui,
+        mem::Rc<Settings> settings,
+        mem::Rc<AudioPlayer> audioPlayer);
 
 public:
     virtual void input() override;
@@ -36,10 +38,10 @@ protected:
         const dgm::ResourceManager& resmgr, const sf::Vector2f& baseResolution);
 
 protected:
-    const dgm::ResourceManager& resmgr;
-    std::shared_ptr<GuiWrapper> gui;
-    Settings& settings;
-    AudioPlayer& audioPlayer;
+    mem::Rc<const dgm::ResourceManager> resmgr;
+    mem::Rc<GuiWrapper> gui;
+    mem::Rc<Settings> settings;
+    mem::Rc<AudioPlayer> audioPlayer;
 
     static inline const sf::FloatRect FULLSCREEN_VIEWPORT = {
         0.f, 0.f, 1.f, 1.f

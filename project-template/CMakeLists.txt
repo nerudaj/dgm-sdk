@@ -24,6 +24,7 @@ if ( NOT ${DISABLE_TESTING})
 	enable_testing()
 endif()
 
+add_subdirectory ( "src/lib-memory" )
 add_subdirectory ( "src/lib-settings" )
 add_subdirectory ( "src/lib-events" )
 add_subdirectory ( "src/lib-game" )

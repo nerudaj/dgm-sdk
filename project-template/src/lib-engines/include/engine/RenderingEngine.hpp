@@ -6,14 +6,16 @@
 #include "render/RenderContext.hpp"
 #include <DGM/DGM.hpp>
 
+import Memory;
+
 class RenderingEngine final
 {
 public:
     [[nodiscard]] RenderingEngine(
-        const dgm::ResourceManager& resmgr, Scene& scene);
+        mem::Rc<const dgm::ResourceManager> resmgr, Scene& scene);
 
 public: // Must visit on all related events
-    constexpr void operator()(const EventToggleFpsRequested& e) noexcept
+    constexpr inline void operator()(const EventToggleFpsRequested& e) noexcept
     {
         showFps = !showFps;
     }
@@ -26,7 +28,7 @@ public:
     void renderHudTo(dgm::Window& window);
 
 private:
-    const dgm::ResourceManager& resmgr;
+    mem::Rc<const dgm::ResourceManager> resmgr;
     Scene& scene;
     bool showFps = true;
     FpsCounter fpsCounter;

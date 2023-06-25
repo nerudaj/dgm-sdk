@@ -25,7 +25,7 @@ void GuiState::createButton(
     button->onClick(
         [this, onClick]()
         {
-            audioPlayer.playSoundOnChannel("click.wav", 0);
+            audioPlayer->playSoundOnChannel("click.wav", 0);
             onClick();
         });
     gui->get().add(button, "Button" + label);
@@ -50,7 +50,7 @@ void GuiState::createButtonListInLayout(
         btn->onClick(
             [this, prop]()
             {
-                audioPlayer.playSoundOnChannel("click.wav", 0);
+                audioPlayer->playSoundOnChannel("click.wav", 0);
                 prop.callback();
             });
 

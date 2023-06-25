@@ -2,6 +2,9 @@
 
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
+#include <app/GuiWrapper.hpp>
+
+import Memory;
 
 class WidgetCreator
 {
@@ -22,14 +25,26 @@ public:
         std::function<void(void)> onSelect);
 };
 
-class GuiOptionsBuilder
+class GuiOptionsBuilder final
 {
-protected:
-    tgui::Gui& gui;
+private:
+    mem::Rc<GuiWrapper> gui;
     tgui::VerticalLayout::Ptr rowContainer;
     unsigned labelFontSize;
     std::vector<std::tuple<std::string, std::string, tgui::Widget::Ptr>>
         rowsToBuild;
+
+public:
+    [[nodiscard]] GuiOptionsBuilder(
+        mem::Rc<GuiWrapper> gui,
+        const tgui::Layout2d& pos,
+        const tgui::Layout2d& size)
+        : gui(gui)
+    {
+        rowContainer = tgui::VerticalLayout::create(size);
+        rowContainer->setPosition(pos);
+        gui->get().add(rowContainer);
+    }
 
 public:
     [[nodiscard]] GuiOptionsBuilder& addOption(
@@ -42,13 +57,4 @@ public:
     }
 
     void build();
-
-    GuiOptionsBuilder(
-        tgui::Gui& gui, const tgui::Layout2d& pos, const tgui::Layout2d& size)
-        : gui(gui)
-    {
-        rowContainer = tgui::VerticalLayout::create(size);
-        rowContainer->setPosition(pos);
-        gui.add(rowContainer);
-    }
 };

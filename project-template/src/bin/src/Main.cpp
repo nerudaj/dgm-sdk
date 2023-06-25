@@ -7,6 +7,8 @@
 #include <cxxopts.hpp>
 #include <settings/GameTitle.hpp>
 
+import Memory;
+
 // Takes std::expected and throws exception if it contains error
 #define THROW_ON_ERROR(expr)                                                   \
     if (auto&& result = expr; !result) throw std::runtime_error(result.error());
@@ -102,26 +104,26 @@ int main(int argc, char* argv[])
 {
     const auto CONFIG_FILE_PATH = "app.json";
 
-    auto&& settings = Settings {};
-    settings.cmdSettings = processCmdParameters(argc, argv);
-    settings.appSettings = loadAppSettings(CONFIG_FILE_PATH);
+    auto&& settings = mem::Rc<Settings>();
+    settings->cmdSettings = processCmdParameters(argc, argv);
+    settings->appSettings = loadAppSettings(CONFIG_FILE_PATH);
 
     dgm::WindowSettings windowSettings = {
         .resolution = sf::Vector2u(
-            settings.appSettings.windowWidth,
-            settings.appSettings.windowHeight),
+            settings->appSettings.windowWidth,
+            settings->appSettings.windowHeight),
         .title = GAME_TITLE,
-        .useFullscreen = settings.appSettings.fullscreen
+        .useFullscreen = settings->appSettings.fullscreen
     };
 
     dgm::Window window(windowSettings);
     dgm::App app(window);
-    auto&& gui = std::make_shared<GuiWrapper>(window.getWindowContext());
-    dgm::ResourceManager resmgr;
-    auto&& audioPlayer = AudioPlayer(CHANNEL_COUNT, resmgr);
+    auto&& gui = mem::Rc<GuiWrapper>(window.getWindowContext());
+    auto&& resmgr = mem::Rc<dgm::ResourceManager>();
+    auto&& audioPlayer = mem::Rc<AudioPlayer>(CHANNEL_COUNT, resmgr);
 
-    loadResources(resmgr, settings.cmdSettings.resourcesDir);
-    gui->get().setFont(resmgr.get<tgui::Font>("cruft.ttf").value());
+    loadResources(*resmgr, settings->cmdSettings.resourcesDir);
+    gui->get().setFont(resmgr->get<tgui::Font>("cruft.ttf").value());
 
     app.pushState<AppStateMainMenu>(resmgr, gui, audioPlayer, settings);
     app.run();
@@ -129,10 +131,10 @@ int main(int argc, char* argv[])
     auto outWindowSettings = window.close();
 
     // Update configuration file
-    settings.appSettings.windowWidth = outWindowSettings.resolution.x;
-    settings.appSettings.windowHeight = outWindowSettings.resolution.y;
-    settings.appSettings.fullscreen = outWindowSettings.useFullscreen;
-    saveToFile(CONFIG_FILE_PATH, settings.appSettings);
+    settings->appSettings.windowWidth = outWindowSettings.resolution.x;
+    settings->appSettings.windowHeight = outWindowSettings.resolution.y;
+    settings->appSettings.fullscreen = outWindowSettings.useFullscreen;
+    saveToFile(CONFIG_FILE_PATH, settings->appSettings);
 
     return 0;
 }

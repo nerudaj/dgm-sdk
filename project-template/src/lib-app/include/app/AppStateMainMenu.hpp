@@ -1,5 +1,7 @@
 #pragma once
 
+import Memory;
+
 #include "GuiState.hpp"
 #include "Settings.hpp"
 
@@ -37,10 +39,10 @@ public:
 
     [[nodiscard]] AppStateMainMenu(
         dgm::App& app,
-        const dgm::ResourceManager& resmgr,
-        std::shared_ptr<GuiWrapper> gui,
-        AudioPlayer& audioPlayer,
-        Settings& settings)
+        mem::Rc<const dgm::ResourceManager> resmgr,
+        mem::Rc<GuiWrapper> gui,
+        mem::Rc<AudioPlayer> audioPlayer,
+        mem::Rc<Settings> settings)
         : dgm::AppState(app)
         , GuiState(gui, audioPlayer)
         , settings(settings)
@@ -50,6 +52,6 @@ public:
     }
 
 private:
-    Settings& settings;
-    const dgm::ResourceManager& resmgr;
+    mem::Rc<Settings> settings;
+    mem::Rc<const dgm::ResourceManager> resmgr;
 };

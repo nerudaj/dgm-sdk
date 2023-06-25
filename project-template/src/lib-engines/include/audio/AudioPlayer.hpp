@@ -4,13 +4,15 @@
 #include <SFML/Audio.hpp>
 #include <vector>
 
+import Memory;
+
 constexpr unsigned CHANNEL_COUNT = 8;
 
 class AudioPlayer
 {
 private:
     std::vector<sf::Sound> channels;
-    const dgm::ResourceManager& resmgr;
+    mem::Rc<const dgm::ResourceManager> resmgr;
 
     [[nodiscard]] bool isChannelActive(const unsigned channel) const
     {
@@ -27,7 +29,9 @@ public:
 
     void setSoundVolume(const float volume);
 
-    AudioPlayer(const unsigned channelCount, const dgm::ResourceManager& resmgr)
+    [[nodiscard]] AudioPlayer(
+        const unsigned channelCount,
+        mem::Rc<const dgm::ResourceManager> resmgr) noexcept
         : channels(channelCount), resmgr(resmgr)
     {
     }

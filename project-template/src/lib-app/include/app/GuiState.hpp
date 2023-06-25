@@ -6,6 +6,8 @@
 #include <TGUI/TGUI.hpp>
 #include <app/GuiWrapper.hpp>
 
+import Memory;
+
 class GuiState
 {
 protected:
@@ -17,7 +19,7 @@ protected:
 
 protected:
     [[nodiscard]] GuiState(
-        std::shared_ptr<GuiWrapper> gui, AudioPlayer& audioPlayer) noexcept
+        mem::Rc<GuiWrapper> gui, mem::Rc<AudioPlayer> audioPlayer) noexcept
         : gui(gui), audioPlayer(audioPlayer)
     {
     }
@@ -67,6 +69,6 @@ protected:
     }
 
 protected:
-    std::shared_ptr<GuiWrapper> gui;
-    AudioPlayer& audioPlayer;
+    mem::Rc<GuiWrapper> gui;
+    mem::Rc<AudioPlayer> audioPlayer;
 };

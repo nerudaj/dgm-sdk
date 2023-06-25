@@ -35,10 +35,10 @@ void AppStateMainMenu::buildLayoutImpl()
 
 void AppStateMainMenu::input()
 {
-    if (settings.cmdSettings.skipMainMenu)
+    if (settings->cmdSettings.skipMainMenu)
     {
         app.pushState<AppStateIngame>(resmgr, gui, settings, audioPlayer);
-        settings.cmdSettings.skipMainMenu = false;
+        settings->cmdSettings.skipMainMenu = false;
     }
 
     sf::Event event;

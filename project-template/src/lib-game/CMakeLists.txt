@@ -18,7 +18,7 @@ target_include_directories ( ${PROJECT_NAME}
 )
 
 target_link_libraries ( ${PROJECT_NAME}
-	${DGM_LIB} ${SFML_LIB}
+	${DGM_LIB} ${SFML_LIB} lib-memory
 )
 
 autoset_target_compile_options ( ${PROJECT_NAME} FALSE )

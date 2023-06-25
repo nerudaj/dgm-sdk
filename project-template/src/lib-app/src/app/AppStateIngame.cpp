@@ -57,17 +57,17 @@ Scene AppStateIngame::constructScene(
 
 AppStateIngame::AppStateIngame(
     dgm::App& app,
-    const dgm::ResourceManager& resmgr,
-    std::shared_ptr<GuiWrapper> gui,
-    Settings& settings,
-    AudioPlayer& audioPlayer)
+    mem::Rc<const dgm::ResourceManager> resmgr,
+    mem::Rc<GuiWrapper> gui,
+    mem::Rc<Settings> settings,
+    mem::Rc<AudioPlayer> audioPlayer)
     : dgm::AppState(app)
     , resmgr(resmgr)
     , gui(gui)
     , settings(settings)
     , audioPlayer(audioPlayer)
     , GAME_RESOLUTION(sf::Vector2f(app.window.getSize()))
-    , scene(constructScene(resmgr, GAME_RESOLUTION))
+    , scene(constructScene(*resmgr, GAME_RESOLUTION))
     , audioEngine(resmgr, audioPlayer)
     , gameRulesEngine(scene)
     , physicsEngine(scene)

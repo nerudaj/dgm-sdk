@@ -7,10 +7,16 @@ class AppStatePaused final
     : public dgm::AppState
     , public GuiState
 {
-protected:
-    Settings& settings;
-
-    void buildLayoutImpl() override;
+public:
+    AppStatePaused(
+        dgm::App& app,
+        mem::Rc<GuiWrapper> gui,
+        mem::Rc<AudioPlayer> audioPlayer,
+        mem::Rc<Settings> settings)
+        : dgm::AppState(app), GuiState(gui, audioPlayer), settings(settings)
+    {
+        buildLayout();
+    }
 
 public:
     virtual void input() override;
@@ -32,13 +38,9 @@ public:
         GuiState::restoreFocus(app.window.getWindowContext());
     }
 
-    AppStatePaused(
-        dgm::App& app,
-        std::shared_ptr<GuiWrapper> gui,
-        AudioPlayer& audioPlayer,
-        Settings& settings)
-        : dgm::AppState(app), GuiState(gui, audioPlayer), settings(settings)
-    {
-        buildLayout();
-    }
+private:
+    void buildLayoutImpl() override;
+
+private:
+    mem::Rc<Settings> settings;
 };

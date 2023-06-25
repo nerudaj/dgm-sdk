@@ -4,11 +4,14 @@
 #include "audio/AudioPlayer.hpp"
 #include <DGM/DGM.hpp>
 
+import Memory;
+
 class AudioEngine final
 {
 public:
     [[nodiscard]] AudioEngine(
-        const dgm::ResourceManager& resmgr, AudioPlayer& audioPlayer) noexcept
+        mem::Rc<const dgm::ResourceManager> resmgr,
+        mem::Rc<AudioPlayer> audioPlayer) noexcept
         : resmgr(resmgr), audioPlayer(audioPlayer)
     {
     }
@@ -20,6 +23,6 @@ public:
     void update(const dgm::Time& time);
 
 private:
-    const dgm::ResourceManager& resmgr;
-    AudioPlayer& audioPlayer;
+    mem::Rc<const dgm::ResourceManager> resmgr;
+    mem::Rc<AudioPlayer> audioPlayer;
 };

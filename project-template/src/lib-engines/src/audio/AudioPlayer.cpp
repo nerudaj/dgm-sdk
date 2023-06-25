@@ -6,7 +6,7 @@ void AudioPlayer::playSoundOnChannel(
     if (force || !isChannelActive(channel))
     {
         channels[channel].setBuffer(
-            resmgr.get<sf::SoundBuffer>(soundName).value());
+            resmgr->get<sf::SoundBuffer>(soundName).value());
         channels[channel].play();
     }
 }

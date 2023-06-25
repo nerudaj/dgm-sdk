@@ -26,8 +26,7 @@ void AppStateMenuOptions::buildLayoutImpl()
     title->setTextSize(72);
     gui->get().add(title);
 
-    // TODO: make it accept wrapper
-    GuiOptionsBuilder builder(gui->get(), { "20%", "35%" }, { "60%", "20%" });
+    GuiOptionsBuilder builder(gui, { "20%", "35%" }, { "60%", "20%" });
     builder
         .addOption(
             "Toggle fullscreen",
@@ -39,29 +38,29 @@ void AppStateMenuOptions::buildLayoutImpl()
             "Sound volume",
             "SliderSoundVolume",
             WidgetCreator::createSlider(
-                settings.appSettings.soundVolume,
-                [this]()
+                settings->appSettings.soundVolume,
+                [this]
                 {
-                    settings.appSettings.soundVolume =
+                    settings->appSettings.soundVolume =
                         gui->get()
                             .get<tgui::Slider>("SliderSoundVolume")
                             ->getValue();
-                    audioPlayer.setSoundVolume(
-                        settings.appSettings.soundVolume);
+                    audioPlayer->setSoundVolume(
+                        settings->appSettings.soundVolume);
                 }))
         .addOption(
             "Music volume",
             "SliderMusicVolume",
             WidgetCreator::createSlider(
-                settings.appSettings.musicVolume,
-                [this]()
+                settings->appSettings.musicVolume,
+                [this]
                 {
-                    settings.appSettings.musicVolume =
+                    settings->appSettings.musicVolume =
                         gui->get()
                             .get<tgui::Slider>("SliderMusicVolume")
                             ->getValue();
-                    audioPlayer.setSoundVolume(
-                        settings.appSettings.musicVolume);
+                    audioPlayer->setSoundVolume(
+                        settings->appSettings.musicVolume);
                 }))
         .addOption(
             "Set resolution",
@@ -69,7 +68,7 @@ void AppStateMenuOptions::buildLayoutImpl()
             WidgetCreator::createDropdown(
                 STRING_RESOLUTIONS,
                 getWindowResolutionAsString(app.window),
-                [this]()
+                [this]
                 {
                     auto item =
                         gui->get().get<tgui::ComboBox>("DropdownResolution");
@@ -81,11 +80,7 @@ void AppStateMenuOptions::buildLayoutImpl()
                     app.window.changeResolution(NUM_RESOLUTIONS[index]);
 
                     // Force gui to update viewport and resolution
-                    // FIXME:
-                    // gui.setView(app.window.getWindowContext().getView());
                     gui->get().setWindow(app.window.getWindowContext());
-                    /*gui->get().removeAllWidgets();
-                    buildLayout();*/
                 }))
         .build();
 
