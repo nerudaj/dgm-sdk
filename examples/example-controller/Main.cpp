@@ -17,9 +17,14 @@ int main()
 	dgm::Window window({ 1280, 720 }, "Example: Controller", false);
 	dgm::Time time;
 
-	dgm::JsonLoader loader;
-	dgm::ResourceManager resmgr(loader);
-	resmgr.loadResourceDir<sf::Font>(RESOURCE_DIR, { ".ttf" });
+	dgm::ResourceManager resmgr;
+	resmgr.loadResourcesFromDirectory<sf::Font>(
+		RESOURCE_DIR,
+		[](const std::filesystem::path& path, sf::Font& texture)
+		{
+			texture.loadFromFile(path.string());
+		},
+		{ ".ttf" });
 
 	dgm::Controller input;
 
@@ -67,7 +72,7 @@ int main()
 
 	// Decorations
 	sf::Text text;
-	text.setFont(resmgr.get<sf::Font>("cruft.ttf"));
+	text.setFont(resmgr.get<sf::Font>("cruft.ttf").value().get());
 
 	sf::RectangleShape dpadUp, dpadLeft, dpadDown, dpadRight;
 	dpadUp.setSize({ 20.f, 50.f });

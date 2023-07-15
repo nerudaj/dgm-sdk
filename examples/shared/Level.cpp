@@ -19,7 +19,7 @@ void Level::changeTileToVoid(unsigned x, unsigned y)
 	mesh[y * mesh.getDataSize().x + x] = 0;
 }
 
-Level::Level(sf::Texture& texture)
+Level::Level(const sf::Texture& texture)
 {
 	constexpr unsigned TILE_SIZE = 32;
 	auto clip = dgm::Clip({ TILE_SIZE, TILE_SIZE },

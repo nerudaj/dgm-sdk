@@ -1,7 +1,7 @@
 set ( DGM_LIB_VERSION "1.10.0" )
 set ( DGM_FSM_LIB_VERSION "1.1.0" )
 set ( DSH_VERSION     "1.7.0" )
-set ( SFML_VERSION    "2.5.1" )
+set ( SFML_VERSION    "2.6.0" )
 
 set ( DGM_LIB_URL "https://github.com/nerudaj/dgm-lib/releases/download/v${DGM_LIB_VERSION}/dgm-lib-${DGM_LIB_VERSION}-windows-vc17-x64.zip" )
 set ( DGM_FSM_LIB_URL "https://github.com/nerudaj/dgm-fsm-lib/releases/download/v${DGM_FSM_LIB_VERSION}/dgm-fsm-lib-${DGM_FSM_LIB_VERSION}-windows-vc17-x64.zip" )

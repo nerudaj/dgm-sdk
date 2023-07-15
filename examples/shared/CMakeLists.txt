@@ -19,7 +19,7 @@ add_library ( ${PROJECT_NAME} STATIC
 )
 
 target_link_libraries ( ${PROJECT_NAME}
-    ${LIB_SFML_MAIN} ${LIB_SFML_SYSTEM} ${LIB_SFML_GRAPHICS} ${LIB_SFML_WINDOW} ${LIB_SFML_AUDIO} ${LIB_DGM} ${LIB_LVLD} ${LIB_DGM_FSM}
+    ${LIB_SFML_MAIN} ${LIB_SFML_SYSTEM} ${LIB_SFML_GRAPHICS} ${LIB_SFML_WINDOW} ${LIB_SFML_AUDIO} ${LIB_DGM} ${LIB_LVLD} ${LIB_DGM_FSM} xinput.lib
 )
 
 target_include_directories ( ${PROJECT_NAME}

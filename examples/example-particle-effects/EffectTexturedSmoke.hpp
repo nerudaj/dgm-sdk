@@ -2,7 +2,8 @@
 
 #include "ParticleEffectBase.hpp"
 
-class EffectTexturedSmoke : public ParticleEffectBase {
+class EffectTexturedSmoke : public ParticleEffectBase
+{
 protected:
 	// Parameters
 	const sf::Time SPAWN_TIMEOUT = sf::seconds(0.1f);
@@ -22,12 +23,13 @@ protected:
 	sf::Time spawnTimer = SPAWN_TIMEOUT;
 
 protected:
-	void spawnParticle() {
-		if (not particles.expand()) return;
+	void spawnParticle()
+	{
+		if (not particles.grow()) return;
 
 		static int frameIndex = 0;
 
-		auto& p = particles.last();
+		auto& p = particles.getLast();
 
 		const sf::Vector2f BASE_DIR(0.f, -1.f);
 		const auto randomDirection = dgm::Math::rotateVector(BASE_DIR, getRandomFloat(MIN_EMITTED_SPREAD, MAX_EMITTER_SPREAD));
@@ -43,24 +45,28 @@ protected:
 	}
 
 public:
-	virtual void update(const dgm::Time& time) {
-		for (unsigned i = 0; i < particles.size(); i++) {
+	virtual void update(const dgm::Time& time)
+	{
+		for (unsigned i = 0; i < particles.getSize(); i++)
+		{
 			auto& p = particles[i];
 			p->moveForwardBy(p->getForward() * time.getDeltaTime());
 			p->updateLifespan(time.getElapsed());
 
-			if (!p->isAlive()) {
+			if (!p->isAlive())
+			{
 				p->despawn();
 				particles.remove(i--);
 			}
 		}
 
 		spawnTimer -= time.getElapsed();
-		if (spawnTimer <= sf::Time::Zero) {
+		if (spawnTimer <= sf::Time::Zero)
+		{
 			spawnTimer = SPAWN_TIMEOUT;
 			spawnParticle();
 		}
 	}
 
-	EffectTexturedSmoke(const sf::Vector2f& emitterPosition, const dgm::Clip &clip) : emitterPosition(emitterPosition), clip(clip) {}
+	EffectTexturedSmoke(unsigned particleCount, const sf::Vector2f& emitterPosition, const dgm::Clip& clip) : ParticleEffectBase(particleCount), emitterPosition(emitterPosition), clip(clip) {}
 };

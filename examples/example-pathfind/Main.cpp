@@ -83,11 +83,16 @@ int main()
 	dgm::Window window({ 1280, 980 }, "Example: Pathfind", false);
 	dgm::Time time;
 
-	dgm::JsonLoader loader;
-	dgm::ResourceManager resmgr(loader);
-	resmgr.loadResourceDir<sf::Texture>(RESOURCE_DIR, { ".png" });
+	dgm::ResourceManager resmgr;
+	resmgr.loadResourcesFromDirectory<sf::Texture>(
+		RESOURCE_DIR,
+		[](const std::filesystem::path& path, sf::Texture& texture)
+		{
+			texture.loadFromFile(path.string());
+		},
+		{ ".png" });
 
-	Level level(resmgr.get<sf::Texture>("tileset.png"));
+	Level level(resmgr.get<sf::Texture>("tileset.png").value().get());
 	level.loadFromLvd(DemoData::createDemoLevel());
 
 	Actor actor(level.getMesh());

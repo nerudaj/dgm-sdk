@@ -1,4 +1,8 @@
 dgm-sdk v2.0.0 changelog:
+ * Examples
+	* SFML bumped to 2.6.0
+	* dgm-lib bumped to 2.1.0
+	* Added `example-spatial-buffer` showcasing `dgm::SpatialBuffer`
  * Project template
 	* CMake 3.26 or newer is now required
 	* SFML bumped to 2.6.0

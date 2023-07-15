@@ -2,7 +2,8 @@
 
 #include "ParticleEffectBase.hpp"
 
-class EffectStarfield : public ParticleEffectBase {
+class EffectStarfield : public ParticleEffectBase
+{
 protected:
 	// Effect parameters
 	const sf::Time SPAWN_TIMEOUT = sf::seconds(0.01f);
@@ -15,8 +16,9 @@ protected:
 	sf::Time spawnTimeout = SPAWN_TIMEOUT;
 
 protected:
-	void spawnParticle() {
-		if (!particles.expand()) return;
+	void spawnParticle()
+	{
+		if (!particles.grow()) return;
 
 		const float speedSizeFactor = getRandomFloat(1.f, 5.f);
 
@@ -30,29 +32,33 @@ protected:
 		const bool spawnOnTop = static_cast<bool>(rand() % 2);
 		const sf::Vector2f randomPosition = spawnOnTop ? sf::Vector2f(randomX, startY) : sf::Vector2f(startX, randomY);
 
-		auto& p = particles.last();
+		auto& p = particles.getLast();
 		p->setColor(sf::Color::White);
 		p->spawn(randomPosition, sf::Vector2f(1.f, 1.f) * speedSizeFactor, sf::Time::Zero);
 		p->setForward(dgm::Conversion::polarToCartesian(-45.f, -PARTICLE_BASE_SPEED * speedSizeFactor));
 	}
 
 public:
-	virtual void update(const dgm::Time& time) override {
+	virtual void update(const dgm::Time& time) override
+	{
 		spawnTimeout -= time.getElapsed();
-		if (spawnTimeout <= sf::Time::Zero) {
+		if (spawnTimeout <= sf::Time::Zero)
+		{
 			spawnTimeout = SPAWN_TIMEOUT;
 			spawnParticle();
 		}
 
-		for (unsigned i = 0; i < particles.size(); i++) {
+		for (unsigned i = 0; i < particles.getSize(); i++)
+		{
 			particles[i]->moveForwardBy(particles[i]->getForward() * time.getDeltaTime());
 
-			if (!dgm::Collision::basic(bounds, sf::Vector2i(particles[i]->getPosition()))) {
+			if (!dgm::Collision::basic(bounds, sf::Vector2i(particles[i]->getPosition())))
+			{
 				particles[i]->despawn();
 				particles.remove(i--);
 			}
 		}
 	}
 
-	EffectStarfield(const sf::FloatRect& bounds) : bounds({bounds.left, bounds.top}, {bounds.width, bounds.height}) {}
+	EffectStarfield(unsigned particleCount, const sf::FloatRect& bounds) : ParticleEffectBase(particleCount), bounds({ bounds.left, bounds.top }, { bounds.width, bounds.height }) {}
 };
