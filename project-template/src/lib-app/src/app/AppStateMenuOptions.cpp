@@ -74,13 +74,12 @@ void AppStateMenuOptions::buildLayoutImpl()
                         gui->get().get<tgui::ComboBox>("DropdownResolution");
                     auto index = item->getSelectedItemIndex();
                     if (index == -1) return;
-                    bool fs = app.window.isFullscreen();
 
                     // Restart window with new resolution
                     app.window.changeResolution(NUM_RESOLUTIONS[index]);
 
                     // Force gui to update viewport and resolution
-                    gui->get().setWindow(app.window.getWindowContext());
+                    restoreFocus();
                 }))
         .build();
 
