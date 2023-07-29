@@ -6,7 +6,7 @@ dgm-sdk v2.0.0 changelog:
  * Project template
 	* CMake 3.26 or newer is now required
 	* SFML bumped to 2.6.0
-	* dgm-lib bumped to 2.0.0
+	* dgm-lib bumped to 2.1.0
 	* TGUI bumped to 1.0 (devel)
 	* Various refactors happened due to above version updates
 	* EnTT is now integrated and linked from `lib-game` project
