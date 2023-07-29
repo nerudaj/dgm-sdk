@@ -17,7 +17,7 @@ public:
     }
 
 public: // Must visit on all related events
-    void operator()(const DummyAudioEvent& e) {}
+    void operator()(const DummyAudioEvent&) {}
 
 public:
     void update(const dgm::Time& time);

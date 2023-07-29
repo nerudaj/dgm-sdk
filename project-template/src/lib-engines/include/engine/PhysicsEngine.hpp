@@ -10,7 +10,7 @@ public:
     [[nodiscard]] PhysicsEngine(Scene& scene) noexcept : scene(scene) {}
 
 public: // Must visit on all related events
-    void operator()(const DummyPhysicsEvent& e) {}
+    void operator()(const DummyPhysicsEvent&) {}
 
 public:
     void update(const dgm::Time& time);

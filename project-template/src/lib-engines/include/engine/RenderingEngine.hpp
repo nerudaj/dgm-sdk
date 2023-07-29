@@ -15,7 +15,7 @@ public:
         mem::Rc<const dgm::ResourceManager> resmgr, Scene& scene);
 
 public: // Must visit on all related events
-    constexpr inline void operator()(const EventToggleFpsRequested& e) noexcept
+    constexpr inline void operator()(const EventToggleFpsRequested&) noexcept
     {
         showFps = !showFps;
     }

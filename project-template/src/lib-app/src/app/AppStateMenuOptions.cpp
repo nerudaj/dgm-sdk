@@ -33,7 +33,7 @@ void AppStateMenuOptions::buildLayoutImpl()
             "CheckboxFullscreen",
             WidgetCreator::createCheckbox(
                 app.window.isFullscreen(),
-                [this](bool checked) { app.window.toggleFullscreen(); }))
+                [this](bool) { app.window.toggleFullscreen(); }))
         .addOption(
             "Sound volume",
             "SliderSoundVolume",

@@ -10,7 +10,7 @@ public:
     [[nodiscard]] GameRulesEngine(Scene& scene) noexcept : scene(scene) {}
 
 public: // Must visit on all related events
-    void operator()(const DummyGameEvent& e) {}
+    void operator()(const DummyGameEvent&) {}
 
 public:
     void update(const dgm::Time& time);

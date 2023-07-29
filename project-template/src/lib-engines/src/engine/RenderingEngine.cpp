@@ -14,7 +14,7 @@ void RenderingEngine::update(const dgm::Time& time)
     fpsCounter.update(time.getDeltaTime());
 }
 
-void RenderingEngine::renderWorldTo(dgm::Window& window) {}
+void RenderingEngine::renderWorldTo(dgm::Window&) {}
 
 void RenderingEngine::renderHudTo(dgm::Window& window)
 {
