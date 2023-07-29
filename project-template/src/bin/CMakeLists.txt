@@ -29,11 +29,11 @@ autoset_target_compile_options ( ${PROJECT_NAME} FALSE )
 
 # Packaging
 install (
-	FILES       "${CMAKE_CURRENT_BINARY_DIR}/Release/${SETTINGS_BINARY_NAME}.exe"
+	FILES       "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/${SETTINGS_BINARY_NAME}.exe"
 	DESTINATION "bin"
 )
 
-file ( GLOB DLLS "${CMAKE_CURRENT_BINARY_DIR}/Release/*.dll" )
+file ( GLOB DLLS "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/*.dll" )
 
 install (
 	FILES       ${DLLS}
