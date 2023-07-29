@@ -19,7 +19,7 @@ public:
 
     virtual void draw() override
     {
-        gui->get().draw();
+        gui->draw();
     }
 
     virtual [[nodiscard]] bool isTransparent() const noexcept override
@@ -40,7 +40,7 @@ public:
     [[nodiscard]] AppStateMainMenu(
         dgm::App& app,
         mem::Rc<const dgm::ResourceManager> resmgr,
-        mem::Rc<GuiWrapper> gui,
+        mem::Rc<tgui::Gui> gui,
         mem::Rc<AudioPlayer> audioPlayer,
         mem::Rc<Settings> settings)
         : dgm::AppState(app)

@@ -48,16 +48,16 @@ void AppStateIngame::draw()
 }
 
 AppStateIngame::AppStateIngame(
-    dgm::App& app,
-    mem::Rc<const dgm::ResourceManager> resmgr,
-    mem::Rc<GuiWrapper> gui,
-    mem::Rc<Settings> settings,
-    mem::Rc<AudioPlayer> audioPlayer)
-    : dgm::AppState(app)
-    , resmgr(resmgr)
-    , gui(gui)
-    , settings(settings)
-    , audioPlayer(audioPlayer)
+    dgm::App& _app,
+    mem::Rc<const dgm::ResourceManager> _resmgr,
+    mem::Rc<tgui::Gui> _gui,
+    mem::Rc<Settings> _settings,
+    mem::Rc<AudioPlayer> _audioPlayer)
+    : dgm::AppState(_app)
+    , resmgr(_resmgr)
+    , gui(_gui)
+    , settings(_settings)
+    , audioPlayer(_audioPlayer)
     , GAME_RESOLUTION(sf::Vector2f(app.window.getSize()))
     , scene(SceneLoader::loadScene(*resmgr, GAME_RESOLUTION))
     , audioEngine(resmgr, audioPlayer)

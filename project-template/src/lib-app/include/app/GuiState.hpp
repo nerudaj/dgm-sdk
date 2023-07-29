@@ -4,7 +4,6 @@
 #include <DGM/dgm.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
-#include <app/GuiWrapper.hpp>
 
 import Memory;
 
@@ -19,7 +18,7 @@ protected:
 
 protected:
     [[nodiscard]] GuiState(
-        mem::Rc<GuiWrapper> gui, mem::Rc<AudioPlayer> audioPlayer) noexcept
+        mem::Rc<tgui::Gui> gui, mem::Rc<AudioPlayer> audioPlayer) noexcept
         : gui(gui), audioPlayer(audioPlayer)
     {
     }
@@ -58,17 +57,17 @@ protected:
 
     void buildLayout()
     {
-        gui->get().removeAllWidgets();
+        gui->removeAllWidgets();
         buildLayoutImpl();
     }
 
     void restoreFocus(sf::RenderWindow& window)
     {
-        gui->get().setWindow(window);
+        gui->setWindow(window);
         buildLayout();
     }
 
 protected:
-    mem::Rc<GuiWrapper> gui;
+    mem::Rc<tgui::Gui> gui;
     mem::Rc<AudioPlayer> audioPlayer;
 };

@@ -2,7 +2,6 @@
 
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
-#include <app/GuiWrapper.hpp>
 
 import Memory;
 
@@ -28,7 +27,7 @@ public:
 class GuiOptionsBuilder final
 {
 private:
-    mem::Rc<GuiWrapper> gui;
+    mem::Rc<tgui::Gui> gui;
     tgui::VerticalLayout::Ptr rowContainer;
     unsigned labelFontSize;
     std::vector<std::tuple<std::string, std::string, tgui::Widget::Ptr>>
@@ -36,14 +35,14 @@ private:
 
 public:
     [[nodiscard]] GuiOptionsBuilder(
-        mem::Rc<GuiWrapper> gui,
+        mem::Rc<tgui::Gui> gui,
         const tgui::Layout2d& pos,
         const tgui::Layout2d& size)
         : gui(gui)
     {
         rowContainer = tgui::VerticalLayout::create(size);
         rowContainer->setPosition(pos);
-        gui->get().add(rowContainer);
+        gui->add(rowContainer);
     }
 
 public:

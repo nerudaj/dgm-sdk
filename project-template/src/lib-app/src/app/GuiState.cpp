@@ -28,7 +28,7 @@ void GuiState::createButton(
             audioPlayer->playSoundOnChannel("click.wav", 0);
             onClick();
         });
-    gui->get().add(button, "Button" + label);
+    gui->add(button, "Button" + label);
 }
 
 void GuiState::createButtonListInLayout(
@@ -81,16 +81,16 @@ void GuiState::createButtonListInLayout(
         // (already sanitized to correct value) Find the smallest value
         for (auto&& prop : properties)
         {
-            auto btn = gui->get().get<tgui::Button>(
-                "Button" + removeSpaces(prop.label));
+            auto btn =
+                gui->get<tgui::Button>("Button" + removeSpaces(prop.label));
             minTextSize = std::min(btn->getTextSize(), minTextSize);
         }
 
         // Set the smallest value to all buttons
         for (auto&& prop : properties)
         {
-            auto btn = gui->get().get<tgui::Button>(
-                "Button" + removeSpaces(prop.label));
+            auto btn =
+                gui->get<tgui::Button>("Button" + removeSpaces(prop.label));
             btn->setTextSize(minTextSize);
         }
     }

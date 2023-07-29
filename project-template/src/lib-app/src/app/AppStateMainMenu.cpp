@@ -9,11 +9,11 @@ void AppStateMainMenu::buildLayoutImpl()
         createWindowTitle({ "0%", "5%" }, { "100%", "25%" }, GAME_TITLE);
     title->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
     title->setTextSize(72);
-    gui->get().add(title);
+    gui->add(title);
 
     auto layout = tgui::VerticalLayout::create({ "15%", "30%" });
     layout->setPosition("42.5%", "35%");
-    gui->get().add(layout);
+    gui->add(layout);
 
     createButtonListInLayout(
         layout,
@@ -44,6 +44,6 @@ void AppStateMainMenu::input()
     sf::Event event;
     while (app.window.pollEvent(event))
     {
-        gui->get().handleEvent(event);
+        gui->handleEvent(event);
     }
 }

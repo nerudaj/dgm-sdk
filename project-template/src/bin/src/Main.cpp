@@ -3,7 +3,6 @@
 #include <ResourceLoader.hpp>
 #include <Settings.hpp>
 #include <app/AppStateMainMenu.hpp>
-#include <app/GuiWrapper.hpp>
 #include <audio/AudioPlayer.hpp>
 #include <cxxopts.hpp>
 #include <settings/GameTitle.hpp>
@@ -62,7 +61,8 @@ int main(int argc, char* argv[])
 
     dgm::Window window(windowSettings);
     dgm::App app(window);
-    auto&& gui = mem::Rc<GuiWrapper>(window.getWindowContext());
+    auto&& gui = mem::Rc<tgui::Gui>();
+    gui->setTarget(window.getWindowContext());
     auto&& resmgr = mem::Rc<dgm::ResourceManager>();
     auto&& audioPlayer = mem::Rc<AudioPlayer>(CHANNEL_COUNT, resmgr);
 
@@ -76,7 +76,7 @@ int main(int argc, char* argv[])
         std::cerr << std::format("error:Loading resources: {}\n", e.what());
         throw;
     }
-    gui->get().setFont(resmgr->get<tgui::Font>("cruft.ttf").value());
+    gui->setFont(resmgr->get<tgui::Font>("cruft.ttf").value());
 
     app.pushState<AppStateMainMenu>(resmgr, gui, audioPlayer, settings);
     app.run();

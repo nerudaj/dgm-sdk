@@ -24,7 +24,7 @@ void AppStateMenuOptions::buildLayoutImpl()
         createWindowTitle({ "0%", "5%" }, { "100%", "25%" }, "Options");
     title->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
     title->setTextSize(72);
-    gui->get().add(title);
+    gui->add(title);
 
     GuiOptionsBuilder builder(gui, { "20%", "35%" }, { "60%", "20%" });
     builder
@@ -42,9 +42,7 @@ void AppStateMenuOptions::buildLayoutImpl()
                 [this]
                 {
                     settings->appSettings.soundVolume =
-                        gui->get()
-                            .get<tgui::Slider>("SliderSoundVolume")
-                            ->getValue();
+                        gui->get<tgui::Slider>("SliderSoundVolume")->getValue();
                     audioPlayer->setSoundVolume(
                         settings->appSettings.soundVolume);
                 }))
@@ -56,9 +54,7 @@ void AppStateMenuOptions::buildLayoutImpl()
                 [this]
                 {
                     settings->appSettings.musicVolume =
-                        gui->get()
-                            .get<tgui::Slider>("SliderMusicVolume")
-                            ->getValue();
+                        gui->get<tgui::Slider>("SliderMusicVolume")->getValue();
                     audioPlayer->setSoundVolume(
                         settings->appSettings.musicVolume);
                 }))
@@ -70,8 +66,7 @@ void AppStateMenuOptions::buildLayoutImpl()
                 getWindowResolutionAsString(app.window),
                 [this]
                 {
-                    auto item =
-                        gui->get().get<tgui::ComboBox>("DropdownResolution");
+                    auto item = gui->get<tgui::ComboBox>("DropdownResolution");
                     auto index = item->getSelectedItemIndex();
                     if (index == -1) return;
 
@@ -95,6 +90,6 @@ void AppStateMenuOptions::input()
     sf::Event event;
     while (app.window.pollEvent(event))
     {
-        gui->get().handleEvent(event);
+        gui->handleEvent(event);
     }
 }

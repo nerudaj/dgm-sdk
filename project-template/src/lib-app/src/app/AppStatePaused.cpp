@@ -6,7 +6,7 @@ void AppStatePaused::buildLayoutImpl()
     auto panel = tgui::Panel::create({ "20%", "50%" });
     panel->getRenderer()->setBackgroundColor(sf::Color(192, 192, 192));
     panel->setPosition({ "40%", "25%" });
-    gui->get().add(panel);
+    gui->add(panel);
 
     auto layout = tgui::VerticalLayout::create({ "90%", "90%" });
     layout->setPosition("5%", "5%");
@@ -43,6 +43,6 @@ void AppStatePaused::input()
             }
         }
 
-        gui->get().handleEvent(event);
+        gui->handleEvent(event);
     }
 }

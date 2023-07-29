@@ -1,13 +1,15 @@
 #pragma once
 
 #include "Settings.hpp"
-#include "app/GuiWrapper.hpp"
 #include "audio/AudioPlayer.hpp"
 #include "engine/AudioEngine.hpp"
 #include "engine/GameRulesEngine.hpp"
 #include "engine/PhysicsEngine.hpp"
 #include "engine/RenderingEngine.hpp"
 #include <DGM/dgm.hpp>
+#include <Scene.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>
+#include <TGUI/TGUI.hpp>
 
 import Memory;
 
@@ -17,7 +19,7 @@ public:
     [[nodiscard]] AppStateIngame(
         dgm::App& app,
         mem::Rc<const dgm::ResourceManager> resmgr,
-        mem::Rc<GuiWrapper> gui,
+        mem::Rc<tgui::Gui> gui,
         mem::Rc<Settings> settings,
         mem::Rc<AudioPlayer> audioPlayer);
 
@@ -35,7 +37,7 @@ public:
 
 protected:
     mem::Rc<const dgm::ResourceManager> resmgr;
-    mem::Rc<GuiWrapper> gui;
+    mem::Rc<tgui::Gui> gui;
     mem::Rc<Settings> settings;
     mem::Rc<AudioPlayer> audioPlayer;
 
