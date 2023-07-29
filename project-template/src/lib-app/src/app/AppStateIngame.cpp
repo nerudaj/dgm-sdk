@@ -1,6 +1,7 @@
 #include "app/AppStateIngame.hpp"
 #include "EventQueue.hpp"
 #include "app/AppStatePaused.hpp"
+#include <SceneLoader.hpp>
 
 void AppStateIngame::input()
 {
@@ -46,15 +47,6 @@ void AppStateIngame::draw()
     renderingEngine.renderHudTo(app.window);
 }
 
-Scene AppStateIngame::constructScene(
-    const dgm::ResourceManager& resmgr, const sf::Vector2f& baseResolution)
-{
-    return Scene { .worldCamera =
-                       dgm::Camera(FULLSCREEN_VIEWPORT, baseResolution),
-                   .hudCamera =
-                       dgm::Camera(FULLSCREEN_VIEWPORT, baseResolution) };
-}
-
 AppStateIngame::AppStateIngame(
     dgm::App& app,
     mem::Rc<const dgm::ResourceManager> resmgr,
@@ -67,7 +59,7 @@ AppStateIngame::AppStateIngame(
     , settings(settings)
     , audioPlayer(audioPlayer)
     , GAME_RESOLUTION(sf::Vector2f(app.window.getSize()))
-    , scene(constructScene(*resmgr, GAME_RESOLUTION))
+    , scene(SceneLoader::loadScene(*resmgr, GAME_RESOLUTION))
     , audioEngine(resmgr, audioPlayer)
     , gameRulesEngine(scene)
     , physicsEngine(scene)

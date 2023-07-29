@@ -1,5 +1,6 @@
 #include <Config.hpp>
 #include <DGM/dgm.hpp>
+#include <ResourceLoader.hpp>
 #include <Settings.hpp>
 #include <app/AppStateMainMenu.hpp>
 #include <app/GuiWrapper.hpp>
@@ -8,10 +9,6 @@
 #include <settings/GameTitle.hpp>
 
 import Memory;
-
-// Takes std::expected and throws exception if it contains error
-#define THROW_ON_ERROR(expr)                                                   \
-    if (auto&& result = expr; !result) throw std::runtime_error(result.error());
 
 CmdSettings processCmdParameters(int argc, char* argv[])
 {
@@ -47,59 +44,6 @@ AppSettings loadAppSettings(const std::filesystem::path& path)
     return AppSettings {};
 }
 
-void loadResources(
-    dgm::ResourceManager& resmgr, const std::filesystem::path& rootDir)
-{
-    dgm::JsonLoader jsonLoader;
-
-    try
-    {
-        THROW_ON_ERROR(resmgr.loadResourcesFromDirectory<sf::Texture>(
-            rootDir / "graphics",
-            [](const std::filesystem::path& path, sf::Texture& texture)
-            { texture.loadFromFile(path.string()); },
-            { ".png" }));
-
-        THROW_ON_ERROR(resmgr.loadResourcesFromDirectory<sf::Font>(
-            rootDir / "fonts",
-            [](const std::filesystem::path& path, sf::Font& font)
-            { font.loadFromFile(path.string()); },
-            { ".ttf" }));
-
-        THROW_ON_ERROR(resmgr.loadResourcesFromDirectory<tgui::Font>(
-            rootDir / "fonts",
-            [](const std::filesystem::path& path, tgui::Font& font)
-            { font = tgui::Font(path.string()); },
-            { ".ttf" }));
-
-        THROW_ON_ERROR(resmgr.loadResourcesFromDirectory<dgm::AnimationStates>(
-            rootDir / "graphics",
-            [&jsonLoader](
-                const std::filesystem::path& path,
-                dgm::AnimationStates& animStates)
-            { animStates = jsonLoader.loadAnimationsFromFile(path); },
-            { ".anim" }));
-
-        THROW_ON_ERROR(resmgr.loadResourcesFromDirectory<dgm::Clip>(
-            rootDir / "graphics",
-            [&jsonLoader](const std::filesystem::path& path, dgm::Clip& clip)
-            { clip = jsonLoader.loadClipFromFile(path); },
-            { ".clip" }));
-
-        THROW_ON_ERROR(resmgr.loadResourcesFromDirectory<sf::SoundBuffer>(
-            rootDir / "sounds",
-            [&jsonLoader](
-                const std::filesystem::path& path, sf::SoundBuffer& buffer)
-            { buffer.loadFromFile(path.string()); },
-            { ".wav" }));
-    }
-    catch (std::exception& e)
-    {
-        std::cerr << std::format("error:Loading resources: {}\n", e.what());
-        throw;
-    }
-}
-
 int main(int argc, char* argv[])
 {
     const auto CONFIG_FILE_PATH = "app.json";
@@ -122,7 +66,16 @@ int main(int argc, char* argv[])
     auto&& resmgr = mem::Rc<dgm::ResourceManager>();
     auto&& audioPlayer = mem::Rc<AudioPlayer>(CHANNEL_COUNT, resmgr);
 
-    loadResources(*resmgr, settings->cmdSettings.resourcesDir);
+    try
+    {
+        ResourceLoader::loadResources(
+            *resmgr, settings->cmdSettings.resourcesDir);
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << std::format("error:Loading resources: {}\n", e.what());
+        throw;
+    }
     gui->get().setFont(resmgr->get<tgui::Font>("cruft.ttf").value());
 
     app.pushState<AppStateMainMenu>(resmgr, gui, audioPlayer, settings);

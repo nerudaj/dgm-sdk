@@ -25,7 +25,7 @@ target_include_directories ( ${PROJECT_NAME}
 )
 
 target_link_libraries ( ${PROJECT_NAME}
-	lib-events lib-engines lib-settings lib-game ${LIB_DGM} ${LIB_SFML} ${LIB_TGUI} ${LIB_DGM_FSM}
+	lib-events lib-engines lib-settings lib-game lib-loading ${LIB_DGM} ${LIB_SFML} ${LIB_TGUI} ${LIB_DGM_FSM}
 )
 
 autoset_target_compile_options ( ${PROJECT_NAME} FALSE )

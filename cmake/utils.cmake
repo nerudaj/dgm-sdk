@@ -1,4 +1,4 @@
-function (copy_dlls_to_build_folders)
+function (copy_dlls_to_build_folders include_tgui )
 	message ( "Copying DLLs to build folders" )
 	message ( "${SFML_FOLDER}" )
 
@@ -6,23 +6,28 @@ function (copy_dlls_to_build_folders)
 	file (GLOB RELEASE_SFML_DLLS ${SFML_FOLDER}/bin/*[oskmw]-2.dll)
 	set ( OPENAL_DLL 			 ${SFML_FOLDER}/bin/openal32.dll )
 
-	file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Debug" "${CMAKE_CURRENT_BINARY_DIR}/Release" )
+	file(MAKE_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release" )
 
 	configure_file (
-		${OPENAL_DLL} ${CMAKE_CURRENT_BINARY_DIR}/Debug/ COPYONLY
+		${OPENAL_DLL} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/ COPYONLY
 	)
 
 	configure_file (
-		${OPENAL_DLL} ${CMAKE_CURRENT_BINARY_DIR}/Release/ COPYONLY
+		${OPENAL_DLL} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/ COPYONLY
 	)
 
 	foreach ( DLL ${DEBUG_SFML_DLLS} )
-		configure_file ( ${DLL} ${CMAKE_CURRENT_BINARY_DIR}/Debug/ COPYONLY )
+		configure_file ( ${DLL} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/ COPYONLY )
 	endforeach ( DLL )
 
 	foreach ( DLL ${RELEASE_SFML_DLLS} )
-		configure_file ( ${DLL} ${CMAKE_CURRENT_BINARY_DIR}/Release/ COPYONLY )
+		configure_file ( ${DLL} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/ COPYONLY )
 	endforeach ( DLL )
+	
+	if ( ${include_tgui} )
+		file ( COPY "${TGUI_FOLDER}/lib/tgui-d.dll" DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug" )
+		file ( COPY "${TGUI_FOLDER}/lib/tgui.dll" DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release" )
+	endif()
 endfunction (copy_dlls_to_build_folders)
 
 # Looks into current source dir / include and recursively globs headers
@@ -44,9 +49,11 @@ function ( glob_sources src_outvarname )
 endfunction()
 
 function ( glob_modules src_outvarname )
-	file ( GLOB_RECURSE LOCAL_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src**/*.ixx" )
-	source_group ( TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${LOCAL_SOURCES})
-	set ( ${src_outvarname} "${LOCAL_SOURCES}" PARENT_SCOPE )
+	file ( GLOB_RECURSE LOCAL_SOURCES_IXX "${CMAKE_CURRENT_SOURCE_DIR}/src**/*.ixx" )
+	file ( GLOB_RECURSE LOCAL_SOURCES_CPP "${CMAKE_CURRENT_SOURCE_DIR}/src**/*.cpp" )
+	set ( SOURCES_AUX ${LOCAL_SOURCES_IXX} ${LOCAL_SOURCES_CPP} )
+	source_group ( TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SOURCES_AUX} )
+	set ( ${src_outvarname} "${SOURCES_AUX}" PARENT_SCOPE )
 endfunction()
 
 function ( autoset_target_compile_options target_name is_headeronly )

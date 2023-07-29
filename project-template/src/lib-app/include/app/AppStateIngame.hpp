@@ -34,18 +34,11 @@ public:
     virtual void restoreFocus() override {}
 
 protected:
-    [[nodiscard]] static Scene constructScene(
-        const dgm::ResourceManager& resmgr, const sf::Vector2f& baseResolution);
-
-protected:
     mem::Rc<const dgm::ResourceManager> resmgr;
     mem::Rc<GuiWrapper> gui;
     mem::Rc<Settings> settings;
     mem::Rc<AudioPlayer> audioPlayer;
 
-    static inline const sf::FloatRect FULLSCREEN_VIEWPORT = {
-        0.f, 0.f, 1.f, 1.f
-    };
     const sf::Vector2f GAME_RESOLUTION;
 
     Scene scene;

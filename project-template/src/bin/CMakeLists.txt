@@ -3,7 +3,7 @@ cmake_minimum_required ( VERSION 3.19 )
 project ( "${SETTINGS_BINARY_NAME}" )
 
 get_latest_clang_format()
-copy_dlls_to_build_folders()
+copy_dlls_to_build_folders( TRUE )
 glob_sources ( SOURCES )
 
 # Create final executable
