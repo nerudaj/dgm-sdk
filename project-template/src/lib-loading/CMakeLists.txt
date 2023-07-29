@@ -17,7 +17,6 @@ target_include_directories ( ${PROJECT_NAME}
 )
 
 target_link_libraries ( ${PROJECT_NAME}
-	PUBLIC lib-game
-	PRIVATE ${LIB_TGUI}
+	lib-game lib-settings ${LIB_TGUI}
 )
 autoset_target_compile_options ( ${PROJECT_NAME} FALSE )

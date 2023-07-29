@@ -2,6 +2,7 @@
 
 #include <DGM/dgm.hpp>
 #include <Scene.hpp>
+#include <Settings.hpp>
 
 class SceneLoader
 {
@@ -10,6 +11,8 @@ class SceneLoader
     };
 
 public:
-    [[nodiscard]] static Scene
-    loadScene(const dgm::ResourceManager&, const sf::Vector2f& baseResolution);
+    [[nodiscard]] static Scene loadScene(
+        const dgm::ResourceManager&,
+        const sf::Vector2f& baseResolution,
+        const Settings& settings);
 };

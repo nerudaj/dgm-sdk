@@ -59,7 +59,7 @@ AppStateIngame::AppStateIngame(
     , settings(_settings)
     , audioPlayer(_audioPlayer)
     , GAME_RESOLUTION(sf::Vector2f(app.window.getSize()))
-    , scene(SceneLoader::loadScene(*resmgr, GAME_RESOLUTION))
+    , scene(SceneLoader::loadScene(*resmgr, GAME_RESOLUTION, *settings))
     , audioEngine(resmgr, audioPlayer)
     , gameRulesEngine(scene)
     , physicsEngine(scene)
