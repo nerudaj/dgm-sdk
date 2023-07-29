@@ -3,7 +3,7 @@ set ( DGM_FSM_LIB_VERSION "1.1.0" )
 set ( DSH_VERSION     "1.7.0" )
 set ( SFML_VERSION    "2.6.0" )
 
-set ( DGM_LIB_URL "https://github.com/nerudaj/dgm-lib/releases/download/v${DGM_LIB_VERSION}/dgm-lib-${DGM_LIB_VERSION}-windows-vc17-x64.zip" )
+set ( DGM_LIB_URL "https://github.com/nerudaj/dgm-lib/releases/download/v${DGM_LIB_VERSION}/dgm-lib-${DGM_LIB_VERSION}-winx64-vc17-x64-for-SFML-${SFML_VERSION}.zip" )
 set ( DGM_FSM_LIB_URL "https://github.com/nerudaj/dgm-fsm-lib/releases/download/v${DGM_FSM_LIB_VERSION}/dgm-fsm-lib-${DGM_FSM_LIB_VERSION}-windows-vc17-x64.zip" )
 set ( DSH_URL   "https://github.com/nerudaj/dsh/releases/download/v${DSH_VERSION}/dsh-${DSH_VERSION}-vc16-64-bit.zip" )
 set ( SFML_URL    "https://github.com/SFML/SFML/releases/download/${SFML_VERSION}/SFML-${SFML_VERSION}-windows-vc15-64-bit.zip" )
