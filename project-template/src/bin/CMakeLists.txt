@@ -3,20 +3,21 @@ cmake_minimum_required ( VERSION 3.19 )
 project ( "${SETTINGS_BINARY_NAME}" )
 
 get_latest_clang_format()
-copy_dlls_to_build_folders( TRUE )
-glob_sources ( SOURCES )
+copy_dlls_to_build_folders()
+glob_sources_and_headers ( SOURCES HEADERS )
 
 # Create final executable
 add_executable ( ${PROJECT_NAME} WIN32
-	${SOURCES}
+	${SOURCES} ${HEADERS}
 	"${CMAKE_CURRENT_SOURCE_DIR}/.clang-format"
 )
 
 target_link_libraries ( ${PROJECT_NAME}
-	lib-app ${LIB_CFG} ${LIB_LVLD}
+	lib-app
 )
 
 target_include_directories ( ${PROJECT_NAME}
+	PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
 	PRIVATE "${JSON_FOLDER}/include"
 	PRIVATE "${CXXOPTS_FOLDER}/include"
 )

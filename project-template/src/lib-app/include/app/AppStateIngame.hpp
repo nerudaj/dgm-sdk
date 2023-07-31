@@ -7,9 +7,9 @@
 #include "engine/PhysicsEngine.hpp"
 #include "engine/RenderingEngine.hpp"
 #include <DGM/dgm.hpp>
-#include <Scene.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
+#include <core/Scene.hpp>
 
 import Memory;
 

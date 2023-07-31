@@ -1,5 +1,4 @@
-#include "ResourceLoader.hpp"
-#include <DGM/dgm.hpp>
+#include "Loader.hpp"
 #include <LevelD.hpp>
 #include <SFML/Audio.hpp>
 #include <TGUI/TGUI.hpp>
@@ -47,7 +46,7 @@ static inline void loadLevel(const std::filesystem::path& path, LevelD& lvd)
     lvd.loadFromFile(path.string());
 }
 
-void ResourceLoader::loadResources(
+void Loader::loadResources(
     dgm::ResourceManager& resmgr, const std::filesystem::path& rootDir)
 {
     THROW_ON_ERROR(resmgr.loadResourcesFromDirectory<sf::Texture>(
@@ -70,14 +69,6 @@ void ResourceLoader::loadResources(
 
     THROW_ON_ERROR(resmgr.loadResourcesFromDirectory<LevelD>(
         rootDir / "levels", loadLevel, { ".lvd" }));
-}
-
-dgm::Mesh ResourceLoader::loadMeshFromLevel(const LevelD& lvd, unsigned layerId)
-{
-    return dgm::Mesh(
-        lvd.mesh.layers[layerId].blocks,
-        { lvd.mesh.layerWidth, lvd.mesh.layerHeight },
-        { lvd.mesh.tileWidth, lvd.mesh.tileHeight });
 }
 
 #undef THROW_ON_ERROR

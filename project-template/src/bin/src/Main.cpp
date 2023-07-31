@@ -1,6 +1,6 @@
+#include "Loader.hpp"
 #include <Config.hpp>
 #include <DGM/dgm.hpp>
-#include <ResourceLoader.hpp>
 #include <Settings.hpp>
 #include <app/AppStateMainMenu.hpp>
 #include <audio/AudioPlayer.hpp>
@@ -68,8 +68,7 @@ int main(int argc, char* argv[])
 
     try
     {
-        ResourceLoader::loadResources(
-            *resmgr, settings->cmdSettings.resourcesDir);
+        Loader::loadResources(*resmgr, settings->cmdSettings.resourcesDir);
     }
     catch (std::exception& e)
     {

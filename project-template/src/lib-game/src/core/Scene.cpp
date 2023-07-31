@@ -1,9 +1,11 @@
-#include "SceneLoader.hpp"
+#include "core/Scene.hpp"
 
-Scene SceneLoader::loadScene(
+static inline const sf::FloatRect FULLSCREEN_VIEWPORT = { 0.f, 0.f, 1.f, 1.f };
+
+Scene Scene::buildScene(
     const dgm::ResourceManager&,
     const sf::Vector2f& baseResolution,
-    const Settings&)
+    const Settings& settings)
 {
     return Scene { .worldCamera =
                        dgm::Camera(FULLSCREEN_VIEWPORT, baseResolution),

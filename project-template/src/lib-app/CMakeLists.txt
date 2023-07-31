@@ -17,15 +17,11 @@ add_library ( ${PROJECT_NAME} STATIC
 
 target_include_directories ( ${PROJECT_NAME}
 	PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include"
-	PUBLIC "${DGM_FOLDER}/include"
-	PUBLIC "${DGM_FSM_FOLDER}/include"
-	PUBLIC "${SFML_FOLDER}/include"
 	PUBLIC "${TGUI_FOLDER}/include"
-	PUBLIC "${DSH_FOLDER}/include"
 )
 
 target_link_libraries ( ${PROJECT_NAME}
-	lib-events lib-engines lib-settings lib-game lib-loading ${LIB_DGM} ${LIB_SFML} ${LIB_TGUI} ${LIB_DGM_FSM}
+	lib-game
 )
 
 autoset_target_compile_options ( ${PROJECT_NAME} FALSE )

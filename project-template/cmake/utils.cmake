@@ -1,4 +1,4 @@
-function (copy_dlls_to_build_folders include_tgui )
+function (copy_dlls_to_build_folders )
 	message ( "Copying DLLs to build folders" )
 	message ( "${SFML_FOLDER}" )
 
@@ -23,11 +23,16 @@ function (copy_dlls_to_build_folders include_tgui )
 	foreach ( DLL ${RELEASE_SFML_DLLS} )
 		configure_file ( ${DLL} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/ COPYONLY )
 	endforeach ( DLL )
+
+	file (
+		COPY "${TGUI_FOLDER}/lib/tgui-d.dll"
+		DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug"
+	)
 	
-	if ( ${include_tgui} )
-		file ( COPY "${TGUI_FOLDER}/lib/tgui-d.dll" DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug" )
-		file ( COPY "${TGUI_FOLDER}/lib/tgui.dll" DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release" )
-	endif()
+	file (
+		COPY "${TGUI_FOLDER}/lib/tgui.dll"
+		DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release"
+	)
 endfunction (copy_dlls_to_build_folders)
 
 # Looks into current source dir / include and recursively globs headers

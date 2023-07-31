@@ -1,7 +1,7 @@
 #pragma once
 
-#include "AudioEvents.hpp"
 #include "audio/AudioPlayer.hpp"
+#include "events/AudioEvents.hpp"
 #include <DGM/DGM.hpp>
 
 import Memory;

@@ -1,7 +1,6 @@
 #include "app/AppStateIngame.hpp"
-#include "EventQueue.hpp"
 #include "app/AppStatePaused.hpp"
-#include <SceneLoader.hpp>
+#include <events/EventQueue.hpp>
 
 void AppStateIngame::input()
 {
@@ -59,7 +58,7 @@ AppStateIngame::AppStateIngame(
     , settings(_settings)
     , audioPlayer(_audioPlayer)
     , GAME_RESOLUTION(sf::Vector2f(app.window.getSize()))
-    , scene(SceneLoader::loadScene(*resmgr, GAME_RESOLUTION, *settings))
+    , scene(Scene::buildScene(*resmgr, GAME_RESOLUTION, *settings))
     , audioEngine(resmgr, audioPlayer)
     , gameRulesEngine(scene)
     , physicsEngine(scene)

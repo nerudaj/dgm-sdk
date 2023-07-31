@@ -49,6 +49,8 @@ If you run the binary with parameter `-s`, it will skip the main menu and jump r
 
 ## Starting development
 
- * `lib-game` - Should contain definitions of actors that are in the `Scene`. Add them to the `Scene` object.
- * `lib-loading` - Initialize the scene object via `SceneLoader::loadScene` method (extend its parameters as needed)
- * `lib-engines` - Contains game logic, broken down into engines, each responsible for a different bit of the game (physics, logic, audio, render)
+As a first thing just simply build the entire project and launch the binary to see what it does.
+
+Look for project `lib-game`. Start by adding some objects to `Scene` and `RenderContext` structs, update their builder functions and then render the object by updating logic in the `RenderingEngine` and make it do something with `GameRulesEngine` and `PhysicsEngine`.
+
+Define new `events` and consume them in appropriate engines to communicate between them. Pust events into processing with `EventQueue::push`. The queue is automatically processed at the end of the frame.

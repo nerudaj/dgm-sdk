@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GameRuleEvents.hpp"
-#include "Scene.hpp"
+#include "core/Scene.hpp"
+#include "events/GameRuleEvents.hpp"
 #include <DGM/DGM.hpp>
 
 class GameRulesEngine final

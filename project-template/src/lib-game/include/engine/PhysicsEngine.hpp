@@ -1,7 +1,7 @@
 #pragma once
 
-#include "PhysicsEvents.hpp"
-#include "Scene.hpp"
+#include "core/Scene.hpp"
+#include "events/PhysicsEvents.hpp"
 #include <DGM/DGM.hpp>
 
 class PhysicsEngine final
