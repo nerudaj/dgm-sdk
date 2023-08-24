@@ -8,7 +8,7 @@
     sf::Text text;
     text.setFont(font);
     text.setCharacterSize(charSize);
-    text.setFillColor(std::forward<_Color>(color));
+    text.setFillColor(std::forward<decltype(color)>(color));
     return text;
 };
 
