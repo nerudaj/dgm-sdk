@@ -1,8 +1,9 @@
 #include "render/RenderContext.hpp"
 
-template<dgm::UniversalReference<sf::Color> _Color>
-[[nodiscard]] static sf::Text
-createTextObject(const sf::Font& font, unsigned charSize, _Color&& color)
+[[nodiscard]] static sf::Text createTextObject(
+    const sf::Font& font,
+    unsigned charSize,
+    dgm::UniversalReference<sf::Color> auto&& color)
 {
     sf::Text text;
     text.setFont(font);
