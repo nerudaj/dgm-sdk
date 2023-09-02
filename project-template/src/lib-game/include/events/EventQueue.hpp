@@ -60,8 +60,8 @@ public:
 
 private:
     template<class T, class... Ts>
-    [[nodiscard]] consteval bool
-    isTypeInVariant(const std::variant<Ts...>& v) noexcept
+    [[nodiscard]] constexpr static bool
+    isTypeInVariant(const std::vector<std::variant<Ts...>>&) noexcept
     {
         return std::disjunction_v<std::is_same<T, Ts>...>;
     }
