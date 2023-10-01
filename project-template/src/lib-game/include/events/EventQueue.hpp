@@ -68,8 +68,11 @@ private:
 
     constexpr inline static void visit(auto&& visitor, auto& events)
     {
-        for (auto&& event : events)
-            std::visit(visitor, event);
+        // Cannot use range loop here because events might generate new events
+        for (unsigned i = 0; i < events.size(); i++)
+        {
+            std::visit(visitor, events[i]);
+        }
         events.clear();
     }
 
