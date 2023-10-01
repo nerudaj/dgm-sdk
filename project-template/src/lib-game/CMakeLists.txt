@@ -20,7 +20,7 @@ target_include_directories ( ${PROJECT_NAME}
 )
 
 target_link_libraries ( ${PROJECT_NAME}
-	lib-memory lib-settings ${LIB_SFML} ${LIB_TGUI} ${LIB_DGM} ${LIB_LVLD} ${LIB_DGM_FSM} xinput.lib
+	lib-memory lib-settings Dep_sfml Dep_dgm Dep_dgm_fsm
 )
 
 autoset_target_compile_options ( ${PROJECT_NAME} FALSE )
