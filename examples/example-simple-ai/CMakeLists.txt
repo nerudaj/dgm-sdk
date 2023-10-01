@@ -20,7 +20,7 @@ add_executable ( ${PROJECT_NAME} WIN32
 )
 
 target_link_libraries ( ${PROJECT_NAME}
-	examples-shared-code
+	examples-shared-code xinput.lib
 )
 
 target_include_directories ( ${PROJECT_NAME}

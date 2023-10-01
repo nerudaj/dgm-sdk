@@ -4,7 +4,7 @@
 
 auto toUnit(const sf::Vector2f& vec) noexcept
 {
-	return vec == sf::Vector2f(0.f, 0.f) ? vec : vec / dgm::Math::vectorSize(vec);
+	return vec == sf::Vector2f(0.f, 0.f) ? vec : vec / dgm::Math::getSize(vec);
 }
 
 class EffectBloodSpatter : public ParticleEffectBase
@@ -27,20 +27,6 @@ protected:
 	sf::Time lifespan;
 
 public:
-	virtual void init(const std::size_t particleCount) override
-	{
-		ParticleEffectBase::init(particleCount);
-
-		// This effect initializes all particles at once
-		// We need to loop over all allocated slots and "add" them to visible part of the buffer
-		for (unsigned i = 0; i < particles.capacity(); i++)
-		{
-			particles.expand();
-		}
-
-		reset();
-	}
-
 	virtual void update(const dgm::Time& time) override
 	{
 		const auto DELTA_GRAVITY = GRAVITY * time.getDeltaTime();
@@ -87,5 +73,15 @@ public:
 		return lifespan <= sf::Time::Zero;
 	}
 
-	EffectBloodSpatter(const sf::Vector2f& position, const float floorYCoord) : emitterPosition(position), floorY(floorYCoord) {}
+	EffectBloodSpatter(unsigned particleCount, const sf::Vector2f& position, const float floorYCoord) : ParticleEffectBase(particleCount), emitterPosition(position), floorY(floorYCoord)
+	{
+		// This effect initializes all particles at once
+		// We need to loop over all allocated slots and "add" them to visible part of the buffer
+		for (unsigned i = 0; i < particles.getCapacity(); i++)
+		{
+			particles.grow();
+		}
+
+		reset();
+	}
 };

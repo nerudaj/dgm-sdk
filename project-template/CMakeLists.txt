@@ -1,4 +1,6 @@
-cmake_minimum_required ( VERSION 3.19 )
+cmake_minimum_required ( VERSION 3.26 )
+
+set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Compiled" )
 
 # Download some helper files
 file (
@@ -8,29 +10,29 @@ file (
 )
 
 include ( "${CMAKE_SOURCE_DIR}/cmake/cpp.cmake" )
-
 include ( "${CMAKE_SOURCE_DIR}/cmake/settings.cmake" )
 include ( "${CMAKE_SOURCE_DIR}/cmake/version.cmake" )
 include ( "${CMAKE_SOURCE_DIR}/cmake/utils.cmake" )
+include ( "${CMAKE_SOURCE_DIR}/cmake/dependencies.cmake" )
 
 project ( "${SETTINGS_PROJECT_NAME}" )
 
 option ( DISABLE_TESTING    "Disable unit test projects" OFF )
-option ( ENABLE_BENCHMARKS "Disable benchmarking projects" OFF )
-option ( CACHE_THIRD_PARTY  "Downloaded dependencies will be stored outside of build dir" OFF )
 
-if ( ${CACHE_THIRD_PARTY} )
-	set ( FETCHCONTENT_BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/deps" )
-endif()
-
-include ( "${CMAKE_SOURCE_DIR}/cmake/dependencies.cmake" )
 
 if ( NOT ${DISABLE_TESTING})
 	enable_testing()
 endif()
 
-add_subdirectory ( lib )
-add_subdirectory ( bin )
+add_subdirectory ( "src/lib-memory" )
+add_subdirectory ( "src/lib-settings" )
+add_subdirectory ( "src/lib-game" )
+add_subdirectory ( "src/lib-app" )
+add_subdirectory ( "src/bin" )
+
+if ( NOT ${DISABLE_TESTING} )
+	add_subdirectory ( "src/tests" )
+endif()
 
 # Packaging
 install (

@@ -22,7 +22,7 @@ public:
 
 	void changeTileToVoid(unsigned x, unsigned y);
 
-	void loadFromLvd(const LevelD &lvd);
+	void loadFromLvd(const LevelD& lvd);
 
-	Level(sf::Texture& texture);
+	Level(const sf::Texture& texture);
 };

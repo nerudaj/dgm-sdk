@@ -8,7 +8,7 @@ add_executable ( ${PROJECT_NAME} WIN32
 )
 
 target_link_libraries ( ${PROJECT_NAME}
-	${LIB_SFML_MAIN} ${LIB_SFML_SYSTEM} ${LIB_SFML_GRAPHICS} ${LIB_SFML_WINDOW} ${LIB_SFML_AUDIO} ${LIB_DGM}
+	${LIB_SFML_MAIN} ${LIB_SFML_SYSTEM} ${LIB_SFML_GRAPHICS} ${LIB_SFML_WINDOW} ${LIB_SFML_AUDIO} ${LIB_DGM} xinput.lib
 )
 
 target_include_directories ( ${PROJECT_NAME}

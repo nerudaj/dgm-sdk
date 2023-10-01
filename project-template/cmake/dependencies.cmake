@@ -1,16 +1,22 @@
-set ( DGM_LIB_VERSION     "1.10.0" )
+set ( DGM_LIB_VERSION     "2.2.1" )
 set ( DGM_FSM_LIB_VERSION "1.1.0" )
 set ( DSH_VERSION         "1.7.2" )
-set ( SFML_VERSION        "2.5.1" )
-set ( TGUI_VERSION        "0.8.9" )
+set ( SFML_VERSION        "2.6.0" )
+set ( TGUI_VERSION        "1.x" )
 set ( CATCH_VERSION       "2.10.2" )
+set ( JSON_VERSION        "3.11.2" )
+set ( CXXOPTS_VERSION     "3.1.1" )
+set ( ENTT_VERSION        "3.12.2" )
 
-set ( DGM_LIB_URL "https://github.com/nerudaj/dgm-lib/releases/download/v${DGM_LIB_VERSION}/dgm-lib-${DGM_LIB_VERSION}-windows-vc17-x64.zip" )
+set ( DGM_LIB_URL "https://github.com/nerudaj/dgm-lib/releases/download/v${DGM_LIB_VERSION}/dgm-lib-${DGM_LIB_VERSION}-winx64-vc17-x64-for-SFML-${SFML_VERSION}.zip" )
 set ( DGM_FSM_LIB_URL "https://github.com/nerudaj/dgm-fsm-lib/releases/download/v${DGM_FSM_LIB_VERSION}/dgm-fsm-lib-${DGM_FSM_LIB_VERSION}-windows-vc17-x64.zip" )
 set ( DSH_URL   "https://github.com/nerudaj/dsh/releases/download/v${DSH_VERSION}/dsh-${DSH_VERSION}-vc16-64-bit.zip" )
 set ( SFML_URL    "https://github.com/SFML/SFML/releases/download/${SFML_VERSION}/SFML-${SFML_VERSION}-windows-vc15-64-bit.zip" )
-set ( TGUI_URL    "https://github.com/texus/TGUI/releases/download/v${TGUI_VERSION}/TGUI-${TGUI_VERSION}-vc15-64bit-for-SFML-${SFML_VERSION}.zip" )
+set ( TGUI_URL    "https://github.com/texus/TGUI/releases/download/nightly_build/TGUI-${TGUI_VERSION}-nightly-VisualStudio-64bit-for-SFML-${SFML_VERSION}.zip" )
 set ( CATCH_URL "https://github.com/catchorg/Catch2/releases/download/v${CATCH_VERSION}/catch.hpp" )
+set ( JSON_URL  "https://github.com/nlohmann/json/releases/download/v${JSON_VERSION}/include.zip" )
+set ( CXXOPTS_URL "https://github.com/jarro2783/cxxopts/archive/refs/tags/v${CXXOPTS_VERSION}.zip" )
+set ( ENTT_URL "https://github.com/skypjack/entt/archive/refs/tags/v${ENTT_VERSION}.zip" )
 
 include ( FetchContent )
 
@@ -46,15 +52,21 @@ fetch_dependency ( DGM  ${DGM_LIB_URL} FALSE )
 fetch_dependency ( DGM_FSM  ${DGM_FSM_LIB_URL} FALSE )
 fetch_dependency ( TGUI ${TGUI_URL}    FALSE )
 fetch_dependency ( CATCH ${CATCH_URL} TRUE )
+fetch_dependency ( JSON  ${JSON_URL}  FALSE )
+fetch_dependency ( CXXOPTS ${CXXOPTS_URL} FALSE )
+fetch_dependency ( ENTT ${ENTT_URL} FALSE )
 
 # Verify folder paths
 message ( "Dependencies downloaded to: " )
 message ( "  DGM:   ${DGM_FOLDER}" )
-message ( "  FSM:  ${DGM_FSM_FOLDER}" )
+message ( "  FSM:   ${DGM_FSM_FOLDER}" )
 message ( "  DSH:   ${DSH_FOLDER}" )
 message ( "  SFML:  ${SFML_FOLDER}" )
 message ( "  TGUI:  ${TGUI_FOLDER}" )
 message ( "  CATCH: ${CATCH_FOLDER}" )
+message ( "  JSON:  ${JSON_FOLDER}" )
+message ( "  OPTS:  ${CXXOPTS_FOLDER}" )
+message ( "  ENTT:  ${ENTT_FOLDER}" )
 
 # Make libraries visible to cmake linker
 link_directories("${DSH_FOLDER}/lib")
@@ -136,3 +148,29 @@ find_library ( LIB_TGUI_R "tgui" NAMES "tgui.lib" HINTS "${TGUI_FOLDER}/lib" )
 
 set ( LIB_TGUI optimized ${LIB_TGUI_R} debug ${LIB_TGUI_D} )
 message ( "OK" )
+
+add_library ( Dep_sfml INTERFACE )
+target_include_directories ( Dep_sfml INTERFACE "${SFML_FOLDER}/include" )
+target_link_libraries ( Dep_sfml INTERFACE ${LIB_SFML} )
+
+add_library ( Dep_lvd INTERFACE )
+target_include_directories ( Dep_lvd INTERFACE "${DSH_FOLDER}/include" )
+target_link_libraries ( Dep_lvd INTERFACE ${LIB_LVLD} )
+
+add_library ( Dep_dgm INTERFACE )
+target_include_directories ( Dep_dgm INTERFACE "${DGM_FOLDER}/include" )
+target_link_libraries ( Dep_dgm INTERFACE ${LIB_DGM} Dep_sfml Dep_lvd xinput.lib )
+
+add_library ( Dep_dgm_fsm INTERFACE )
+target_include_directories ( Dep_dgm_fsm INTERFACE "${DGM_FSM_FOLDER}/include" )
+target_link_libraries ( Dep_dgm_fsm INTERFACE ${LIB_DGM_FSM} )
+
+add_library ( Dep_tgui INTERFACE )
+target_include_directories ( Dep_tgui INTERFACE "${TGUI_FOLDER}/include" )
+target_link_libraries ( Dep_tgui INTERFACE ${LIB_TGUI} )
+
+add_library ( Dep_nlohmann_json INTERFACE )
+target_include_directories ( Dep_nlohmann_json INTERFACE "${JSON_FOLDER}/include" )
+
+add_library ( Dep_cxxopts INTERFACE )
+target_include_directories ( Dep_cxxopts INTERFACE "${CXXOPTS_FOLDER}/include" )
