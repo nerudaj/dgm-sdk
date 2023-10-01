@@ -32,7 +32,7 @@ protected:
 		auto& p = particles.getLast();
 
 		const sf::Vector2f BASE_DIR(0.f, -1.f);
-		const auto randomDirection = dgm::Math::rotateVector(BASE_DIR, getRandomFloat(MIN_EMITTED_SPREAD, MAX_EMITTER_SPREAD));
+		const auto randomDirection = dgm::Math::getRotated(BASE_DIR, getRandomFloat(MIN_EMITTED_SPREAD, MAX_EMITTER_SPREAD));
 		const auto randomSpeed = getRandomFloat(MIN_EMITTER_FORCE, MAX_EMITTER_FORCE);
 		const float randomLifespan = getRandomFloat(MIN_LIFESPAN, MAX_LIFESPAN);
 

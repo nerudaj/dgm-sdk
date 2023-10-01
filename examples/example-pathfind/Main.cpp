@@ -31,7 +31,7 @@ private:
 		oldPosition = body.getPosition();
 		forward = path.getCurrentPoint().coord - body.getPosition();
 		transitionTimer = 0.f;
-		transitionDuration = dgm::Math::vectorSize(forward) / SPEED;
+		transitionDuration = dgm::Math::getSize(forward) / SPEED;
 	}
 
 public:

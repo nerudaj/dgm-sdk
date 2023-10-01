@@ -35,7 +35,7 @@ protected:
 		auto& p = particles.getLast();
 		p->setColor(sf::Color::White);
 		p->spawn(randomPosition, sf::Vector2f(1.f, 1.f) * speedSizeFactor, sf::Time::Zero);
-		p->setForward(dgm::Conversion::polarToCartesian(-45.f, -PARTICLE_BASE_SPEED * speedSizeFactor));
+		p->setForward(dgm::Math::polarToCartesian(-45.f, -PARTICLE_BASE_SPEED * speedSizeFactor));
 	}
 
 public:

@@ -44,7 +44,7 @@ void NpcBrain::initFsm()
 		.exec(Merge<Blackboard>(
 			pickNextPatrolPoint,
 			computePathToCurrentPatrolPoint
-			)).andGoTo(State::Patrolling)
+		)).andGoTo(State::Patrolling)
 
 		.with(State::ChasingPlayer)
 		.when(Not<Blackboard>(seesPlayer)).goTo(State::Start)
@@ -58,7 +58,7 @@ void NpcBrain::update(const Scene& scene)
 	puppetInput.releaseAllInputs();
 
 	visionCone.setPosition(puppet.getBody().getPosition());
-	visionCone.setRotation(dgm::Conversion::cartesianToPolar(puppet.getLookDir()).x);
+	visionCone.setRotation(dgm::Math::cartesianToPolar(puppet.getLookDir()).angle);
 
 	blackboard.playerBody = scene.player.getBody();
 	fsm.update(blackboard);

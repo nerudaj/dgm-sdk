@@ -58,7 +58,7 @@ public:
 			particle->spawn(
 				position, sf::Vector2f(1.f, 1.f) * size);
 			particle->setForward(
-				dgm::Math::rotateVector(sf::Vector2f { 1.f, 0.f }, static_cast<float>(rand() % 360))
+				dgm::Math::getRotated(sf::Vector2f{ 1.f, 0.f }, static_cast<float>(rand() % 360))
 				* (6 - size) * 10.f);
 
 			auto bodyCopy = particle->body;

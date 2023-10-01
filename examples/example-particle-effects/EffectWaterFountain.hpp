@@ -30,7 +30,7 @@ protected:
 
 		const float randomLifespan = getRandomFloat(MIN_LIFESPAN, MAX_LIFESPAN);
 		const float randomAngle = getRandomFloat(MIN_EMITTED_SPREAD, MAX_EMITTER_SPREAD) * getRandomlyNegatedOne();
-		const sf::Vector2f randomForward = dgm::Math::rotateVector(sf::Vector2f(0.f, -1.f), randomAngle) * EMITTER_FORCE;
+		const sf::Vector2f randomForward = dgm::Math::getRotated(sf::Vector2f(0.f, -1.f), randomAngle) * EMITTER_FORCE;
 
 		// expand() allocated new slot at the end of the buffer
 		auto& p = particles.getLast();

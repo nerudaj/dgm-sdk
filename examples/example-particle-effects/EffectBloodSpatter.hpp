@@ -4,7 +4,7 @@
 
 auto toUnit(const sf::Vector2f& vec) noexcept
 {
-	return vec == sf::Vector2f(0.f, 0.f) ? vec : vec / dgm::Math::vectorSize(vec);
+	return vec == sf::Vector2f(0.f, 0.f) ? vec : vec / dgm::Math::getSize(vec);
 }
 
 class EffectBloodSpatter : public ParticleEffectBase
