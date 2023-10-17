@@ -1,3 +1,8 @@
+dgm-sdk v2.x.y changelog:
+ * Project template
+	* TGUI bumped to 1.0.0
+
+
 dgm-sdk v2.0.0 changelog:
  * Examples
 	* SFML bumped to 2.6.0
