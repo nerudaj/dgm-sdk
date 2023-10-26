@@ -1,7 +1,7 @@
 dgm-sdk v2.x.y changelog:
  * Project template
 	* TGUI bumped to 1.0.0
-
+	* Added `mem::Rc::castTo` which is used to downcast pointer from base to derived
 
 dgm-sdk v2.0.0 changelog:
  * Examples
