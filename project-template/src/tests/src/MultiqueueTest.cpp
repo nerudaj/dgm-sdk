@@ -1,5 +1,5 @@
 #include <catch.hpp>
-#include <events/EventQueue.hpp>
+#include <utils/Multiqueue.hpp>
 #include <variant>
 
 struct A
@@ -27,7 +27,7 @@ using CD = std::variant<C, D>;
 
 struct VisitorAB
 {
-    VisitorAB(EventQueue<CD, AB>& queue) : queue(queue) {}
+    VisitorAB(Multiqueue<CD, AB>& queue) : queue(queue) {}
 
     void operator()(A)
     {
@@ -40,12 +40,12 @@ struct VisitorAB
         queue.emplace<A>(10.f, 'a');
     }
 
-    EventQueue<CD, AB>& queue;
+    Multiqueue<CD, AB>& queue;
     unsigned aVisitCnt = 0;
     unsigned bVisitCnt = 0;
 };
 
-TEST_CASE("[EventQueue]")
+TEST_CASE("[Multiqueue]")
 {
     SECTION("IsTypeInVariant works")
     {
@@ -69,7 +69,7 @@ TEST_CASE("[EventQueue]")
 
     SECTION("Correctly visits events that generate other events")
     {
-        EventQueue<CD, AB> queue;
+        Multiqueue<CD, AB> queue;
         VisitorAB vis(queue);
         queue.emplace<A>(1.f, 'a');
         queue.emplace<B>();
