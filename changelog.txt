@@ -1,6 +1,7 @@
 dgm-sdk v2.x.y changelog:
  * Project template
 	* TGUI bumped to 1.0.0
+	* dgm-lib bumped to v2.2.2
 	* Added `mem::Rc::castTo` which is used to downcast pointer from base to derived
 	* Fixed bad loading in `AppSettings`, sound volume was incorrectly loaded to `musicVolume` variable
 
