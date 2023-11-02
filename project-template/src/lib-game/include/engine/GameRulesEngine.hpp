@@ -1,13 +1,16 @@
 #pragma once
 
-#include "core/Scene.hpp"
-#include "events/GameRuleEvents.hpp"
+import Memory;
+
+#include <core/Scene.hpp>
+#include <events/EventQueue.hpp>
+#include <events/GameRuleEvents.hpp>
 #include <DGM/DGM.hpp>
 
-class GameRulesEngine final
+class [[nodiscard]] GameRulesEngine final
 {
 public:
-    [[nodiscard]] GameRulesEngine(Scene& scene) noexcept : scene(scene) {}
+    GameRulesEngine(Scene& scene, mem::Rc<EventQueue> eventQueue) noexcept : scene(scene), eventQueue(eventQueue) {}
 
 public: // Must visit on all related events
     void operator()(const DummyGameEvent&) {}
@@ -17,4 +20,5 @@ public:
 
 private:
     Scene& scene;
+	mem::Rc<EventQueue> eventQueue;
 };

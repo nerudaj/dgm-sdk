@@ -1,10 +1,11 @@
 #pragma once
 
 #include "core/Scene.hpp"
-#include "events/RenderingEvents.hpp"
 #include "render/FpsCounter.hpp"
 #include "render/RenderContext.hpp"
 #include <DGM/DGM.hpp>
+#include <events/EventQueue.hpp>
+#include <events/RenderingEvents.hpp>
 
 import Memory;
 
@@ -12,7 +13,9 @@ class RenderingEngine final
 {
 public:
     [[nodiscard]] RenderingEngine(
-        mem::Rc<const dgm::ResourceManager> resmgr, Scene& scene);
+        mem::Rc<const dgm::ResourceManager> resmgr,
+        mem::Rc<EventQueue> eventQueue,
+        Scene& scene);
 
 public: // Must visit on all related events
     constexpr inline void operator()(const EventToggleFpsRequested&) noexcept
@@ -29,6 +32,7 @@ public:
 
 private:
     mem::Rc<const dgm::ResourceManager> resmgr;
+    mem::Rc<EventQueue> eventQueue;
     Scene& scene;
     bool showFps = true;
     FpsCounter fpsCounter;

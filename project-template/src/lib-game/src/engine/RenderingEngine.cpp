@@ -1,8 +1,11 @@
 #include "engine/RenderingEngine.hpp"
 
 RenderingEngine::RenderingEngine(
-    mem::Rc<const dgm::ResourceManager> _resmgr, Scene& scene)
+    mem::Rc<const dgm::ResourceManager> _resmgr,
+    mem::Rc<EventQueue> eventQueue,
+    Scene& scene)
     : resmgr(_resmgr)
+    , eventQueue(eventQueue)
     , scene(scene)
     , context(RenderContext::buildRenderContext(*resmgr))
 {

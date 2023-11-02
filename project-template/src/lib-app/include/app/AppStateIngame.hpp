@@ -10,6 +10,7 @@
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
 #include <core/Scene.hpp>
+#include <events/EventQueue.hpp>
 
 import Memory;
 
@@ -40,6 +41,7 @@ protected:
     mem::Rc<tgui::Gui> gui;
     mem::Rc<Settings> settings;
     mem::Rc<AudioPlayer> audioPlayer;
+    mem::Rc<EventQueue> eventQueue;
 
     const sf::Vector2f GAME_RESOLUTION;
 

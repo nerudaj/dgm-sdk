@@ -29,10 +29,8 @@ void AppStateIngame::update()
     renderingEngine.update(app.time);
 
     // At the end of each update, process the event queue
-    EventQueue::processEvents<AudioEvent>(audioEngine);
-    EventQueue::processEvents<PhysicsEvent>(physicsEngine);
-    EventQueue::processEvents<GameEvent>(gameRulesEngine);
-    EventQueue::processEvents<RenderingEvent>(renderingEngine);
+    eventQueue->processAndClear(gameRulesEngine);
+    eventQueue->processAndClear(renderingEngine);
 }
 
 void AppStateIngame::draw()
@@ -60,9 +58,9 @@ AppStateIngame::AppStateIngame(
     , GAME_RESOLUTION(sf::Vector2f(app.window.getSize()))
     , scene(Scene::buildScene(*resmgr, GAME_RESOLUTION, *settings))
     , audioEngine(resmgr, audioPlayer)
-    , gameRulesEngine(scene)
+    , gameRulesEngine(scene, eventQueue)
     , physicsEngine(scene)
-    , renderingEngine(resmgr, scene)
+    , renderingEngine(resmgr, eventQueue, scene)
 {
     scene.worldCamera.setPosition(GAME_RESOLUTION / 2.f);
     scene.hudCamera.setPosition(GAME_RESOLUTION / 2.f);
